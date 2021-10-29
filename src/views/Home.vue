@@ -14,5 +14,7 @@ export default defineComponent({
   components: {
     HelloWorld,
   },
+  async created() {
+  } 
 });
 </script>
