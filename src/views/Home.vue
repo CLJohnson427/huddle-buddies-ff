@@ -2,6 +2,8 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/huddle-buddies-thumbnail.png">
 
+    <div class="text-purple-600 text-5xl">Hello TailwindCSS!</div>
+
     <Matchup />
 
     <hr>

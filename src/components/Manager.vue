@@ -6,8 +6,8 @@
      <!--<div class="spacer svelte-9hqn7f"></div> <div class="info svelte-9hqn7f"><div class="infoSlot infoTeam svelte-9hqn7f"><div class="infoIcon svelte-9hqn7f"><img class="infoImg svelte-9hqn7f" src="https://sleepercdn.com/images/team_logos/nfl/mia.png" alt="favorite team"></div></div> <div class="infoSlot svelte-9hqn7f"><div class="infoIcon svelte-9hqn7f"><img class="infoImg svelte-9hqn7f" src="/Text.png" alt="Text"></div> <div class="infoAnswer svelte-9hqn7f">Text</div></div> <div class="infoSlot infoRebuild svelte-9hqn7f"><div class="infoIcon svelte-9hqn7f"><img class="infoImg svelte-9hqn7f" src="/Win%20Now.png" alt="win now or rebuild"></div> <div class="infoAnswer svelte-9hqn7f">Win Now</div></div></div></div>
     -->
 
-    | <div>{{ managerRoster.settings.wins }}</div> -
-    <div>{{ managerRoster.settings.losses }}</div>
+    <div class="pl-4 text-green-600 text-2xl">{{ managerRoster.settings.wins }}</div> -
+    <div class="text-red-600 text-2xl">{{ managerRoster.settings.losses }}</div>
   </div>
 </template>
 
