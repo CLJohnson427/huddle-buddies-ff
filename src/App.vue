@@ -4,8 +4,18 @@
     <router-link to="/about">About</router-link> |
     <router-link to="/matchups">Matchups</router-link>
   </div>
+  
   <router-view/>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  components: {
+    
+  }  
+}
+</script>
 
 <style lang="scss">
 #app {
