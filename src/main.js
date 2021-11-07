@@ -1,8 +1,23 @@
+// Vue
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// import "tailwindcss/tailwind.css"
+
+// Tailwind CSS
+// import 'tailwindcss/tailwind.css'
 import './main.scss'
 
-createApp(App).use(store).use(router).mount('#app')
+// PrimeVue
+import PrimeVue from 'primevue/config'
+import Button from 'primevue/button'
+import 'primevue/resources/themes/md-light-indigo/theme.css'  // Theme
+import 'primevue/resources/primevue.min.css'                  // Core css
+import 'primeicons/primeicons.css'                            // Icons
+
+// Create Vue App
+const app = createApp(App)
+app.use(store).use(router)
+app.use(PrimeVue)
+app.component('Button', Button);
+app.mount('#app')
