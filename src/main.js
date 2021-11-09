@@ -11,6 +11,7 @@ import './main.scss'
 // PrimeVue
 import PrimeVue from 'primevue/config'
 import Button from 'primevue/button'
+import Menubar from 'primevue/menubar';
 import 'primevue/resources/themes/md-light-indigo/theme.css'  // Theme
 import 'primevue/resources/primevue.min.css'                  // Core css
 import 'primeicons/primeicons.css'                            // Icons
@@ -20,4 +21,5 @@ const app = createApp(App)
 app.use(store).use(router)
 app.use(PrimeVue)
 app.component('Button', Button);
+app.component('Menubar', Menubar);
 app.mount('#app')
