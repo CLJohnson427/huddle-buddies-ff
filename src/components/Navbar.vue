@@ -7,6 +7,15 @@
       <!-- <template #end>
         <InputText placeholder="Search" type="text" />
       </template> -->
+
+
+      <!--
+      https://codepen.io/samnorton/pen/zBYMJG
+      https://codepen.io/bowersrd/pen/dwXLba
+      https://itnext.io/how-to-build-a-responsive-navbar-using-flexbox-and-javascript-eb0af24f19bf
+      https://coder-coder.com/responsive-navigation-bar-flexbox-vs-css-grid/
+      https://www.section.io/engineering-education/creating-a-responsive-navigation-bar-using-tailwind-css-and-javascript/
+      -->
     </Menubar>
   </div>
 </template>
