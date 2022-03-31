@@ -7,19 +7,34 @@
     -->
 
     <div class="pl-4 text-green-600 text-2xl">{{ managerRoster.settings.wins }}</div> -
-    <div class="text-red-600 text-2xl">{{ managerRoster.settings.losses }}</div>
+    <div class="text-red-600 text-2xl">{{ managerRoster.settings.losses }}</div> | 
+    <div class="text-blue-600 text-2xl">{{ managerRoster.metadata.record }}</div>
   </div>
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'Manager',
-  props: ['user', 'rosters'],
-  computed: {
-    managerRoster() {
-      return this.rosters.find((roster) => { return roster.owner_id == this.user.user_id })
+  props: ['user'],
+  setup(props) {
+    const store = useStore()
+
+    const managerRoster = computed(() => {
+      return store.state.rosters.find((roster) => { return roster.owner_id == props.user.user_id })
+    })
+    
+    return {
+      managerRoster
     }
-  }
+  },
+  // computed: {
+  //   managerRoster() {
+  //     return this.rosters.find((roster) => { return roster.owner_id == this.user.user_id })
+  //   }
+  // }
 }
 </script>
 
