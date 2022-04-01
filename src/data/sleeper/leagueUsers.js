@@ -14,9 +14,14 @@ export async function getLeagueUsers(leagueId) {
 }
 
 function processUsers(users) {
-  let processedUsers = {};
-  for (let user of users) {
-    processedUsers[user.user_id] = user;
+  try {
+    let processedUsers = {};
+    for (let user of users) {
+      processedUsers[user.user_id] = user;
+    }
+    return processedUsers;
   }
-  return processedUsers;
+  catch (error) {
+    console.error(error);
+  }
 }

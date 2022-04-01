@@ -1,6 +1,6 @@
 // This endpoint retrieves all rosters in a league.
 // GET https://api.sleeper.app/v1/league/<leagueId>/rosters
-export async function getRostersInLeague(leagueId) {
+export async function getLeagueRosters(leagueId) {
   const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`).catch((error) => { console.error(error); });
   const data = await response.json().catch((error) => { console.error(error); });
 
@@ -30,18 +30,23 @@ export async function getRostersInLeague(leagueId) {
 // }
 
 function processRosters(rosters) {
-  let startersAndReserve = [];
-  for (let roster of rosters) {
-    for (let starter of roster.starters) {
-      startersAndReserve.push(starter);
-    }
-
-    if (roster.reserve) {
-      for (let injuredReserve of roster.reserve) {
-        startersAndReserve.push(injuredReserve);
+  try {
+    let startersAndInjuredReserve = [];
+    for (let roster of rosters) {
+      for (let starter of roster.starters) {
+        startersAndInjuredReserve.push(starter);
+      }
+  
+      if (roster.reserve) {
+        for (let injuredReserve of roster.reserve) {
+          startersAndInjuredReserve.push(injuredReserve);
+        }
       }
     }
+  
+    return { rosters, startersAndInjuredReserve: startersAndInjuredReserve };
   }
-
-  return { rosters, startersAndReserve };
+  catch (error) {
+    console.error(error);
+  }
 }
