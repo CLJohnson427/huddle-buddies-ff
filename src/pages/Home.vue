@@ -3,6 +3,14 @@
     <img alt="Vue logo" src="../assets/logo.png" />
     <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
     <h1>This is the home page</h1>
+
+
+    <!-- <h4>{{ name }}</h4>
+    <h4>{{ counter }}</h4>
+    <button @click="add(1)">Increment 1</button>
+    <button @click="add2(10)">Increment 10</button>
+    <button @click="reset">Reset</button> -->
+    <h4>{{ league }}</h4>
   </div>
 </template>
 
@@ -10,19 +18,37 @@
   // This starter template is using Vue 3 <script setup> SFCs
   // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
   import HelloWorld from '../components/HelloWorld.vue'
-  // import { getLeagueInfo } from '../utilities/leagueInfo.js'
-  import { getLeagueInfo } from '@/data/sleeper/leagueInfo.js'
-  import { getLeagueRosters } from '@/data/sleeper/leagueRosters.js'
-  import { getLeagueUsers } from '@/data/sleeper/leagueUsers.js'
-  import { getSportState } from '@/data/sleeper/sportState.js'
-  import { getLeagueMatchups } from '@/data/sleeper/leagueMatchups.js'
+  import { storeToRefs } from 'pinia'
+  import { useLeagueStore } from '@/store/useLeague'
 
-  console.log('getLeagueInfo', await getLeagueInfo(import.meta.env.VITE_LEAGUE_ID))
-  console.log('getLeagueRosters', await getLeagueRosters(import.meta.env.VITE_LEAGUE_ID))
-  console.log('getLeagueUsers', await getLeagueUsers(import.meta.env.VITE_LEAGUE_ID))
-  console.log('getSportState', await getSportState())
-  console.log('getLeagueMatchups', await getLeagueMatchups(import.meta.env.VITE_LEAGUE_ID))
-  
+  const store = useLeagueStore();
+
+  // const { name, counter, league } = storeToRefs(store)
+  // function add(value) {
+  //   store.$patch({
+  //     counter: counter.value + value
+  //   })
+  // }
+  //  function add2(value) {
+  //   store.$patch((state) => (state.counter += value));
+  // }
+
+  // function reset() {
+  //   store.$reset();
+  // }
+
+  const { leagueId, league, matchups, rosters, sportState, users } = storeToRefs(store)
+
+  // League
+  store.getLeagueInfo()
+  // Matchups
+  store.getLeagueMatchups()
+  // Roster
+  store.getLeagueRosters();
+  // User
+  store.getLeagueUsers();
+  // NFL State
+  store.getSportState();
 
 </script>
 
