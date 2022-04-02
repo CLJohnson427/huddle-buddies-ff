@@ -64,7 +64,6 @@ export async function getLeagueMatchups(leagueId) {
   return matchupsResponse;
 }
 
-
 function processMatchups(inputMatchups, rosters, users, week) {
   try {
     if (!inputMatchups || inputMatchups.length === 0) {
@@ -87,8 +86,8 @@ function processMatchups(inputMatchups, rosters, users, week) {
           },
           points: match.starters_points,
           starters: match.starters,
-          totalPoints: match.starters_points.reduce((accumulator, currentValue) => accumulator + currentValue, 0),
-          totalPoints2: match.starters_points.reduce((accumulator, currentValue) => { return accumulator + currentValue }, 0)
+          // totalPoints: match.starters_points.reduce((accumulator, currentValue) => { return accumulator + currentValue }, 0),
+          totalPoints: match.points
         });
       }
     }
