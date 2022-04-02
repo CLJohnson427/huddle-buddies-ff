@@ -90,6 +90,18 @@ function processMatchups(inputMatchups, rosters, users, week) {
           totalPoints: match.points
         });
       }
+      else {
+        matchups[match.matchup_id].push({
+          manager: {
+            avatar: `https://sleepercdn.com/images/v2/icons/player_default.webp`,
+            managerName: 'Unknown Manager',
+            teamName: 'Unknown Team'
+          },
+          points: match.starters_points,
+          starters: match.starters,
+          totalPoints: match.points
+        });
+      }
     }
 
     return { matchups, week };
