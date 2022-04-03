@@ -11,13 +11,13 @@ import { getSportState } from '@/data/sleeper/sportState.js'
 export const useLeagueStore = defineStore('leagueStore', {
   state: () => ({
     // counter: 0,
-    league: null,
+    league: {},
     leagueId: import.meta.env.VITE_LEAGUE_ID,
-    matchups: null,
-    rosters: null,
+    matchups: {},
+    rosters: {},
     sport: 'nfl',
-    sportState: null,
-    users: null
+    sportState: {},
+    users: {}
   }),
   getters: {
     // doubleCount: (state) => {
@@ -31,20 +31,20 @@ export const useLeagueStore = defineStore('leagueStore', {
     // addOne() {
     //   this.counter++;
     // },
-    async getLeagueInfo() {
-      this.league = await getLeagueInfo(this.leagueId);
+    async getLeagueInfo(leagueId = null) {
+      this.league = await getLeagueInfo(leagueId ? leagueId : this.leagueId);
     },
-    async getLeagueRosters() {
-      this.rosters = await getLeagueRosters(this.leagueId);
+    async getLeagueRosters(leagueId = null) {
+      this.rosters = await getLeagueRosters(leagueId ? leagueId : this.leagueId);
     },
-    async getLeagueMatchups() {
-      this.matchups = await getLeagueMatchups(this.leagueId);
+    async getLeagueMatchups(leagueId = null) {
+      this.matchups = await getLeagueMatchups(leagueId ? leagueId : this.leagueId);
     },
-    async getLeagueUsers() {
-      this.users = await getLeagueUsers(this.leagueId);
+    async getLeagueUsers(leagueId = null) {
+      this.users = await getLeagueUsers(leagueId ? leagueId : this.leagueId);
     },
-    async getSportState() {
-      this.sportState = await getSportState(this.sport);
+    async getSportState(sport = null) {
+      this.sportState = await getSportState(sport ? sport : this.sport);
     }
   }
 });
