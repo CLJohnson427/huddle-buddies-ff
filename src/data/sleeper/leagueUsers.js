@@ -30,8 +30,7 @@ function processUsers(users) {
       leagueId = user.league_id;
       processedUsers[user.user_id] = user;
     }
-    // return processedUsers;
-    // return { league_id: leagueId, users: processedUsers };
+    
     return { league_id: leagueId, ...processedUsers };
   }
   catch (error) {
