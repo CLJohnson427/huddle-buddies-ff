@@ -22,7 +22,7 @@ export async function getLeagueMatchups(leagueId) {
   // Setup the Season data.
   let seasonYear = leagueInfo.value.season;
   let regularSeasonLength = leagueInfo.value.settings.playoff_week_start - 1;
-  let week = 1;
+  let week = leagueInfo.value.settings.start_week;
   if (sportState.value.season_type === 'regular') {
     week = sportState.value.display_week;
   }

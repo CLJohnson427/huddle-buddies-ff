@@ -2,11 +2,12 @@
 import { defineStore } from 'pinia';
 
 // Sleeper
-import { getLeagueInfo } from '@/data/sleeper/leagueInfo.js'
-import { getLeagueMatchups } from '@/data/sleeper/leagueMatchups.js'
-import { getLeagueRosters } from '@/data/sleeper/leagueRosters.js'
-import { getLeagueUsers } from '@/data/sleeper/leagueUsers.js'
-import { getSportState } from '@/data/sleeper/sportState.js'
+import { getLeagueInfo } from '@/data/sleeper/leagueInfo.js';
+import { getLeagueMatchups } from '@/data/sleeper/leagueMatchups.js';
+import { getLeagueRosters } from '@/data/sleeper/leagueRosters.js';
+import { getLeagueStandings } from "@/data/sleeper/leagueStandings.js";
+import { getLeagueUsers } from '@/data/sleeper/leagueUsers.js';
+import { getSportState } from '@/data/sleeper/sportState.js';
 
 export const useLeagueStore = defineStore('leagueStore', {
   state: () => ({
@@ -15,6 +16,7 @@ export const useLeagueStore = defineStore('leagueStore', {
     leagueId: import.meta.env.VITE_LEAGUE_ID,
     matchups: {},
     rosters: {},
+    standings: {},
     sport: 'nfl',
     sportState: {},
     users: {}
@@ -36,6 +38,9 @@ export const useLeagueStore = defineStore('leagueStore', {
     },
     async getLeagueRosters(leagueId = null) {
       this.rosters = await getLeagueRosters(leagueId ? leagueId : this.leagueId);
+    },
+    async getLeagueStandings(leagueId = null) {
+      this.standings = await getLeagueStandings(leagueId ? leagueId : this.leagueId);
     },
     async getLeagueMatchups(leagueId = null) {
       this.matchups = await getLeagueMatchups(leagueId ? leagueId : this.leagueId);
