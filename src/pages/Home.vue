@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <hr />
+    <img alt="Huddle Buddies logo" src="../assets/huddle-buddies-thumbnail.png" />
     <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
     <h1>This is the home page</h1>
 
