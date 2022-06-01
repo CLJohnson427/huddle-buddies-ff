@@ -1,4 +1,5 @@
-import { useLeagueStore } from '@/store/useLeague'
+import { useLeagueStore } from '@/store/useLeague';
+import { getLeagueManagerDisplay } from './leagueUsers.js';
 
 // This endpoint retrieves all rosters in a league.
 // GET https://api.sleeper.app/v1/league/<leagueId>/rosters
@@ -13,7 +14,7 @@ export async function getLeagueRosters(leagueId) {
   const data = await response.json().catch((error) => { console.error(error); });
 
   if (response.ok) {
-    const rosterData = processRosters(data)
+    const rosterData = await processRosters(data)
     leagueStore.$patch((state) => (state.rosters = rosterData));
     return rosterData;
   }
@@ -38,7 +39,7 @@ export async function getLeagueRosters(leagueId) {
 //   }
 // }
 
-function processRosters(rosters) {
+async function processRosters(rosters) {
   try {
     let leagueId = '';
     let startersAndInjuredReserve = [];
@@ -54,6 +55,8 @@ function processRosters(rosters) {
           startersAndInjuredReserve.push(injuredReserve);
         }
       }
+      
+      roster.manager = await getLeagueManagerDisplay(roster.league_id, roster.owner_id);
     }
   
     return { league_id: leagueId, rosters: rosters, startersAndInjuredReserve: startersAndInjuredReserve };
