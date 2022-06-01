@@ -44,7 +44,7 @@ export async function getLeagueManagerDisplay(leagueId, userId) {
   let user = null;
   let manager = {};
 
-  if (leagueStore.users[userId] === userId) {
+  if (leagueStore.users[userId]?.user_id === userId) {
     user = leagueStore.users[userId];
   }
   else {
