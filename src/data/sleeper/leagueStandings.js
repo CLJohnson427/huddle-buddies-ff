@@ -1,6 +1,6 @@
 import { getLeagueInfo } from "./leagueInfo.js";
 import { getLeagueRosters } from "./leagueRosters.js";
-import { getLeagueUsers } from "./leagueUsers.js";
+import { getLeagueUsers, getLeagueManagerDisplay } from "./leagueUsers.js";
 import { getSportState } from "./sportState.js";
 import { useLeagueStore } from "@/store/useLeague";
 
@@ -62,8 +62,12 @@ export async function getLeagueStandings(leagueId) {
   let standings = {};
 
   for (let matchup of matchupsData) {
-    standings = processStandingsData(matchup.value, standings, leagueId, leagueRosters.value, leagueUsers.value, medianMatch);
+    standings = await processStandingsData(matchup.value, standings, leagueId, leagueRosters.value, leagueUsers.value, medianMatch);
   }
+  // for (let [index, matchup] of matchupsData.entries()) {
+  //   console.log(index, matchup);
+  //   standings = processStandingsData(matchup.value, standings, leagueId, leagueRosters.value, leagueUsers.value, medianMatch);
+  // }
 
   let standingsResponse = {
     league_id: leagueInfo.value.league_id,
@@ -78,7 +82,7 @@ export async function getLeagueStandings(leagueId) {
   return standingsResponse;
 }
 
-function processStandingsData(matchup, standingsData, leagueId, leagueRosters, leagueUsers, medianMatch) {
+async function processStandingsData(matchup, standingsData, leagueId, leagueRosters, leagueUsers, medianMatch) {
   let matchups = {};
   let scoresArray = [];
   for (let match of matchup) {
@@ -86,22 +90,9 @@ function processStandingsData(matchup, standingsData, leagueId, leagueRosters, l
       matchups[match.matchup_id] = [];
     }
     let rosterId = match.roster_id;
-    let manager = {};
     let user = leagueUsers[leagueRosters.rosters[match.roster_id - 1].owner_id];
-    if (user) { 
-      manager = {
-        avatar: `https://sleepercdn.com/avatars/thumbs/${user.avatar}`,
-        managerName: user.display_name,
-        teamName: user.metadata.team_name
-      }
-    }
-    else {
-      manager = {
-        avatar: `https://sleepercdn.com/images/v2/icons/player_default.webp`,
-        managerName: 'Unknown Manager',
-        teamName: 'Unknown Team'
-      }
-    }
+    let userId = user ? user.user_id : 0
+    let manager = await getLeagueManagerDisplay(leagueId, userId);
 
     // Create the Standings object if it does not already exist for the current roster.
     if (!standingsData[rosterId]) {
