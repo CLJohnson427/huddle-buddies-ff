@@ -1,6 +1,6 @@
 import { getLeagueInfo } from './leagueInfo.js';
 import { getLeagueRosters } from './leagueRosters.js';
-import { getLeagueUsers } from './leagueUsers.js';
+import { getLeagueUsers, getLeagueManagerDisplay } from './leagueUsers.js';
 import { getSportState } from './sportState.js';
 import { useLeagueStore } from '@/store/useLeague'
 
@@ -51,7 +51,7 @@ export async function getLeagueMatchups(leagueId) {
   // Process all of the Matchup Data into a readable object to return.
   let weeklyMatchups = [];
 	for (let i = 1; i < matchupsData.length + 1; i++) {
-		let processed = processMatchupsData(matchupsData[i - 1].value, leagueRosters.value.rosters, leagueUsers.value, i);
+		let processed = await processMatchupsData(leagueId, matchupsData[i - 1].value, leagueRosters.value.rosters, leagueUsers.value, i);
 		if (processed) {
 			weeklyMatchups.push({
 				matchups: processed.matchups,
@@ -74,7 +74,7 @@ export async function getLeagueMatchups(leagueId) {
   return matchupsResponse;
 }
 
-function processMatchupsData(matchupData, rosters, users, week) {
+async function processMatchupsData(leagueId, matchupData, rosters, users, week) {
   try {
     if (!matchupData || matchupData.length === 0) {
       return false;
@@ -85,33 +85,18 @@ function processMatchupsData(matchupData, rosters, users, week) {
       if (!matchups[match.matchup_id]) {
         matchups[match.matchup_id] = [];
       }
-      
+
       let user = users[rosters[match.roster_id - 1].owner_id];
-      if (user) {
-        matchups[match.matchup_id].push({
-          manager: {
-            avatar: `https://sleepercdn.com/avatars/thumbs/${user.avatar}`,
-            managerName: user.display_name,
-            teamName: user.metadata.team_name
-          },
-          points: match.starters_points,
-          starters: match.starters,
-          // totalPoints: match.starters_points.reduce((accumulator, currentValue) => { return accumulator + currentValue }, 0),
-          totalPoints: match.points
-        });
-      }
-      else {
-        matchups[match.matchup_id].push({
-          manager: {
-            avatar: `https://sleepercdn.com/images/v2/icons/player_default.webp`,
-            managerName: 'Unknown Manager',
-            teamName: 'Unknown Team'
-          },
-          points: match.starters_points,
-          starters: match.starters,
-          totalPoints: match.points
-        });
-      }
+      let userId = user ? user.user_id : 0
+      let manager = await getLeagueManagerDisplay(leagueId, userId);
+
+      matchups[match.matchup_id].push({
+        manager: manager,
+        points: match.starters_points,
+        starters: match.starters,
+        // totalPoints: match.starters_points.reduce((accumulator, currentValue) => { return accumulator + currentValue }, 0),
+        totalPoints: match.points
+      });
     }
 
     return { matchups, week };
