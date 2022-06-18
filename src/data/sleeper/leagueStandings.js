@@ -46,12 +46,7 @@ export async function getLeagueStandings(leagueId) {
 
   // Process Standings data from the season matchups.
   let standings = {};
-
-  // for (let matchup of matchupData) {
-  //   standings = await processStandingsData(leagueId, matchup.value, standings, leagueRosters.value, leagueUsers.value, medianMatch);
-  // }
   for (let [weekIndex, matchup] of matchupData.entries()) {
-    console.log(weekIndex, weekIndex + 1, matchup);
     standings = await processStandingsData(leagueId, matchup.value, standings, leagueRosters.value, leagueUsers.value, medianMatch, weekIndex + 1);
   }
 
@@ -90,7 +85,8 @@ async function processStandingsData(leagueId, matchup, standingsData, leagueRost
         ties: 0,
         divisionWins: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
         divisionLosses: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
-        divisionTies: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null
+        divisionTies: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
+        weeklyStandings: []
       }
     }
 
@@ -159,6 +155,21 @@ async function processStandingsData(leagueId, matchup, standingsData, leagueRost
         standingsData[teamB.rosterId].divisionTies++;
       }
     }
+
+    // Weekly Standings
+    standingsData[teamA.rosterId].weeklyStandings.push({
+      week: week,
+      wins: standingsData[teamA.rosterId].wins,
+      losses: standingsData[teamA.rosterId].losses,
+      ties: standingsData[teamA.rosterId].ties,
+    });
+    
+    standingsData[teamB.rosterId].weeklyStandings.push({
+      week: week,
+      wins: standingsData[teamB.rosterId].wins,
+      losses: standingsData[teamB.rosterId].losses,
+      ties: standingsData[teamB.rosterId].ties,
+    });
   }
 
   return standingsData;
