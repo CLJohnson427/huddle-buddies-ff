@@ -1,4 +1,5 @@
 import { getLeagueInfo } from "./leagueInfo.js";
+import { getRawLeagueMatchupData } from "./leagueMatchups.js";
 import { getLeagueRosters } from "./leagueRosters.js";
 import { getLeagueUsers, getLeagueManagerDisplay } from "./leagueUsers.js";
 import { getSportState } from "./sportState.js";
@@ -41,33 +42,18 @@ export async function getLeagueStandings(leagueId) {
   }
 
   // Get all of the matchup data for the completed weeks in the season.
-  let matchupPromises = [];
-  for (let i = week - 1; i > 0; i--) {
-    matchupPromises.push(fetch(`https://api.sleeper.app/v1/league/${leagueId}/matchups/${i}`));
-  }
-  let matchupsResponses = await Promise.allSettled(matchupPromises).catch((error) => { console.error(error); });
-
-  // Convert the Matchup Responses for the completed weeks in the season into JSON Data.
-  let matchupJsonPromises = [];
-  for (let matchupResponse of matchupsResponses) {
-    let data = matchupResponse.value.json();
-    matchupJsonPromises.push(data);
-    if (!matchupResponse.value.ok) {
-      throw new Error(data);
-    }
-  }
-  let matchupsData = await Promise.allSettled(matchupJsonPromises).catch((error) => { console.error(error); });
+  let matchupData = await getRawLeagueMatchupData(leagueId, week);
 
   // Process Standings data from the season matchups.
   let standings = {};
 
-  for (let matchup of matchupsData) {
-    standings = await processStandingsData(matchup.value, standings, leagueId, leagueRosters.value, leagueUsers.value, medianMatch);
-  }
-  // for (let [index, matchup] of matchupsData.entries()) {
-  //   console.log(index, matchup);
-  //   standings = processStandingsData(matchup.value, standings, leagueId, leagueRosters.value, leagueUsers.value, medianMatch);
+  // for (let matchup of matchupData) {
+  //   standings = await processStandingsData(leagueId, matchup.value, standings, leagueRosters.value, leagueUsers.value, medianMatch);
   // }
+  for (let [weekIndex, matchup] of matchupData.entries()) {
+    console.log(weekIndex, weekIndex + 1, matchup);
+    standings = await processStandingsData(leagueId, matchup.value, standings, leagueRosters.value, leagueUsers.value, medianMatch, weekIndex + 1);
+  }
 
   let standingsResponse = {
     league_id: leagueInfo.value.league_id,
@@ -82,7 +68,7 @@ export async function getLeagueStandings(leagueId) {
   return standingsResponse;
 }
 
-async function processStandingsData(matchup, standingsData, leagueId, leagueRosters, leagueUsers, medianMatch) {
+async function processStandingsData(leagueId, matchup, standingsData, leagueRosters, leagueUsers, medianMatch, week) {
   let matchups = {};
   let scoresArray = [];
   for (let match of matchup) {
@@ -104,7 +90,7 @@ async function processStandingsData(matchup, standingsData, leagueId, leagueRost
         ties: 0,
         divisionWins: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
         divisionLosses: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
-        divisionTies: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
+        divisionTies: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null
       }
     }
 
