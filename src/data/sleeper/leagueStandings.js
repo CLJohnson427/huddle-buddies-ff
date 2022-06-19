@@ -80,12 +80,18 @@ async function processStandingsData(leagueId, matchup, standingsData, leagueRost
       standingsData[rosterId] = {
         manager: manager,
         rosterId: rosterId,
-        wins: 0,
-        losses: 0,
-        ties: 0,
         divisionWins: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
         divisionLosses: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
         divisionTies: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
+        medianWins: medianMatch ? 0 : null,
+        medianLosses: medianMatch ? 0 : null,
+        medianTies: medianMatch ? 0 : null,
+        playerWins: 0,
+        playerLosses: 0,
+        playerTies: 0,
+        totalWins: 0,
+        totalLosses: 0,
+        totalTies: 0,
         weeklyStandings: []
       }
     }
@@ -119,37 +125,46 @@ async function processStandingsData(leagueId, matchup, standingsData, leagueRost
     if (medianMatch === true) {
       for (let i = 0; i < 2; i++) {
         if (matchups[matchupKey][i].points > medianScore) {
-          standingsData[matchups[matchupKey][i].rosterId].wins++;
+          standingsData[matchups[matchupKey][i].rosterId].medianWins++;
+          standingsData[matchups[matchupKey][i].rosterId].totalWins++;
         }
         else if (matchups[matchupKey][i].points < medianScore) {
-          standingsData[matchups[matchupKey][i].rosterId].losses++;
+          standingsData[matchups[matchupKey][i].rosterId].medianLosses++;
+          standingsData[matchups[matchupKey][i].rosterId].totalLosses++;
         }
         else if (matchups[matchupKey][i].points === medianScore) {
-          standingsData[matchups[matchupKey][i].rosterId].ties++;
+          standingsData[matchups[matchupKey][i].rosterId].medianTies++;
+          standingsData[matchups[matchupKey][i].rosterId].totalTies++;
         }
       }
     }
 
     // Head to Head Matchup
     if (teamA.points > teamB.points) {
-      standingsData[teamA.rosterId].wins++;
-      standingsData[teamB.rosterId].losses++;
+      standingsData[teamA.rosterId].playerWins++;
+      standingsData[teamA.rosterId].totalWins++;
+      standingsData[teamB.rosterId].playerLosses++;
+      standingsData[teamB.rosterId].totalLosses++;
       if (divisionMatchup) {
         standingsData[teamA.rosterId].divisionWins++;
         standingsData[teamB.rosterId].divisionLosses++;
       }
     }
     else if (teamB.points > teamA.points) {
-      standingsData[teamB.rosterId].wins++;
-      standingsData[teamA.rosterId].losses++;
+      standingsData[teamB.rosterId].playerWins++;
+      standingsData[teamB.rosterId].totalWins++;
+      standingsData[teamA.rosterId].playerLosses++;
+      standingsData[teamA.rosterId].totalLosses++;
       if (divisionMatchup) {
         standingsData[teamB.rosterId].divisionWins++;
         standingsData[teamA.rosterId].divisionLosses++;
       }
     }
     else if (teamA.points === teamB.points) {
-      standingsData[teamA.rosterId].ties++;
-      standingsData[teamB.rosterId].ties++;
+      standingsData[teamA.rosterId].playerTies++;
+      standingsData[teamA.rosterId].totalTies++;
+      standingsData[teamB.rosterId].playerTies++;
+      standingsData[teamB.rosterId].totalTies++;
       if (divisionMatchup) {
         standingsData[teamA.rosterId].divisionTies++;
         standingsData[teamB.rosterId].divisionTies++;
@@ -159,16 +174,28 @@ async function processStandingsData(leagueId, matchup, standingsData, leagueRost
     // Weekly Standings
     standingsData[teamA.rosterId].weeklyStandings.push({
       week: week,
-      wins: standingsData[teamA.rosterId].wins,
-      losses: standingsData[teamA.rosterId].losses,
-      ties: standingsData[teamA.rosterId].ties,
+      medianWins: standingsData[teamA.rosterId].medianWins,
+      medianLosses: standingsData[teamA.rosterId].medianLosses,
+      medianTies: standingsData[teamA.rosterId].medianTies,
+      playerWins: standingsData[teamA.rosterId].playerWins,
+      playerLosses: standingsData[teamA.rosterId].playerLosses,
+      playerTies: standingsData[teamA.rosterId].playerTies,
+      totalWins: standingsData[teamA.rosterId].totalWins,
+      totalLosses: standingsData[teamA.rosterId].totalLosses,
+      totalTies: standingsData[teamA.rosterId].totalTies
     });
     
     standingsData[teamB.rosterId].weeklyStandings.push({
       week: week,
-      wins: standingsData[teamB.rosterId].wins,
-      losses: standingsData[teamB.rosterId].losses,
-      ties: standingsData[teamB.rosterId].ties,
+      medianWins: standingsData[teamB.rosterId].medianWins,
+      medianLosses: standingsData[teamB.rosterId].medianLosses,
+      medianTies: standingsData[teamB.rosterId].medianTies,
+      playerWins: standingsData[teamB.rosterId].playerWins,
+      playerLosses: standingsData[teamB.rosterId].playerLosses,
+      playerTies: standingsData[teamB.rosterId].playerTies,
+      totalWins: standingsData[teamB.rosterId].totalWins,
+      totalLosses: standingsData[teamB.rosterId].totalLosses,
+      totalTies: standingsData[teamB.rosterId].totalTies
     });
   }
 
