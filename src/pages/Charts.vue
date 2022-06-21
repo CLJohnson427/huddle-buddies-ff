@@ -50,7 +50,7 @@
 <script setup>
 import { ref, toRaw, onBeforeMount } from "vue";
 import { useLeagueStore } from "@/store/useLeague";
-import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData, getLeagueStandingsTotalWinsBarChartData, getLeagueStandingsTotalLossesBarChartData } from "@/data/chartData.js";
+import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from "@/data/chartData.js";
 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();
@@ -66,16 +66,16 @@ onBeforeMount(async () => {
   await leagueStore.getLeagueStandings();
   
   lineChartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings));
-  console.log('lineChartData', lineChartData);
+  // console.log('lineChartData', lineChartData);
 
-  barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), false, true);
-  console.log('barChartData', barChartData);
+  barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {  });
+  // console.log('barChartData', barChartData);
 
-  barChartDataWins.value = getLeagueStandingsTotalWinsBarChartData(toRaw(leagueStore.standings), false, false);
-  console.log('barChartDataWins', barChartDataWins);
+  barChartDataWins.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: true, includeLosses: false, includeMedian: true });
+  // console.log('barChartDataWins', barChartDataWins);
   
-  barChartDataLoses.value = getLeagueStandingsTotalLossesBarChartData(toRaw(leagueStore.standings), false, false);
-  console.log('barChartDataLoses', barChartDataLoses);
+  barChartDataLoses.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: false, includeLosses: true, includeMedian: true });
+  // console.log('barChartDataLoses', barChartDataLoses);
 })
 
 
