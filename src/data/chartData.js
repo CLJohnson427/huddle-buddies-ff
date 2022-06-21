@@ -57,7 +57,7 @@ export function getWeeklyStandingsLineChartData(leagueStandings) {
   return { chartOptions: lineChartOptions, chartSeries: lineChartSeries }
 }
 
-export function getLeagueStandingsBarChartData(leagueStandings, { stackedBarChart = false, verticalBarChart = false, includeWins = true, includeLosses = true, includeMedian = true } = {}) {
+export function getLeagueStandingsBarChartData(leagueStandings, { stackedBarChart = false, verticalBarChart = false, includeWins = true, includeLosses = true, includeMedian = true, combineMedian = false } = {}) {
   // Setup League Weeks Data
   let weeks = [];
   for (let i = 0; i < leagueStandings.standings[1].weeklyStandings.length; i++) {
@@ -67,8 +67,10 @@ export function getLeagueStandingsBarChartData(leagueStandings, { stackedBarChar
   // Setup the Bar Chart Data.
   let barChartCategories = [];
   let barChartColors = [];
+  let totalWins = [];
   let playerWins = [];
   let medianWins = [];
+  let totalLosses = [];
   let playerLosses = [];
   let medianLosses = [];
 
@@ -90,8 +92,10 @@ export function getLeagueStandingsBarChartData(leagueStandings, { stackedBarChar
   // Iterate through each Team to setup the Bar Chart Data.
   for (const team of teamStandingsData) {
     barChartCategories.push(`${team.manager.managerName}`)
+    totalWins.push(team.totalWins);
     playerWins.push(team.playerWins);
     medianWins.push(team.medianWins);
+    totalLosses.push(team.totalLosses);
     playerLosses.push(team.playerLosses);
     medianLosses.push(team.medianLosses);
   }
@@ -149,44 +153,70 @@ export function getLeagueStandingsBarChartData(leagueStandings, { stackedBarChar
   if (verticalBarChart) {
     barChartOptions.plotOptions.bar.horizontal = false;
   }
+
+  // Update the Chart Options if the median data is combined or separated.
+  if (combineMedian) {
+    barChartOptions.xaxis.max = leagueStandings.medianMatch ? weeks.length * 2 : weeks.length;
+    barChartOptions.yaxis.max = leagueStandings.medianMatch ? weeks.length * 2 : weeks.length;
+  }
   
   // Setup the Bar Chart Series Data.
   let barChartSeries = [];
 
   // Wins
   if (includeWins) {
-    // Set Player Wins Data & Color.
-    barChartSeries.push({
-      name: 'Player Wins',
-      data: playerWins
-    });
-    barChartColors.push('#00e396');
-
-    if (includeMedian) {
-      // Set Median Wins Data & Color.
+    if (combineMedian) {
+      // Set Total Wins Data & Color.
       barChartSeries.push({
-        name: 'Median Wins',
-        data: medianWins
+        name: 'Total Wins',
+        data: totalWins
       });
-      barChartColors.push('#008ffb');
+      barChartColors.push('#00e396');
+    }
+    else {
+      // Set Player Wins Data & Color.
+      barChartSeries.push({
+        name: 'Player Wins',
+        data: playerWins
+      });
+      barChartColors.push('#00e396');
+
+      if (includeMedian) {
+        // Set Median Wins Data & Color.
+        barChartSeries.push({
+          name: 'Median Wins',
+          data: medianWins
+        });
+        barChartColors.push('#008ffb');
+      }
     }
   }
   // Losses
   if (includeLosses) {
-    // Set Player Losses Data & Color.
-    barChartSeries.push({
-      name: 'Player Losses',
-      data: playerLosses
-    });
-    barChartColors.push('#ff4560');
-
-    if (includeMedian) {
-      // Set Median Losses Data & Color.
+    if (combineMedian) {
+      // Set Total Losses Data & Color.
       barChartSeries.push({
-        name: 'Median Losses',
-        data: medianLosses
+        name: 'Total Losses',
+        data: totalLosses
       });
-      barChartColors.push('#feb019');
+      barChartColors.push('#ff4560');
+    }
+    else {
+      // Set Player Losses Data & Color.
+      barChartSeries.push({
+        name: 'Player Losses',
+        data: playerLosses
+      });
+      barChartColors.push('#ff4560');
+
+      if (includeMedian) {
+        // Set Median Losses Data & Color.
+        barChartSeries.push({
+          name: 'Median Losses',
+          data: medianLosses
+        });
+        barChartColors.push('#feb019');
+      }
     }
   }
 

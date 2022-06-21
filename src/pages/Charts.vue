@@ -68,7 +68,8 @@ onBeforeMount(async () => {
   lineChartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings));
   // console.log('lineChartData', lineChartData);
 
-  barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {  });
+  barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { stackedBarChart: false, verticalBarChart: true, includeWins: true, includeLosses: true, includeMedian: false, combineMedian: true });
+  // barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { verticalBarChart: true, combineMedian: true });
   // console.log('barChartData', barChartData);
 
   barChartDataWins.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: true, includeLosses: false, includeMedian: true });
