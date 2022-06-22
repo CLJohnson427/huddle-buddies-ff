@@ -21,3 +21,7 @@ git commit -m "deploy"
 ```
 git subtree push --prefix dist origin gh-pages
 ```
+Reset dist if it shows there is nothing to commit.
+```
+git rm --cached dist -f
+```
