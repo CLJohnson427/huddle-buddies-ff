@@ -1,25 +1,86 @@
 <template>
   <div class="home">
-    <hr />
     <img alt="Huddle Buddies logo" src="../assets/huddle-buddies-thumbnail.png" />
-    <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
-    <h1>This is the home page</h1>
-
-    <!-- <h4>{{ name }}</h4>
-    <h4>{{ counter }}</h4>
-    <button @click="add(1)">Increment 1</button>
-    <button @click="add2(10)">Increment 10</button>
-    <button @click="reset">Reset</button> -->
-    <!-- <h4>{{ leagueStore.users['204301500732678144'].display_name }}</h4> -->
-    <!-- <h4>{{ users['204301500732678144'].display_name }}</h4> -->
-    <h4>{{ nameInfo }}</h4>
-    <!-- <h4 :key="index" v-for="index in 10">{{ index }}</h4> -->
+    <h1>Huddle Buddies Dynasty Fantasy Football</h1>
     <br /><hr /><br />
-    <h4>{{ league }}</h4>
+
+    <div v-if="lineChartData">
+      <apexchart
+        width="1500"
+        height="500"
+        type="line"
+        :options="lineChartData.chartOptions"
+        :series="lineChartData.chartSeries"
+      ></apexchart>
+    </div>
+
+    <div v-if="barChartData">
+      <apexchart
+        width="1500"
+        height="800"
+        type="bar"
+        :options="barChartData.chartOptions"
+        :series="barChartData.chartSeries"
+      ></apexchart>
+    </div>
+
+    <div v-if="barChartDataWins">
+      <apexchart
+        width="1500"
+        height="500"
+        type="bar"
+        :options="barChartDataWins.chartOptions"
+        :series="barChartDataWins.chartSeries"
+      ></apexchart>
+    </div>
+
+    <div v-if="barChartDataLoses">
+      <apexchart
+        width="1500"
+        height="500"
+        type="bar"
+        :options="barChartDataLoses.chartOptions"
+        :series="barChartDataLoses.chartSeries"
+      ></apexchart>
+    </div>
+
   </div>
 </template>
 
 <script setup>
+import { ref, toRaw, onBeforeMount } from "vue";
+import { useLeagueStore } from "@/store/useLeague";
+import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from "@/data/chartData.js";
+
+// Setup the leagueStore.
+const leagueStore = useLeagueStore();
+
+// Setup Chart Refs
+let lineChartData = ref();
+let barChartData = ref();
+let barChartDataWins = ref();
+let barChartDataLoses = ref();
+
+// onBeforeMount Lifecycle Hook
+onBeforeMount(async () => {
+  // Get League Standing Data.
+  await leagueStore.getLeagueStandings();
+  
+  // Weekly Standings Line Chart Data
+  lineChartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings));
+
+  // League Standings Bar Chart Data
+  barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { stackedBarChart: false, verticalBarChart: true, includeWins: true, includeLosses: true, includeMedian: false, combineMedian: true });
+
+  // League Standings (Total Wins) Bar Chart Data
+  barChartDataWins.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: true, includeLosses: false, includeMedian: true });
+  
+  // League Standings (Total Losses) Bar Chart Data
+  barChartDataLoses.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: false, includeLosses: true, includeMedian: true });
+})
+
+
+/*
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import HelloWorld from "../components/HelloWorld.vue";
@@ -75,7 +136,7 @@ setTimeout(() => {
     // console.log('leagueStore.users 2', toRaw(leagueStore.users));
     // console.log('leagueStore.users 21', toRaw(leagueStore.users['204301500732678144'].display_name));
     // console.log('leagueStore.users 3', toRaw(useLeagueStore().users));
-    //*/
+    //*
   // console.log('users', users);
   // console.log('users', users['204301500732678144'].display_name);
   // console.log('users 2', toRaw(users['204301500732678144'].display_name));
@@ -94,10 +155,11 @@ setTimeout(() => {
 }, 5000);
 
 let nameInfo = ref({ name: "Chris", age: 29 });
+//*/
 </script>
 
 <style>
-#app {
+.home {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
