@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from "url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/huddle-buddies-ff/',
+  base: process.env.NODE_ENV === "production" ? '/huddle-buddies-ff/' : '/',
   plugins: [vue()],
   // plugins: [vue(), eslintPlugin()],
   resolve: {
