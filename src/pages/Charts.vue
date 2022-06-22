@@ -60,8 +60,12 @@ let barChartData = ref();
 let barChartDataWins = ref();
 let barChartDataLoses = ref();
 
-
 onBeforeMount(async () => {
+  // Apex Charts
+  // https://apexcharts.com/docs/series/
+  // https://apexcharts.com/docs/options/chart/type/
+  // https://apexcharts.com/vue-chart-demos/
+
   // Get League Standing Data.
   await leagueStore.getLeagueStandings();
   
@@ -78,17 +82,6 @@ onBeforeMount(async () => {
   barChartDataLoses.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: false, includeLosses: true, includeMedian: true });
   // console.log('barChartDataLoses', barChartDataLoses);
 })
-
-
-
-// Apex Charts
-// https://apexcharts.com/docs/series/
-// https://apexcharts.com/docs/options/chart/type/
-
-// https://apexcharts.com/vue-chart-demos/
-
-
-
 </script>
 
 <style>
