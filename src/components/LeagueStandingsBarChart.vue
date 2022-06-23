@@ -37,10 +37,9 @@ const leagueStore = useLeagueStore();
 // Setup Chart Refs
 let barChartData = ref();
 
-// onBeforeMount Lifecycle Hook
-onBeforeMount(async () => {
+async function getChartData(leagueId) {
   // Get League Standing Data.
-  await leagueStore.getLeagueStandings(props.leagueId);
+  await leagueStore.getLeagueStandings(leagueId);
   
   // League Standings Bar Chart Data
   barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {
@@ -48,19 +47,18 @@ onBeforeMount(async () => {
     includeWins: props.includeWins, includeLosses: props.includeLosses,
     includeMedian: props.includeMedian, combineMedian: props.combineMedian
   });
+}
+
+// onBeforeMount Lifecycle Hook
+onBeforeMount(async () => {
+  // Get League Standing Data and Bar Chart Data.
+  await getChartData(props.leagueId);
 })
 
 // Update the League Data when the LeagueId Prop is changed.
 watch(() => props.leagueId, async () => {
-  // Get League Standing Data with the new LeagueId.
-  await leagueStore.getLeagueStandings(props.leagueId);
-  
-  // League Standings Bar Chart Data
-  barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {
-    stackedBarChart: props.stackedBarChart, verticalBarChart: props.verticalBarChart,
-    includeWins: props.includeWins, includeLosses: props.includeLosses,
-    includeMedian: props.includeMedian, combineMedian: props.combineMedian
-  });
+  // Get League Standing Data and Bar Chart Data with the new LeagueId.
+  await getChartData(props.leagueId);
 })
 </script>
 

@@ -25,36 +25,19 @@
       ></apexchart>
     </div>
 
-    <div v-if="barChartData">
-      <apexchart
-        width="1500"
-        height="800"
-        type="bar"
-        :options="barChartData.chartOptions"
-        :series="barChartData.chartSeries"
-      ></apexchart>
-    </div>
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
+      :stackedBarChart="false" :verticalBarChart="true"
+      :includeWins="true" :includeLosses="false"
+      :includeMedian="true" :combineMedian="false"
+    >
+    </LeagueStandingsBarChart>
 
-    <div v-if="barChartDataWins">
-      <apexchart
-        width="1500"
-        height="500"
-        type="bar"
-        :options="barChartDataWins.chartOptions"
-        :series="barChartDataWins.chartSeries"
-      ></apexchart>
-    </div>
-
-    <div v-if="barChartDataLoses">
-      <apexchart
-        width="1500"
-        height="500"
-        type="bar"
-        :options="barChartDataLoses.chartOptions"
-        :series="barChartDataLoses.chartSeries"
-      ></apexchart>
-    </div>
-
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
+      :stackedBarChart="false" :verticalBarChart="true"
+      :includeWins="false" :includeLosses="true"
+      :includeMedian="true" :combineMedian="false"
+    >
+    </LeagueStandingsBarChart>
   </div>
 </template>
 
