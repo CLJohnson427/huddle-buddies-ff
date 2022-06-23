@@ -4,6 +4,17 @@
     <h1>Huddle Buddies Dynasty Fantasy Football</h1>
     <br /><hr /><br />
 
+    <select v-model="selectedLeagueId">
+      <option v-for="leagueYear in leagueYears" :value="leagueYear.leagueId">{{ leagueYear.year }}</option>
+    </select>
+
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
+      :stackedBarChart="false" :verticalBarChart="true"
+      :includeWins="true" :includeLosses="true"
+      :includeMedian="true" :combineMedian="false"
+    >
+    </LeagueStandingsBarChart>
+
     <div v-if="lineChartData">
       <apexchart
         width="1500"
@@ -48,9 +59,11 @@
 </template>
 
 <script setup>
-import { ref, toRaw, onBeforeMount } from "vue";
-import { useLeagueStore } from "@/store/useLeague";
+import { ref, toRaw, onBeforeMount, watch } from "vue";
+import { useLeagueStore } from "@/store/useLeague.js";
 import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from "@/data/chartData.js";
+import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
+import LeagueStandingsBarChart from '@/components/LeagueStandingsBarChart.vue'
 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();
@@ -60,6 +73,8 @@ let lineChartData = ref();
 let barChartData = ref();
 let barChartDataWins = ref();
 let barChartDataLoses = ref();
+let leagueYears = ref(leagueIds);
+let selectedLeagueId = ref(getMostRecentLeagueInfo('id'));
 
 // onBeforeMount Lifecycle Hook
 onBeforeMount(async () => {
@@ -78,6 +93,10 @@ onBeforeMount(async () => {
   // League Standings (Total Losses) Bar Chart Data
   barChartDataLoses.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: false, includeLosses: true, includeMedian: true });
 })
+
+// watch(selectedLeagueId, (newValue) => {
+//   console.log(`selectedLeagueId is ${newValue}`);
+// })
 
 
 /*

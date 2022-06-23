@@ -57,7 +57,7 @@ export function getWeeklyStandingsLineChartData(leagueStandings) {
   return { chartOptions: lineChartOptions, chartSeries: lineChartSeries }
 }
 
-export function getLeagueStandingsBarChartData(leagueStandings, { stackedBarChart = false, verticalBarChart = false, includeWins = true, includeLosses = true, includeMedian = true, combineMedian = false } = {}) {
+export function getLeagueStandingsBarChartData(leagueStandings, { stackedBarChart = false, verticalBarChart = true, includeWins = true, includeLosses = true, includeMedian = true, combineMedian = false } = {}) {
   // Setup League Weeks Data
   let weeks = [];
   for (let i = 0; i < leagueStandings.standings[1].weeklyStandings.length; i++) {

@@ -8,6 +8,19 @@ export const leagueIds = [
   { year: 2018, leagueId: '300327253869363200' }
 ]
 
+export function getMostRecentLeagueInfo(attribute = null) {
+  const mostRecentLeague = leagueIds.reduce((prev, current) => (prev.year > current.year) ? prev : current);
+  if (attribute === 'id') {
+    return mostRecentLeague.leagueId;
+  }
+  else if (attribute === 'year') {
+    return mostRecentLeague.year;
+  }
+  else {
+    return '';
+  }
+}
+
 // GET https://api.sleeper.app/v1/league/<league_id>
 export async function getLeagueInfo(leagueId) {
   const leagueStore = useLeagueStore();
