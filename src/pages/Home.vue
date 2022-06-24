@@ -5,7 +5,7 @@
     <br /><hr /><br />
 
     <select v-model="selectedLeagueId">
-      <option v-for="league in leagues" :value="league.leagueId" :key="league.leagueId">
+      <option v-for="league in leagueIds" :value="league.leagueId" :key="league.leagueId">
         {{ league.year }}
       </option>
     </select>
@@ -38,9 +38,8 @@
 </template>
 
 <script setup>
-import { ref, toRaw, onBeforeMount, watch } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useLeagueStore } from "@/store/useLeague.js";
-import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from "@/data/chartData.js";
 import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 import LeagueStandingsBarChart from '@/components/LeagueStandingsBarChart.vue'
 import WeeklyStandingsLineChart from '@/components/WeeklyStandingsLineChart.vue'
@@ -49,30 +48,13 @@ import WeeklyStandingsLineChart from '@/components/WeeklyStandingsLineChart.vue'
 const leagueStore = useLeagueStore();
 
 // Setup Chart Refs
-let lineChartData = ref();
-let barChartData = ref();
-let barChartDataWins = ref();
-let barChartDataLoses = ref();
-let leagues = ref(leagueIds);
 let selectedLeagueId = ref(getMostRecentLeagueInfo('id'));
 
 // onBeforeMount Lifecycle Hook
-onBeforeMount(async () => {
-  // Get League Standing Data.
-  await leagueStore.getLeagueStandings();
-  
-  // Weekly Standings Line Chart Data
-  lineChartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings));
-
-  // League Standings Bar Chart Data
-  barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { stackedBarChart: false, verticalBarChart: true, includeWins: true, includeLosses: true, includeMedian: false, combineMedian: true });
-
-  // League Standings (Total Wins) Bar Chart Data
-  barChartDataWins.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: true, includeLosses: false, includeMedian: true });
-  
-  // League Standings (Total Losses) Bar Chart Data
-  barChartDataLoses.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: false, includeLosses: true, includeMedian: true });
-})
+// onBeforeMount(async () => {
+//   // Get League Standing Data.
+//   await leagueStore.getLeagueStandings();
+// })
 
 // watch(selectedLeagueId, (newValue) => {
 //   console.log(`selectedLeagueId is ${newValue}`);

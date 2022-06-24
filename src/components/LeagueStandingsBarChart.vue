@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref, toRaw, onBeforeMount, defineProps, watch } from "vue";
+import { defineProps, onBeforeMount, ref, toRaw, watch } from "vue";
 import { useLeagueStore } from "@/store/useLeague.js";
 import { getLeagueStandingsBarChartData } from "@/data/chartData.js";
 import { getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
