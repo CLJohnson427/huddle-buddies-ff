@@ -10,25 +10,25 @@
       </option>
     </select>
 
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="false"
       :stackedBarChart="false" :verticalBarChart="true"
       :includeWins="true" :includeLosses="true"
       :includeMedian="true" :combineMedian="false"
     >
     </LeagueStandingsBarChart>
 
-    <WeeklyStandingsLineChart :leagueId="selectedLeagueId"
+    <WeeklyStandingsLineChart :leagueId="selectedLeagueId" :darkMode="true"
       :height="800" :width="1500">
     </WeeklyStandingsLineChart>
     
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="false"
       :stackedBarChart="false" :verticalBarChart="true"
       :includeWins="true" :includeLosses="false"
       :includeMedian="true" :combineMedian="false"
     >
     </LeagueStandingsBarChart>
 
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="true"
       :stackedBarChart="false" :verticalBarChart="true"
       :includeWins="false" :includeLosses="true"
       :includeMedian="true" :combineMedian="false"

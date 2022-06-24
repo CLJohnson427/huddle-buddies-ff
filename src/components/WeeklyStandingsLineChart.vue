@@ -23,6 +23,7 @@ const props = defineProps({
   leagueId: { type: String, required: false, default: getMostRecentLeagueInfo('id') },
   height: { type: Number, required: false, default: 800 },
   width: { type: Number, required: false, default: 1500 },
+  darkMode: { type: Boolean, required: false, default: false },
   // includeWins: { type: Boolean, required: false, default: true },
   // includeMedian: { type: Boolean, required: false, default: true },
   // combineMedian: { type: Boolean, required: false, default: false }
@@ -39,7 +40,7 @@ async function getChartData(leagueId) {
   await leagueStore.getLeagueStandings(leagueId);
 
   // Weekly Standings Line Chart Data
-  lineChartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings));
+  lineChartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings), { darkMode: props.darkMode });
 }
 
 // onBeforeMount Lifecycle Hook

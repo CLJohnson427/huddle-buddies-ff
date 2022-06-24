@@ -23,6 +23,7 @@ const props = defineProps({
   leagueId: { type: String, required: false, default: getMostRecentLeagueInfo('id') },
   height: { type: Number, required: false, default: 800 },
   width: { type: Number, required: false, default: 1500 },
+  darkMode: { type: Boolean, required: false, default: false },
   stackedBarChart: { type: Boolean, required: false, default: false },
   verticalBarChart: { type: Boolean, required: false, default: true },
   includeWins: { type: Boolean, required: false, default: true },
@@ -43,7 +44,7 @@ async function getChartData(leagueId) {
   
   // League Standings Bar Chart Data
   barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {
-    stackedBarChart: props.stackedBarChart, verticalBarChart: props.verticalBarChart,
+    darkMode: props.darkMode, stackedBarChart: props.stackedBarChart, verticalBarChart: props.verticalBarChart,
     includeWins: props.includeWins, includeLosses: props.includeLosses,
     includeMedian: props.includeMedian, combineMedian: props.combineMedian
   });

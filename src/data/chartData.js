@@ -12,7 +12,7 @@ export const teamChartColors = [
   '#8c564b' // Miller
 ]
 
-export function getWeeklyStandingsLineChartData(leagueStandings) {
+export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = false } = {}) {
   // Setup League Weeks Data
   let weeks = [];
   for (let i = 0; i < leagueStandings.standings[1].weeklyStandings.length; i++) {
@@ -21,6 +21,12 @@ export function getWeeklyStandingsLineChartData(leagueStandings) {
 
   // Setup the the Line Chart Options Object.
   let lineChartOptions = {
+    chart: {
+      type: 'line'
+    },
+    theme: {
+      mode: darkMode ? 'dark' : 'light'
+    },
     title: {
       text:`${leagueStandings.seasonYear} Weekly Standings (Total Wins)`,
       align: 'center'
@@ -71,7 +77,7 @@ export function getWeeklyStandingsLineChartData(leagueStandings) {
   return { chartOptions: lineChartOptions, chartSeries: lineChartSeries }
 }
 
-export function getLeagueStandingsBarChartData(leagueStandings, { stackedBarChart = false, verticalBarChart = true, includeWins = true, includeLosses = true, includeMedian = true, combineMedian = false } = {}) {
+export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = false, stackedBarChart = false, verticalBarChart = true, includeWins = true, includeLosses = true, includeMedian = true, combineMedian = false } = {}) {
   // Setup League Weeks Data
   let weeks = [];
   for (let i = 0; i < leagueStandings.standings[1].weeklyStandings.length; i++) {
@@ -127,9 +133,12 @@ export function getLeagueStandingsBarChartData(leagueStandings, { stackedBarChar
       },
     },
     colors: [],
+    theme: {
+      mode: darkMode ? 'dark' : 'light'
+    },
     dataLabels: {
       style: {
-        colors: ['#000000']
+        colors: darkMode ? ['#ffffff'] : ['#000000']
       }
     },
     title: {
