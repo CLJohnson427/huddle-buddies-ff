@@ -1,3 +1,16 @@
+export const teamChartColors = [
+  // Ordered by RosterId.
+  '#3099de', // Bo
+  '#004586', // Chris
+  '#772fdc', // Jacob
+  '#3cb44b', // Chase
+  '#ae1d1d', // Kevin
+  '#f58231', // Aaron
+  '#ffe119', // GeeMetz?
+  '#469990', // Alex
+  '#f032e6', // Colt
+  '#8c564b' // Miller
+]
 
 export function getWeeklyStandingsLineChartData(leagueStandings) {
   // Setup League Weeks Data
@@ -12,6 +25,7 @@ export function getWeeklyStandingsLineChartData(leagueStandings) {
       text:`${leagueStandings.seasonYear} Weekly Standings (Total Wins)`,
       align: 'center'
     },
+    colors: teamChartColors,
     xaxis: {
       type: 'category',
       categories: weeks,
