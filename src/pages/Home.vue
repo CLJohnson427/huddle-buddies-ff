@@ -4,80 +4,61 @@
     <h1>Huddle Buddies Dynasty Fantasy Football</h1>
     <br /><hr /><br />
 
-    <div v-if="lineChartData">
-      <apexchart
-        width="1500"
-        height="500"
-        type="line"
-        :options="lineChartData.chartOptions"
-        :series="lineChartData.chartSeries"
-      ></apexchart>
-    </div>
+    <select v-model="selectedLeagueId">
+      <option v-for="league in leagueIds" :value="league.leagueId" :key="league.leagueId">
+        {{ league.year }}
+      </option>
+    </select>
 
-    <div v-if="barChartData">
-      <apexchart
-        width="1500"
-        height="800"
-        type="bar"
-        :options="barChartData.chartOptions"
-        :series="barChartData.chartSeries"
-      ></apexchart>
-    </div>
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
+      :stackedBarChart="false" :verticalBarChart="true"
+      :includeWins="true" :includeLosses="true"
+      :includeMedian="true" :combineMedian="false"
+    >
+    </LeagueStandingsBarChart>
 
-    <div v-if="barChartDataWins">
-      <apexchart
-        width="1500"
-        height="500"
-        type="bar"
-        :options="barChartDataWins.chartOptions"
-        :series="barChartDataWins.chartSeries"
-      ></apexchart>
-    </div>
+    <WeeklyStandingsLineChart :leagueId="selectedLeagueId"
+      :height="800" :width="1500">
+    </WeeklyStandingsLineChart>
+    
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
+      :stackedBarChart="false" :verticalBarChart="true"
+      :includeWins="true" :includeLosses="false"
+      :includeMedian="true" :combineMedian="false"
+    >
+    </LeagueStandingsBarChart>
 
-    <div v-if="barChartDataLoses">
-      <apexchart
-        width="1500"
-        height="500"
-        type="bar"
-        :options="barChartDataLoses.chartOptions"
-        :series="barChartDataLoses.chartSeries"
-      ></apexchart>
-    </div>
-
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
+      :stackedBarChart="false" :verticalBarChart="true"
+      :includeWins="false" :includeLosses="true"
+      :includeMedian="true" :combineMedian="false"
+    >
+    </LeagueStandingsBarChart>
   </div>
 </template>
 
 <script setup>
-import { ref, toRaw, onBeforeMount } from "vue";
-import { useLeagueStore } from "@/store/useLeague";
-import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from "@/data/chartData.js";
+import { ref, onBeforeMount } from "vue";
+import { useLeagueStore } from "@/store/useLeague.js";
+import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
+import LeagueStandingsBarChart from '@/components/LeagueStandingsBarChart.vue'
+import WeeklyStandingsLineChart from '@/components/WeeklyStandingsLineChart.vue'
 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();
 
 // Setup Chart Refs
-let lineChartData = ref();
-let barChartData = ref();
-let barChartDataWins = ref();
-let barChartDataLoses = ref();
+let selectedLeagueId = ref(getMostRecentLeagueInfo('id'));
 
 // onBeforeMount Lifecycle Hook
-onBeforeMount(async () => {
-  // Get League Standing Data.
-  await leagueStore.getLeagueStandings();
-  
-  // Weekly Standings Line Chart Data
-  lineChartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings));
+// onBeforeMount(async () => {
+//   // Get League Standing Data.
+//   await leagueStore.getLeagueStandings();
+// })
 
-  // League Standings Bar Chart Data
-  barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { stackedBarChart: false, verticalBarChart: true, includeWins: true, includeLosses: true, includeMedian: false, combineMedian: true });
-
-  // League Standings (Total Wins) Bar Chart Data
-  barChartDataWins.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: true, includeLosses: false, includeMedian: true });
-  
-  // League Standings (Total Losses) Bar Chart Data
-  barChartDataLoses.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: false, includeLosses: true, includeMedian: true });
-})
+// watch(selectedLeagueId, (newValue) => {
+//   console.log(`selectedLeagueId is ${newValue}`);
+// })
 
 
 /*

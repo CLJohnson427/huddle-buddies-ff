@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia';
 
 // Sleeper
-import { getLeagueInfo, leagueIds } from '@/data/sleeper/leagueInfo.js';
+import { getLeagueInfo, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 import { getLeagueMatchups } from '@/data/sleeper/leagueMatchups.js';
 import { getLeagueRosters } from '@/data/sleeper/leagueRosters.js';
 import { getLeagueStandings } from "@/data/sleeper/leagueStandings.js";
@@ -13,8 +13,8 @@ export const useLeagueStore = defineStore('leagueStore', {
   state: () => ({
     // counter: 0,
     league: {},
-    leagueId: leagueIds[0].leagueId,
-    leagueYear: leagueIds[0].year,
+    leagueId: getMostRecentLeagueInfo('id'),
+    leagueYear: getMostRecentLeagueInfo('year'),
     matchups: {},
     rosters: {},
     standings: {},
