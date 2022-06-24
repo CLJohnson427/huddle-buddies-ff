@@ -14,9 +14,9 @@
 
 <script setup>
 import { ref, toRaw, onBeforeMount, defineProps, watch } from "vue";
-import { useLeagueStore } from "@/store/useLeague";
-import { getLeagueStandingsBarChartData } from "@/data/chartData";
-import { getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo';
+import { useLeagueStore } from "@/store/useLeague.js";
+import { getLeagueStandingsBarChartData } from "@/data/chartData.js";
+import { getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 
 // Props
 const props = defineProps({

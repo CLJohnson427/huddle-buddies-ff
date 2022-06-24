@@ -5,7 +5,9 @@
     <br /><hr /><br />
 
     <select v-model="selectedLeagueId">
-      <option v-for="leagueYear in leagueYears" :value="leagueYear.leagueId">{{ leagueYear.year }}</option>
+      <option v-for="league in leagues" :value="league.leagueId" :key="league.leagueId">
+        {{ league.year }}
+      </option>
     </select>
 
     <LeagueStandingsBarChart :leagueId="selectedLeagueId"
@@ -15,16 +17,10 @@
     >
     </LeagueStandingsBarChart>
 
-    <div v-if="lineChartData">
-      <apexchart
-        width="1500"
-        height="500"
-        type="line"
-        :options="lineChartData.chartOptions"
-        :series="lineChartData.chartSeries"
-      ></apexchart>
-    </div>
-
+    <WeeklyStandingsLineChart :leagueId="selectedLeagueId"
+      :height="800" :width="1500">
+    </WeeklyStandingsLineChart>
+    
     <LeagueStandingsBarChart :leagueId="selectedLeagueId"
       :stackedBarChart="false" :verticalBarChart="true"
       :includeWins="true" :includeLosses="false"
@@ -47,6 +43,7 @@ import { useLeagueStore } from "@/store/useLeague.js";
 import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from "@/data/chartData.js";
 import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 import LeagueStandingsBarChart from '@/components/LeagueStandingsBarChart.vue'
+import WeeklyStandingsLineChart from '@/components/WeeklyStandingsLineChart.vue'
 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();
@@ -56,7 +53,7 @@ let lineChartData = ref();
 let barChartData = ref();
 let barChartDataWins = ref();
 let barChartDataLoses = ref();
-let leagueYears = ref(leagueIds);
+let leagues = ref(leagueIds);
 let selectedLeagueId = ref(getMostRecentLeagueInfo('id'));
 
 // onBeforeMount Lifecycle Hook
