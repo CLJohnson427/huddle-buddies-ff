@@ -17,7 +17,7 @@
     >
     </LeagueStandingsBarChart>
 
-    <WeeklyStandingsLineChart :leagueId="selectedLeagueId" :darkMode="true"
+    <WeeklyStandingsLineChart :leagueId="selectedLeagueId" :darkMode="false"
       :height="800" :width="1500">
     </WeeklyStandingsLineChart>
     
@@ -28,7 +28,7 @@
     >
     </LeagueStandingsBarChart>
 
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="true"
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="false"
       :stackedBarChart="false" :verticalBarChart="true"
       :includeWins="false" :includeLosses="true"
       :includeMedian="true" :combineMedian="false"
