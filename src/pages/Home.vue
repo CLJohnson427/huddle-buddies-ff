@@ -20,20 +20,6 @@
     <WeeklyStandingsLineChart :leagueId="selectedLeagueId" :darkMode="false"
       :height="800" :width="1500">
     </WeeklyStandingsLineChart>
-    
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="false"
-      :stackedBarChart="false" :verticalBarChart="true"
-      :includeWins="true" :includeLosses="false"
-      :includeMedian="true" :combineMedian="false"
-    >
-    </LeagueStandingsBarChart>
-
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="false"
-      :stackedBarChart="false" :verticalBarChart="true"
-      :includeWins="false" :includeLosses="true"
-      :includeMedian="true" :combineMedian="false"
-    >
-    </LeagueStandingsBarChart>
   </div>
 </template>
 
