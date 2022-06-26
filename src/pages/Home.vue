@@ -2,38 +2,29 @@
   <div class="home">
     <img alt="Huddle Buddies logo" src="../assets/huddle-buddies-thumbnail.png" />
     <h1>Huddle Buddies Dynasty Fantasy Football</h1>
-    <br /><hr /><br />
+    <hr /><br />
 
+    <span>League Year: </span>
     <select v-model="selectedLeagueId">
       <option v-for="league in leagueIds" :value="league.leagueId" :key="league.leagueId">
         {{ league.year }}
       </option>
     </select>
 
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
+    <br /><br />
+
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="false" :height="800" :width="'100%'"
       :stackedBarChart="false" :verticalBarChart="true"
       :includeWins="true" :includeLosses="true"
       :includeMedian="true" :combineMedian="false"
     >
     </LeagueStandingsBarChart>
 
-    <WeeklyStandingsLineChart :leagueId="selectedLeagueId"
-      :height="800" :width="1500">
-    </WeeklyStandingsLineChart>
-    
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
-      :stackedBarChart="false" :verticalBarChart="true"
-      :includeWins="true" :includeLosses="false"
-      :includeMedian="true" :combineMedian="false"
-    >
-    </LeagueStandingsBarChart>
+    <br /><hr /><br />
 
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId"
-      :stackedBarChart="false" :verticalBarChart="true"
-      :includeWins="false" :includeLosses="true"
-      :includeMedian="true" :combineMedian="false"
-    >
-    </LeagueStandingsBarChart>
+    <WeeklyStandingsLineChart :leagueId="selectedLeagueId" :darkMode="false"
+      :height="800" :width="'100%'">
+    </WeeklyStandingsLineChart>
   </div>
 </template>
 
@@ -140,12 +131,5 @@ let nameInfo = ref({ name: "Chris", age: 29 });
 </script>
 
 <style>
-.home {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
