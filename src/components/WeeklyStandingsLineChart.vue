@@ -21,8 +21,8 @@ import { getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 // Props
 const props = defineProps({
   leagueId: { type: String, required: false, default: getMostRecentLeagueInfo('id') },
-  height: { type: Number, required: false, default: 800 },
-  width: { type: Number, required: false, default: 1500 },
+  height: { type: [String, Number], required: false, default: 'auto' },
+  width: { type: [String, Number], required: false, default: '100%' },
   darkMode: { type: Boolean, required: false, default: false },
   // includeWins: { type: Boolean, required: false, default: true },
   // includeMedian: { type: Boolean, required: false, default: true },

@@ -8,7 +8,7 @@
     <button @click="includeMedianLocal = !includeMedianLocal">Include Median</button>
     <button @click="combineMedianLocal = !combineMedianLocal">Combine Median</button>
 
-    <div v-if="barChartData.chartSeries.length > 0">
+    <div v-if="barChartData.chartSeries">
       <apexchart
         type="bar"
         :height="height"
@@ -17,9 +17,9 @@
         :series="barChartData.chartSeries"
       ></apexchart>
     </div>
-    <!-- <div v-else>
+    <div v-else>
       Loading...
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -32,8 +32,8 @@ import { getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 // Props
 const props = defineProps({
   leagueId: { type: String, required: false, default: getMostRecentLeagueInfo('id') },
-  height: { type: Number, required: false, default: 800 },
-  width: { type: Number, required: false, default: 1500 },
+  height: { type: [String, Number], required: false, default: 'auto' },
+  width: { type: [String, Number], required: false, default: '100%' },
   darkMode: { type: Boolean, required: false, default: false },
   stackedBarChart: { type: Boolean, required: false, default: false },
   verticalBarChart: { type: Boolean, required: false, default: true },
@@ -47,7 +47,7 @@ const props = defineProps({
 const leagueStore = useLeagueStore();
 
 // Setup Chart Refs
-let barChartData = ref({ chartOptions: {}, chartSeries: [] });
+let barChartData = ref({});
 
 // Local Refs for Prop Values. Needed to update values for Chart Options.
 let darkModeLocal = ref(props.darkMode);
