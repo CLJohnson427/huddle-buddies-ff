@@ -22,7 +22,11 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
   // Setup the the Line Chart Options Object.
   let lineChartOptions = {
     chart: {
-      type: 'line'
+      type: 'line',
+      zoom: {
+        enabled: true,
+        autoScaleYaxis: true
+      }
     },
     theme: {
       mode: darkMode ? 'dark' : 'light'
