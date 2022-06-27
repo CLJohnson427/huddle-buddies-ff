@@ -12,7 +12,7 @@
     </select>
 
     <br /><br />
-
+    
     <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="false" :height="800" :width="'100%'"
       :stackedBarChart="false" :verticalBarChart="true"
       :includeWins="true" :includeLosses="true"
@@ -25,6 +25,12 @@
     <WeeklyStandingsLineChart :leagueId="selectedLeagueId" :darkMode="false"
       :height="800" :width="'100%'">
     </WeeklyStandingsLineChart>
+
+    <br /><hr /><br />
+
+    <LeaguePointsLineChart :leagueId="selectedLeagueId" :darkMode="false"
+      :height="800" :width="'100%'">
+    </LeaguePointsLineChart>
   </div>
 </template>
 
@@ -34,6 +40,7 @@ import { useLeagueStore } from "@/store/useLeague.js";
 import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 import LeagueStandingsBarChart from '@/components/LeagueStandingsBarChart.vue'
 import WeeklyStandingsLineChart from '@/components/WeeklyStandingsLineChart.vue'
+import LeaguePointsLineChart from '@/components/LeaguePointsLineChart.vue'
 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();
