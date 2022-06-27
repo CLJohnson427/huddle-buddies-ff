@@ -1,12 +1,12 @@
 <template>
   <div class="leagueStandingsBarChart">
-    <div v-if="lineChartData">
+    <div v-if="chartData">
       <apexchart
         type="line"
         :height="height"
         :width="width"
-        :options="lineChartData.chartOptions"
-        :series="lineChartData.chartSeries"
+        :options="chartData.chartOptions"
+        :series="chartData.chartSeries"
       ></apexchart>
     </div>
   </div>
@@ -33,25 +33,27 @@ const props = defineProps({
 const leagueStore = useLeagueStore();
 
 // Setup Chart Refs
-let lineChartData = ref();
+let chartData = ref();
 
 async function getChartData(leagueId) {
   // Get League Standing Data.
-  await leagueStore.getLeagueStandings(leagueId);
+  if (leagueStore.standings.league_id !== leagueId) {
+    await leagueStore.getLeagueStandings(leagueId);
+  }
 
-  // Weekly Standings Line Chart Data
-  lineChartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings), { darkMode: props.darkMode });
+  // Weekly Standings Chart Data
+  chartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings), { darkMode: props.darkMode });
 }
 
 // onBeforeMount Lifecycle Hook
 onBeforeMount(async () => {
-  // Get League Standing Data and Line Chart Data.
+  // Get League Standing Data and Chart Data.
   await getChartData(props.leagueId);
 })
 
 // Update the League Data when the LeagueId Prop is changed.
 watch(() => props.leagueId, async () => {
-  // Get League Standing Data and Line Chart Data with the new LeagueId.
+  // Get League Standing Data and Chart Data with the new LeagueId.
   await getChartData(props.leagueId);
 })
 </script>

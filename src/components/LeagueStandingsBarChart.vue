@@ -8,13 +8,13 @@
     <button @click="includeMedianLocal = !includeMedianLocal">Include Median</button>
     <button @click="combineMedianLocal = !combineMedianLocal">Combine Median</button>
 
-    <div v-if="barChartData.chartSeries">
+    <div v-if="chartData.chartSeries">
       <apexchart
         type="bar"
         :height="height"
         :width="width"
-        :options="barChartData.chartOptions"
-        :series="barChartData.chartSeries"
+        :options="chartData.chartOptions"
+        :series="chartData.chartSeries"
       ></apexchart>
     </div>
     <div v-else>
@@ -47,7 +47,7 @@ const props = defineProps({
 const leagueStore = useLeagueStore();
 
 // Setup Chart Refs
-let barChartData = ref({});
+let chartData = ref({});
 
 // Local Refs for Prop Values. Needed to update values for Chart Options.
 let darkModeLocal = ref(props.darkMode);
@@ -64,8 +64,8 @@ async function getChartData(leagueId) {
     await leagueStore.getLeagueStandings(leagueId);
   }
   
-  // League Standings Bar Chart Data
-   barChartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {
+  // League Standings Chart Data
+   chartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {
     darkMode: darkModeLocal.value, stackedBarChart: stackedBarChartLocal.value, verticalBarChart: verticalBarChartLocal.value,
     includeWins: includeWinsLocal.value, includeLosses: includeLossesLocal.value,
     includeMedian: includeMedianLocal.value, combineMedian: combineMedianLocal.value
@@ -74,13 +74,13 @@ async function getChartData(leagueId) {
 
 // onBeforeMount Lifecycle Hook
 onBeforeMount(async () => {
-  // Get League Standing Data and Bar Chart Data.
+  // Get League Standing Data and Chart Data.
   await getChartData(props.leagueId);
 })
 
 // Update the League Data when the LeagueId Prop is changed.
 watch(() => props.leagueId, async () => {
-  // Get League Standing Data and Bar Chart Data with the new LeagueId.
+  // Get League Standing Data and Chart Data with the new LeagueId.
   await getChartData(props.leagueId);
 })
 
@@ -95,8 +95,8 @@ watch(stackedBarChartLocal, () => {
   }
   
   // Set the updated chart options.
-  barChartData.value.chartOptions = {
-    ...barChartData.value.chartOptions,
+  chartData.value.chartOptions = {
+    ...chartData.value.chartOptions,
     ...{
       chart: {
         stacked: stackedBarChartLocal.value
@@ -114,8 +114,8 @@ watch(stackedBarChartLocal, () => {
 // Updated the Chart Options when the verticalBarChartLocal Ref is changed.
 watch(verticalBarChartLocal, () => {
   // Set the updated chart options.
-  barChartData.value.chartOptions = {
-    ...barChartData.value.chartOptions,
+  chartData.value.chartOptions = {
+    ...chartData.value.chartOptions,
     ...{
       plotOptions: {
         bar: {
@@ -128,7 +128,7 @@ watch(verticalBarChartLocal, () => {
 
 // Get the Chart Data and Options again when any of the Wins, Losses, or Median local refs are changed.
 watch([includeWinsLocal, includeLossesLocal, includeMedianLocal, combineMedianLocal], async () => {
-  // Get League Standing Data and Bar Chart Data.
+  // Get League Standing Data and Chart Data.
   await getChartData(props.leagueId);
 })
 </script>
