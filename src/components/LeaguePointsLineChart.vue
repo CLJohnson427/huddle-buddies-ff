@@ -1,5 +1,5 @@
 <template>
-  <div class="leagueStandingsBarChart">
+  <div class="leaguePointsLineChart">
     <div v-if="chartData">
       <apexchart
         type="line"
@@ -15,7 +15,7 @@
 <script setup>
 import { defineProps, onBeforeMount, ref, toRaw, watch } from "vue";
 import { useLeagueStore } from "@/store/useLeague.js";
-import { getWeeklyStandingsLineChartData } from "@/data/chartData.js";
+import { getLeaguePointsLineChartData } from "@/data/chartData.js";
 import { getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 
 // Props
@@ -23,10 +23,7 @@ const props = defineProps({
   leagueId: { type: String, required: false, default: getMostRecentLeagueInfo('id') },
   height: { type: [String, Number], required: false, default: 'auto' },
   width: { type: [String, Number], required: false, default: '100%' },
-  darkMode: { type: Boolean, required: false, default: false },
-  // includeWins: { type: Boolean, required: false, default: true },
-  // includeMedian: { type: Boolean, required: false, default: true },
-  // combineMedian: { type: Boolean, required: false, default: false }
+  darkMode: { type: Boolean, required: false, default: false }
 })
 
 // Setup the leagueStore.
@@ -41,19 +38,19 @@ async function getChartData(leagueId) {
     await leagueStore.getLeagueStandings(leagueId);
   }
 
-  // Weekly Standings Chart Data
-  chartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings), { darkMode: props.darkMode });
+  // League Points Chart Data
+  chartData.value = getLeaguePointsLineChartData(toRaw(leagueStore.standings), { darkMode: props.darkMode });
 }
 
 // onBeforeMount Lifecycle Hook
 onBeforeMount(async () => {
-  // Get League Standing Data and Chart Data.
+  // Get League Points Data and Chart Data.
   await getChartData(props.leagueId);
 })
 
 // Update the League Data when the LeagueId Prop is changed.
 watch(() => props.leagueId, async () => {
-  // Get League Standing Data and Chart Data with the new LeagueId.
+  // Get League Points Data and Chart Data with the new LeagueId.
   await getChartData(props.leagueId);
 })
 </script>

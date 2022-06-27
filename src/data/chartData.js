@@ -19,10 +19,14 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
     weeks.push(leagueStandings.standings[1].weeklyStandings[i].week);
   }
 
-  // Setup the the Line Chart Options Object.
-  let lineChartOptions = {
+  // Setup the Chart Options Object.
+  let chartOptions = {
     chart: {
-      type: 'line'
+      type: 'line',
+      zoom: {
+        enabled: false,
+        autoScaleYaxis: true
+      }
     },
     theme: {
       mode: darkMode ? 'dark' : 'light'
@@ -49,8 +53,8 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
     }
   }
 
-  // Setup the Line Chart Series Data.
-  let lineChartSeries = [];
+  // Setup the Chart Series Data.
+  let chartSeries = [];
 
   // Iterate through each leagueStandings.standings property to add each Team to an array.
   let teamStandingsData = [];
@@ -61,20 +65,20 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
   // Sort Teams by Total Wins.
   //teamStandingsData.sort((a, b) => b.totalWins - a.totalWins);
 
-  // Iterate through each Team to setup the Line Chart Series Data.
+  // Iterate through each Team to setup the Chart Series Data.
   for (const team of teamStandingsData) {
     let totalWins = [];
     team.weeklyStandings.forEach((weeklyStanding) => {
       totalWins.push(weeklyStanding.totalWins);
     });
 
-    lineChartSeries.push({
+    chartSeries.push({
       name: `${team.manager.managerName}`,
       data: totalWins
     });
   }
 
-  return { chartOptions: lineChartOptions, chartSeries: lineChartSeries }
+  return { chartOptions, chartSeries }
 }
 
 export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = false, stackedBarChart = false, verticalBarChart = true, includeWins = true, includeLosses = true, includeMedian = true, combineMedian = false } = {}) {
@@ -84,9 +88,9 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
     weeks.push(leagueStandings.standings[1].weeklyStandings[i].week);
   }
 
-  // Setup the Bar Chart Data.
-  let barChartCategories = [];
-  let barChartColors = [];
+  // Setup the Chart Data.
+  let chartCategories = [];
+  let chartColors = [];
   let totalWins = [];
   let playerWins = [];
   let medianWins = [];
@@ -109,9 +113,9 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
     teamStandingsData.sort((a, b) => b.totalLosses - a.totalLosses);
   }
 
-  // Iterate through each Team to setup the Bar Chart Data.
+  // Iterate through each Team to setup the Chart Data.
   for (const team of teamStandingsData) {
-    barChartCategories.push(`${team.manager.managerName}`)
+    chartCategories.push(`${team.manager.managerName}`)
     totalWins.push(team.totalWins);
     playerWins.push(team.playerWins);
     medianWins.push(team.medianWins);
@@ -120,8 +124,8 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
     medianLosses.push(team.medianLosses);
   }
 
-  // Setup the the Bar Chart Options Object.
-  let barChartOptions = {
+  // Setup the the Chart Options Object.
+  let chartOptions = {
     chart: {
       type: 'bar',
       stacked: false,
@@ -147,7 +151,7 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
     },
     xaxis: {
       type: 'category',
-      categories: barChartCategories,
+      categories: chartCategories,
       min: 0,
       max: weeks.length,
       tickAmount: weeks.length,
@@ -167,50 +171,50 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
 
   // Update the Chart Options for a Stacked Bar Chart.
   if (stackedBarChart) {
-    barChartOptions.chart.stacked = true;
-    barChartOptions.xaxis.max = leagueStandings.medianMatch ? weeks.length * 2 : weeks.length;
-    barChartOptions.yaxis.max = leagueStandings.medianMatch ? weeks.length * 2 : weeks.length;
+    chartOptions.chart.stacked = true;
+    chartOptions.xaxis.max = includeMedian ? weeks.length * 2 : weeks.length;
+    chartOptions.yaxis.max = includeMedian ? weeks.length * 2 : weeks.length;
   }
 
   // Update the Chart Options for a Vertical Bar Chart.
   if (verticalBarChart) {
-    barChartOptions.plotOptions.bar.horizontal = false;
+    chartOptions.plotOptions.bar.horizontal = false;
   }
 
   // Update the Chart Options if the median data is combined or separated.
   if (combineMedian) {
-    barChartOptions.xaxis.max = leagueStandings.medianMatch ? weeks.length * 2 : weeks.length;
-    barChartOptions.yaxis.max = leagueStandings.medianMatch ? weeks.length * 2 : weeks.length;
+    chartOptions.xaxis.max = leagueStandings.medianMatch ? weeks.length * 2 : weeks.length;
+    chartOptions.yaxis.max = leagueStandings.medianMatch ? weeks.length * 2 : weeks.length;
   }
   
-  // Setup the Bar Chart Series Data.
-  let barChartSeries = [];
+  // Setup the Chart Series Data.
+  let chartSeries = [];
 
   // Wins
   if (includeWins) {
     if (combineMedian) {
       // Set Total Wins Data & Color.
-      barChartSeries.push({
+      chartSeries.push({
         name: 'Total Wins',
         data: totalWins
       });
-      barChartColors.push('#00e396');
+      chartColors.push('#00e396');
     }
     else {
       // Set Player Wins Data & Color.
-      barChartSeries.push({
+      chartSeries.push({
         name: 'Player Wins',
         data: playerWins
       });
-      barChartColors.push('#00e396');
+      chartColors.push('#00e396');
 
       if (includeMedian) {
         // Set Median Wins Data & Color.
-        barChartSeries.push({
+        chartSeries.push({
           name: 'Median Wins',
           data: medianWins
         });
-        barChartColors.push('#008ffb');
+        chartColors.push('#008ffb');
       }
     }
   }
@@ -218,33 +222,100 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
   if (includeLosses) {
     if (combineMedian) {
       // Set Total Losses Data & Color.
-      barChartSeries.push({
+      chartSeries.push({
         name: 'Total Losses',
         data: totalLosses
       });
-      barChartColors.push('#ff4560');
+      chartColors.push('#ff4560');
     }
     else {
       // Set Player Losses Data & Color.
-      barChartSeries.push({
+      chartSeries.push({
         name: 'Player Losses',
         data: playerLosses
       });
-      barChartColors.push('#ff4560');
+      chartColors.push('#ff4560');
 
       if (includeMedian) {
         // Set Median Losses Data & Color.
-        barChartSeries.push({
+        chartSeries.push({
           name: 'Median Losses',
           data: medianLosses
         });
-        barChartColors.push('#feb019');
+        chartColors.push('#feb019');
       }
     }
   }
 
-  // Set the Bar Chart Colors.
-  barChartOptions.colors = barChartColors;
+  // Set the Chart Colors.
+  chartOptions.colors = chartColors;
 
-  return { chartOptions: barChartOptions, chartSeries: barChartSeries }
+  return { chartOptions, chartSeries }
+}
+
+export function getLeaguePointsLineChartData(leagueStandings, { darkMode = false } = {}) {
+  // Setup the Chart Data.
+  let chartSeries = [];
+  let chartCategories = [];
+  let totalPointsFor = [];
+  let totalPointsAgainst = [];
+
+  // Iterate through each leagueStandings.standings property to add each Team to an array.
+  let teamStandingsData = [];
+  for (const key in leagueStandings.standings) {
+    teamStandingsData.push(leagueStandings.standings[key]);
+  }
+
+  // Sort Teams by Total Wins.
+  teamStandingsData.sort((a, b) => b.totalWins - a.totalWins);
+
+  // Iterate through each Team to setup the Chart Categories and Series Data.
+  for (const team of teamStandingsData) {
+    chartCategories.push(`${team.manager.managerName}`)
+    totalPointsFor.push(team.totalPointsFor);
+    totalPointsAgainst.push(team.totalPointsAgainst);
+  }
+
+  // Setup the Chart Series Data.
+  chartSeries.push({
+    name: `Points For`,
+    data: totalPointsFor
+  });
+
+  chartSeries.push({
+    name: `Points Against`,
+    data: totalPointsAgainst
+  });
+
+  // Setup the the Chart Options Object.
+  let chartOptions = {
+    chart: {
+      type: 'line',
+      zoom: {
+        enabled: false
+      }
+    },
+    theme: {
+      mode: darkMode ? 'dark' : 'light'
+    },
+    title: {
+      text:`${leagueStandings.seasonYear} Points For/Against`,
+      align: 'center'
+    },
+    colors: ['#00e396', '#ff4560'],
+    xaxis: {
+      type: 'category',
+      categories: chartCategories,
+      title: {
+        text: 'Teams'
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Points'
+      }
+    }
+  }
+
+  return { chartOptions, chartSeries }
 }
