@@ -1,16 +1,16 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-// import eslintPlugin from "vite-plugin-eslint";
-import { fileURLToPath, URL } from "url";
+import path from 'path'
+import { defineConfig } from 'vite';
+import Vue from '@vitejs/plugin-vue';
+import eslintPlugin from 'vite-plugin-eslint';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === "production" ? '/huddle-buddies-ff/' : '/',
-  plugins: [vue()],
-  // plugins: [vue(), eslintPlugin()],
+  base: process.env.NODE_ENV === 'production' ? '/huddle-buddies-ff/' : '/',
+  // plugins: [Vue()],
+  plugins: [Vue(), eslintPlugin()],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      '@': `${path.resolve(__dirname, 'src')}/`
     },
   },
 });

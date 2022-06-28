@@ -12,5 +12,6 @@ module.exports = {
     // 'vue/no-unused-vars': 'error'
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "brace-style": ["error", "stroustrup", { allowSingleLine: true }]
   },
 };
