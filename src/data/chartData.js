@@ -50,6 +50,13 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
       title: {
         text: 'Wins'
       }
+    },
+    markers: {
+      size: 0, // 4
+      shape: "circle",
+      hover: {
+        sizeOffset: 3
+      }
     }
   }
 
@@ -313,6 +320,13 @@ export function getLeaguePointsLineChartData(leagueStandings, { darkMode = false
     yaxis: {
       title: {
         text: 'Points'
+      }
+    },
+    markers: {
+      size: 5,
+      shape: "circle",
+      hover: {
+        sizeOffset: 3
       }
     }
   }
