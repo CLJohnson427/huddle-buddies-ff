@@ -262,19 +262,24 @@ watch([includeWinsLocal, includeLossesLocal, includeMedianLocal, combineMedianLo
 })
 </script>
 
-<style>
-.leagueStandingsBarChart .chartIcons {
-  display: flex;
-  justify-content: center;
-}
-
-@media screen and (min-width: 960px) {
-  .leagueStandingsBarChart .chartIcons {
+<style lang="scss">
+.leagueStandingsBarChart {
+  .chartIcons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
   }
-  .leagueStandingsBarChart .chartIcon {
-    cursor: pointer;
+  .chartIcon {
+    color: #2c3e50;
+  }
+
+  @media screen and (min-width: 960px) {
+    .chartIcons {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .chartIcon {
+      cursor: pointer;
+    }
   }
 }
 </style>
