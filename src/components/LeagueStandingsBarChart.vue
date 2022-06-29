@@ -2,64 +2,64 @@
   <div class="leagueStandingsBarChart">
     <div v-if="chartData.chartSeries">
       <div class="chartIcons">
-        <div class="chartIcon" :title="stackedBarChartLocal ? 'Bar Chart' : 'Stacked Chart'">
-          <Icon v-if="stackedBarChartLocal"
+        <div class="chartIcon" :title="stackedBarChart ? 'Bar Chart' : 'Stacked Chart'">
+          <Icon v-if="stackedBarChart"
             icon="mdi:chart-bar" :height="chartIconHeight" :width="chartIconWidth"
-            @click="stackedBarChartLocal = !stackedBarChartLocal"
+            @click="stackedBarChart = !stackedBarChart"
           />
           <Icon v-else
             icon="mdi:chart-bar-stacked" :height="chartIconHeight" :width="chartIconWidth"
-            @click="stackedBarChartLocal = !stackedBarChartLocal"
+            @click="stackedBarChart = !stackedBarChart"
           />
         </div>
-        <div class="chartIcon" :title="verticalBarChartLocal ? 'Horizontal Chart' : 'Vertical Chart'">
-          <Icon v-if="verticalBarChartLocal"
+        <div class="chartIcon" :title="verticalBarChart ? 'Horizontal Chart' : 'Vertical Chart'">
+          <Icon v-if="verticalBarChart"
             icon="mdi:chart-box" :height="chartIconHeight" :width="chartIconWidth"
-            @click="verticalBarChartLocal = !verticalBarChartLocal"
+            @click="verticalBarChart = !verticalBarChart"
           />
           <Icon v-else
             icon="mdi:chart-box-outline" :height="chartIconHeight" :width="chartIconWidth"
-            @click="verticalBarChartLocal = !verticalBarChartLocal"
+            @click="verticalBarChart = !verticalBarChart"
           />
         </div>
-        <div class="chartIcon" :title="includeWinsLocal ? 'Remove Wins' : 'Include Wins'">
-          <Icon v-if="includeWinsLocal"
+        <div class="chartIcon" :title="includeWins ? 'Remove Wins' : 'Include Wins'">
+          <Icon v-if="includeWins"
             icon="mdi:trophy" :height="chartIconHeight" :width="chartIconWidth"
-            @click="includeWinsLocal = !includeWinsLocal"
+            @click="includeWins = !includeWins"
           />
           <Icon v-else
             icon="mdi:trophy-outline" :height="chartIconHeight" :width="chartIconWidth"
-            @click="includeWinsLocal = !includeWinsLocal"
+            @click="includeWins = !includeWins"
           />
         </div>
-        <div class="chartIcon" :title="includeLossesLocal ? 'Remove Losses' : 'Include Losses'">
-          <Icon v-if="includeLossesLocal"
+        <div class="chartIcon" :title="includeLosses ? 'Remove Losses' : 'Include Losses'">
+          <Icon v-if="includeLosses"
             icon="mdi:alpha-l-box" :height="chartIconHeight" :width="chartIconWidth"
-            @click="includeLossesLocal = !includeLossesLocal"
+            @click="includeLosses = !includeLosses"
           />
           <Icon v-else
             icon="mdi:alpha-l-box-outline" :height="chartIconHeight" :width="chartIconWidth"
-            @click="includeLossesLocal = !includeLossesLocal"
+            @click="includeLosses = !includeLosses"
           />
         </div>
-        <div class="chartIcon" :title="includeMedianLocal ? 'Remove Median' : 'Include Median'">
-          <Icon v-if="includeMedianLocal"
+        <div class="chartIcon" :title="includeMedian ? 'Remove Median' : 'Include Median'">
+          <Icon v-if="includeMedian"
             icon="mdi:medal" :height="chartIconHeight" :width="chartIconWidth"
-            @click="includeMedianLocal = !includeMedianLocal"
+            @click="includeMedian = !includeMedian"
           />
           <Icon v-else
             icon="mdi:medal-outline" :height="chartIconHeight" :width="chartIconWidth"
-            @click="includeMedianLocal = !includeMedianLocal"
+            @click="includeMedian = !includeMedian"
           />
         </div>
-        <div class="chartIcon" :title="combineMedianLocal ? 'Separate Player & Median Records' : 'Combine Player & Median Records'">
-          <Icon v-if="combineMedianLocal"
+        <div class="chartIcon" :title="combineMedian ? 'Separate Player & Median Records' : 'Combine Player & Median Records'">
+          <Icon v-if="combineMedian"
             icon="mdi:arrow-expand-horizontal" :height="chartIconHeight" :width="chartIconWidth"
-            @click="combineMedianLocal = !combineMedianLocal"
+            @click="combineMedian = !combineMedian"
           />
           <Icon v-else
             icon="mdi:arrow-collapse-horizontal" :height="chartIconHeight" :width="chartIconWidth"
-            @click="combineMedianLocal = !combineMedianLocal"
+            @click="combineMedian = !combineMedian"
           />
         </div>
       </div>
@@ -108,13 +108,13 @@ let chartIconHeight = ref(40);
 let chartIconWidth = ref(50);
 
 // Local Refs for Prop Values. Needed to update values for Chart Options.
-let darkModeLocal = ref(props.darkMode);
-let stackedBarChartLocal = ref(props.stackedBarChart);
-let verticalBarChartLocal = ref(props.verticalBarChart);
-let includeWinsLocal = ref(props.includeWins);
-let includeLossesLocal = ref(props.includeLosses);
-let includeMedianLocal = ref(props.includeMedian);
-let combineMedianLocal = ref(props.combineMedian);
+let darkMode = ref(props.darkMode);
+let stackedBarChart = ref(props.stackedBarChart);
+let verticalBarChart = ref(props.verticalBarChart);
+let includeWins = ref(props.includeWins);
+let includeLosses = ref(props.includeLosses);
+let includeMedian = ref(props.includeMedian);
+let combineMedian = ref(props.combineMedian);
 
 async function getChartData(leagueId) {
   // Get League Standing Data.
@@ -124,9 +124,9 @@ async function getChartData(leagueId) {
   
   // League Standings Chart Data
    chartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {
-    darkMode: darkModeLocal.value, stackedBarChart: stackedBarChartLocal.value, verticalBarChart: verticalBarChartLocal.value,
-    includeWins: includeWinsLocal.value, includeLosses: includeLossesLocal.value,
-    includeMedian: includeMedianLocal.value, combineMedian: combineMedianLocal.value
+    darkMode: darkMode.value, stackedBarChart: stackedBarChart.value, verticalBarChart: verticalBarChart.value,
+    includeWins: includeWins.value, includeLosses: includeLosses.value,
+    includeMedian: includeMedian.value, combineMedian: combineMedian.value
   });
 
   // Setup the Customized Toolbar Icons in the Chart Options
@@ -145,7 +145,7 @@ async function getChartData(leagueId) {
   //               title: 'Stacked Chart',
   //               class: 'apexcharts-menu-icon',
   //               click: function () {
-  //                 stackedBarChartLocal.value = !stackedBarChartLocal.value
+  //                 stackedBarChart.value = !stackedBarChart.value
   //               }
   //             },
   //             {
@@ -154,7 +154,7 @@ async function getChartData(leagueId) {
   //               title: 'Vertical Chart',
   //               class: 'apexcharts-menu-icon',
   //               click: function () {
-  //                 verticalBarChartLocal.value = !verticalBarChartLocal.value
+  //                 verticalBarChart.value = !verticalBarChart.value
   //               }
   //             },
   //             {
@@ -163,7 +163,7 @@ async function getChartData(leagueId) {
   //               title: 'Include Wins',
   //               class: 'apexcharts-menu-icon',
   //               click: function () {
-  //                 includeWinsLocal.value = !includeWinsLocal.value
+  //                 includeWins.value = !includeWins.value
   //               }
   //             },
   //             {
@@ -172,7 +172,7 @@ async function getChartData(leagueId) {
   //               title: 'Include Losses',
   //               class: 'apexcharts-menu-icon',
   //               click: function () {
-  //                 includeLossesLocal.value = !includeLossesLocal.value
+  //                 includeLosses.value = !includeLosses.value
   //               }
   //             },
   //             {
@@ -181,7 +181,7 @@ async function getChartData(leagueId) {
   //               title: 'Include Median',
   //               class: 'apexcharts-menu-icon',
   //               click: function () {
-  //                 includeMedianLocal.value = !includeMedianLocal.value
+  //                 includeMedian.value = !includeMedian.value
   //               }
   //             },
   //             {
@@ -190,7 +190,7 @@ async function getChartData(leagueId) {
   //               title: 'Combine Median',
   //               class: 'apexcharts-menu-icon',
   //               click: function () {
-  //                 combineMedianLocal.value = !combineMedianLocal.value
+  //                 combineMedian.value = !combineMedian.value
   //               }
   //             },
   //           ]
@@ -214,12 +214,12 @@ watch(() => props.leagueId, async () => {
 })
 
 // Updated the Chart Options when the stackedBarChartLocal Ref is changed.
-watch(stackedBarChartLocal, () => {
+watch(stackedBarChart, () => {
   // Get the number of Regular Season Weeks in the League.
   let weeks = leagueStore.league.settings.playoff_week_start - 1;
 
   // Double the number of weeks if the chart will be changed to a Stacked Chart and the median is included or combined.
-  if (stackedBarChartLocal.value === true && (includeMedianLocal.value === true || combineMedianLocal.value === true)) {
+  if (stackedBarChart.value === true && (includeMedian.value === true || combineMedian.value === true)) {
     weeks *= 2;
   }
   
@@ -228,7 +228,7 @@ watch(stackedBarChartLocal, () => {
     ...chartData.value.chartOptions,
     ...{
       chart: {
-        stacked: stackedBarChartLocal.value
+        stacked: stackedBarChart.value
       },
       xaxis: {
         max: weeks
@@ -241,14 +241,14 @@ watch(stackedBarChartLocal, () => {
 })
 
 // Updated the Chart Options when the verticalBarChartLocal Ref is changed.
-watch(verticalBarChartLocal, () => {
+watch(verticalBarChart, () => {
   // Set the updated chart options.
   chartData.value.chartOptions = {
     ...chartData.value.chartOptions,
     ...{
       plotOptions: {
         bar: {
-          horizontal: !verticalBarChartLocal.value
+          horizontal: !verticalBarChart.value
         },
       },
     }
@@ -256,7 +256,7 @@ watch(verticalBarChartLocal, () => {
 })
 
 // Get the Chart Data and Options again when any of the Wins, Losses, or Median local refs are changed.
-watch([includeWinsLocal, includeLossesLocal, includeMedianLocal, combineMedianLocal], async () => {
+watch([includeWins, includeLosses, includeMedian, combineMedian], async () => {
   // Get League Standing Data and Chart Data.
   await getChartData(props.leagueId);
 })
