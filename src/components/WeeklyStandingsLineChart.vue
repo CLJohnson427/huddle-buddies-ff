@@ -1,5 +1,5 @@
 <template>
-  <div class="leagueStandingsBarChart">
+  <div class="weeklyStandingsLineChart">
     <div v-if="chartData">
       <apexchart
         type="line"
