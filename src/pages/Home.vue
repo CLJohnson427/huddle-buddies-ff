@@ -38,9 +38,6 @@
 import { ref } from "vue";
 // import { useLeagueStore } from "@/store/useLeague.js";
 import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
-import LeagueStandingsBarChart from '@/components/LeagueStandingsBarChart.vue'
-import WeeklyStandingsLineChart from '@/components/WeeklyStandingsLineChart.vue'
-import LeaguePointsLineChart from '@/components/LeaguePointsLineChart.vue'
 
 // Setup the leagueStore.
 // const leagueStore = useLeagueStore();
