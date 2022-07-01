@@ -1,27 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../pages/Home.vue'
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../pages/About.vue')
-  },
-  // {
-  //   path: '/matchups',
-  //   name: 'Matchups',
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/Matchups.vue')
-  // }
-  {
-    path: '/charts',
-    name: 'Charts',
-    component: () => import('../pages/Charts.vue')
-  }
+  { path: '/', name: 'Home', component: () => import('@/pages/Home.vue') },
+  { path: '/about', name: 'About', component: () => import('@/pages/About.vue') },
+  { path: '/charts', name: 'Charts', component: () => import('@/pages/Charts.vue') },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/pages/Home.vue') }
 ]
 
 const router = createRouter({
