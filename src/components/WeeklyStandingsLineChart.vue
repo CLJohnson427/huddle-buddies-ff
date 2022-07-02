@@ -9,6 +9,9 @@
         :series="chartData.chartSeries"
       ></apexchart>
     </div>
+    <div v-else>
+      Loading Weekly Standings Chart...
+    </div>
   </div>
 </template>
 
@@ -36,6 +39,11 @@ const leagueStore = useLeagueStore();
 let chartData = ref();
 
 async function getChartData(leagueId) {
+  // Setup options to show the chart as loading if options are not available.
+  // if (!chartData.value) {
+  //   chartData.value = getLoadingChartOptions(props.darkMode);
+  // }
+
   // Get League Standing Data.
   if (leagueStore.standings.league_id !== leagueId) {
     await leagueStore.getLeagueStandings(leagueId);
