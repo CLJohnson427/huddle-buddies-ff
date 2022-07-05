@@ -12,6 +12,32 @@ export const teamChartColors = [
   '#8c564b' // Miller
 ]
 
+export function getLoadingChartOptions({ darkMode = false } = {}) {
+   // Setup the the Chart Options Object.
+   let chartOptions = {
+    theme: {
+      mode: darkMode ? 'dark' : 'light'
+    },
+    dataLabels: {
+      style: {
+        colors: darkMode ? ['#ffffff'] : ['#000000']
+      }
+    },
+    noData: {
+      text: 'Loading Chart...',
+      align: 'center',
+      verticalAlign: 'middle',
+      style: {
+        fontSize: '1.5rem',
+      }
+    }
+  };
+
+  let chartSeries = [];
+
+  return { chartOptions, chartSeries }
+}
+
 export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = false } = {}) {
   // Setup League Weeks Data
   let weeks = [];
