@@ -59,14 +59,10 @@ onBeforeMount(async () => {
   await getChartData(props.leagueId);
 })
 
-// Update the League Data when the LeagueId Prop is changed.
-watch(() => props.leagueId, async () => {
+// Update the League Data when the LeagueId Prop is changed or the
+// Chart Theme when the DarkMode Prop is changed.
+watch([() => props.leagueId, () => props.darkMode], async () => {
   // Get League Standing Data and Chart Data with the new LeagueId.
-  await getChartData(props.leagueId);
-})
-
-// Update the Chart Theme when the DarkMode Prop is changed.
-watch(() => props.darkMode, async () => {
   await getChartData(props.leagueId);
 })
 </script>
