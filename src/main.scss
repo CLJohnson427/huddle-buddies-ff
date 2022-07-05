@@ -1,3 +1,90 @@
-// body {
-//   background-color: #1c1c1c;
-// }
+//*
+:root {
+  --bg-primary: #fff;
+  --bg-secondary: #ebedef;
+  --bg-tertiary: #e3e5e8;
+  --text-primary: #212121;
+  --text-secondary: #717171;
+  --sidebar-bg-primary: #202225;
+  --sidebar-bg-active: #141418;
+  --sidebar-text-primary: #fbfbfb;
+  --sidebar-text-secondary: #c8c8c8;
+  --sidebar-icon-primary: #00b3f4;
+  --icon-primary: #2c3e50;
+
+  --transition-speed: 600ms;
+}
+:root.dark-theme {
+  --bg-primary: #2f3136;
+  --bg-secondary: #36393f;
+  --bg-tertiary: #4f545c;
+  --text-primary: #fbfbfb;
+  --text-secondary: #c8c8c8;
+  --sidebar-bg-primary: #202225;
+  --sidebar-bg-active: #141418;
+  --sidebar-text-primary: #fbfbfb;
+  --sidebar-text-secondary: #c8c8c8;
+  --sidebar-icon-primary: #00b3f4;
+  --icon-primary: #fbfbfb;
+
+  --transition-speed: 600ms;
+}
+
+body {
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+main {
+  margin-left: 5rem;
+  padding: 1rem;
+}
+//*/
+
+/* SideBarNavTest2
+:root {
+  --primary: #4ade80;
+	--primary-alt: #22c55e;
+	--grey: #64748b;
+	--dark: #1e293b;
+	--dark-alt: #334155;
+	--light: #f1f5f9;
+	--sidebar-width: 300px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: var(--light);
+}
+
+button {
+  cursor: pointer;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.app {
+  display: flex;
+  main {
+    flex: 1 1 0;
+    padding: 2rem;
+    // @media screen and (max-width: 1024px) {
+    //   padding-left: 6rem;
+    // }
+    @media (max-width: 1024px) {
+			padding-left: 6rem;
+		}
+  }
+}
+//*/

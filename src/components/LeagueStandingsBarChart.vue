@@ -274,7 +274,7 @@ watch([includeWins, includeLosses, includeMedian, combineMedian], async () => {
     justify-content: center;
   }
   .chartIcon {
-    color: #2c3e50;
+    color: var(--icon-primary);
   }
 
   @media screen and (min-width: 960px) {

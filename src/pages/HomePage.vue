@@ -1,7 +1,6 @@
 <template>
-  <div class="home">
-    <img alt="Huddle Buddies logo" src="../assets/huddle-buddies-thumbnail.png" />
-    <h1>Huddle Buddies Dynasty Fantasy Football</h1>
+  <main class="home">
+    <h1>Huddle Buddies Fantasy Football</h1>
     <hr /><br />
 
     <span>League Year: </span>
@@ -13,7 +12,7 @@
 
     <br /><br />
     
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="false" :height="800" :width="'100%'"
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="true" :height="800" :width="'100%'"
       :stackedBarChart="false" :verticalBarChart="true"
       :includeWins="true" :includeLosses="true"
       :includeMedian="true" :combineMedian="false"
@@ -22,16 +21,16 @@
 
     <br /><hr /><br />
 
-    <WeeklyStandingsLineChart :leagueId="selectedLeagueId" :darkMode="false"
+    <WeeklyStandingsLineChart :leagueId="selectedLeagueId" :darkMode="true"
       :height="800" :width="'100%'">
     </WeeklyStandingsLineChart>
 
     <br /><hr /><br />
 
-    <LeaguePointsLineChart :leagueId="selectedLeagueId" :darkMode="false"
+    <LeaguePointsLineChart :leagueId="selectedLeagueId" :darkMode="true"
       :height="800" :width="'100%'">
     </LeaguePointsLineChart>
-  </div>
+  </main>
 </template>
 
 <script setup>
