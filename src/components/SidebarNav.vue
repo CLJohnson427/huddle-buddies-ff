@@ -27,18 +27,26 @@
           <span class="nav-link-text">About</span>
         </router-link>
       </li>
-      <li class="nav-item">
-        <div class="nav-link" @click="leagueStore.changeTheme()">
-          <Icon v-if="leagueStore.darkTheme"
-            class="nav-icon" icon="mdi:brightness-7" height="32" width="32"
-          />
-          <Icon v-else
-            class="nav-icon" icon="mdi:brightness-4" height="32" width="32"
-          />
-          <span v-if="leagueStore.darkTheme" class="nav-link-text">Light Theme</span>
-          <span v-else class="nav-link-text">Dark Theme</span>
-        </div>
-      </li>
+      <div class="nav-bottom-section">
+        <li class="nav-item">
+          <router-link :to="{ name: 'Github' }" class="nav-link">
+          <Icon class="nav-icon" icon="mdi:github" height="32" width="32" />
+          <span class="nav-link-text">Source Code</span>
+        </router-link>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" @click="leagueStore.changeTheme()">
+            <Icon v-if="leagueStore.darkTheme"
+              class="nav-icon" icon="mdi:brightness-7" height="32" width="32"
+            />
+            <Icon v-else
+              class="nav-icon" icon="mdi:brightness-4" height="32" width="32"
+            />
+            <span v-if="leagueStore.darkTheme" class="nav-link-text">Light Theme</span>
+            <span v-else class="nav-link-text">Dark Theme</span>
+          </div>
+        </li>
+      </div>
     </ul>
   </nav>
 </template>
@@ -75,8 +83,12 @@ const leagueStore = useLeagueStore();
   width: 100%;
 }
 
-.nav-item:last-child {
+// .nav-item:last-child {
+//   margin-top: auto;
+// }
+.nav-bottom-section {
   margin-top: auto;
+  width: 100%;
 }
 
 .nav-link {
