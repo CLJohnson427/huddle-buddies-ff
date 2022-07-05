@@ -64,6 +64,11 @@ watch(() => props.leagueId, async () => {
   // Get League Standing Data and Chart Data with the new LeagueId.
   await getChartData(props.leagueId);
 })
+
+// Update the Chart Theme when the DarkMode Prop is changed.
+watch(() => props.darkMode, async () => {
+  await getChartData(props.leagueId);
+})
 </script>
 
 <style>

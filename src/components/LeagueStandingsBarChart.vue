@@ -108,7 +108,6 @@ let chartIconHeight = ref(40);
 let chartIconWidth = ref(50);
 
 // Local Refs for Prop Values. Needed to update values for Chart Options.
-let darkMode = ref(props.darkMode);
 let stackedBarChart = ref(props.stackedBarChart);
 let verticalBarChart = ref(props.verticalBarChart);
 let includeWins = ref(props.includeWins);
@@ -129,7 +128,7 @@ async function getChartData(leagueId) {
   
   // League Standings Chart Data
    chartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {
-    darkMode: darkMode.value, stackedBarChart: stackedBarChart.value, verticalBarChart: verticalBarChart.value,
+    darkMode: props.darkMode, stackedBarChart: stackedBarChart.value, verticalBarChart: verticalBarChart.value,
     includeWins: includeWins.value, includeLosses: includeLosses.value,
     includeMedian: includeMedian.value, combineMedian: combineMedian.value
   });
@@ -215,6 +214,11 @@ onBeforeMount(async () => {
 // Update the League Data when the LeagueId Prop is changed.
 watch(() => props.leagueId, async () => {
   // Get League Standing Data and Chart Data with the new LeagueId.
+  await getChartData(props.leagueId);
+})
+
+// Update the Chart Theme when the DarkMode Prop is changed.
+watch(() => props.darkMode, async () => {
   await getChartData(props.leagueId);
 })
 

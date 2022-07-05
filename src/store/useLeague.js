@@ -12,6 +12,7 @@ import { getSportState } from '@/data/sleeper/sportState.js';
 export const useLeagueStore = defineStore('leagueStore', {
   state: () => ({
     // counter: 0,
+    darkTheme: true,
     league: {},
     leagueId: getMostRecentLeagueInfo('id'),
     leagueYear: getMostRecentLeagueInfo('year'),
@@ -34,6 +35,17 @@ export const useLeagueStore = defineStore('leagueStore', {
     // addOne() {
     //   this.counter++;
     // },
+    changeTheme() {
+      // Toggle Dark/Light Theme.
+      this.darkTheme = !this.darkTheme;
+      
+      if (this.darkTheme) {
+        document.documentElement.classList.add('dark-theme');
+      }
+      else {
+        document.documentElement.classList.remove('dark-theme');
+      }
+    },
     async getLeagueInfo(leagueId = null) {
       this.league = await getLeagueInfo(leagueId ? leagueId : this.leagueId);
     },

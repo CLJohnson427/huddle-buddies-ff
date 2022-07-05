@@ -27,13 +27,28 @@
           <span class="nav-link-text">About</span>
         </router-link>
       </li>
+      <li class="nav-item">
+        <div class="nav-link" @click="leagueStore.changeTheme()">
+          <Icon v-if="leagueStore.darkTheme"
+            class="nav-icon" icon="mdi:brightness-7" height="32" width="32"
+          />
+          <Icon v-else
+            class="nav-icon" icon="mdi:brightness-4" height="32" width="32"
+          />
+          <span v-if="leagueStore.darkTheme" class="nav-link-text">Light Theme</span>
+          <span v-else class="nav-link-text">Dark Theme</span>
+        </div>
+      </li>
     </ul>
   </nav>
 </template>
 
 <script setup>
 import { Icon } from '@iconify/vue'
+import { useLeagueStore } from "@/store/useLeague.js";
 
+// Setup the leagueStore.
+const leagueStore = useLeagueStore();
 </script>
 
 <style lang="scss" scoped>
