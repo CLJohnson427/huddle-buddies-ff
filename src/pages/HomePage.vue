@@ -1,10 +1,10 @@
 <template>
   <main class="home">
-    <h1>Huddle Buddies Fantasy Football</h1>
+    <h1 class="text-4xl mb-4 font-bold">Huddle Buddies Fantasy Football</h1>
     <hr /><br />
 
-    <span>League Year: </span>
-    <select v-model="selectedLeagueId">
+    <span class="font-bold">League Year: </span>
+    <select v-model="selectedLeagueId" class="text-black rounded-sm p-1">
       <option v-for="league in leagueIds" :value="league.leagueId" :key="league.leagueId">
         {{ league.year }}
       </option>
