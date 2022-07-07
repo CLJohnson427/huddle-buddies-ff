@@ -5,6 +5,7 @@
   --bg-tertiary: #e3e5e8;
   --text-primary: #212121;
   --text-secondary: #717171;
+  --sidebar-width: 5rem;
   --sidebar-bg-primary: #202225;
   --sidebar-bg-active: #141418;
   --sidebar-text-primary: #fbfbfb;
@@ -14,12 +15,13 @@
 
   --transition-speed: 600ms;
 }
-:root.dark-theme {
+:root.dark {
   --bg-primary: #2f3136;
   --bg-secondary: #36393f;
   --bg-tertiary: #4f545c;
   --text-primary: #fbfbfb;
   --text-secondary: #c8c8c8;
+  // --sidebar-width: 5rem;
   --sidebar-bg-primary: #202225;
   --sidebar-bg-active: #141418;
   --sidebar-text-primary: #fbfbfb;
@@ -39,8 +41,11 @@ body {
 }
 
 main {
-  margin-left: 5rem;
-  padding: 1rem;
+  // margin-left: var(--sidebar-width);
+  // margin-left: 5rem;
+  // padding: 1rem;
+
+  margin: 20px 10px;
 }
 //*/
 

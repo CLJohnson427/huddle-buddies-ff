@@ -40,10 +40,10 @@ export const useLeagueStore = defineStore('leagueStore', {
       this.darkTheme = !this.darkTheme;
       
       if (this.darkTheme) {
-        document.documentElement.classList.add('dark-theme');
+        document.documentElement.classList.add('dark');
       }
       else {
-        document.documentElement.classList.remove('dark-theme');
+        document.documentElement.classList.remove('dark');
       }
     },
     async getLeagueInfo(leagueId = null) {

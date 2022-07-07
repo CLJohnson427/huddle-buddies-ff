@@ -1,5 +1,4 @@
 <template>
-  <SidebarNav />
   <router-view/>
 </template>
 
@@ -9,6 +8,5 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin-right: 0.2rem;
 }
 </style>

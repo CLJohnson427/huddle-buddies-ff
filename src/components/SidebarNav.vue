@@ -29,7 +29,7 @@
       </li>
       <div class="nav-bottom-section">
         <li class="nav-item">
-          <router-link :to="{ name: 'Github' }" class="nav-link">
+          <router-link :to="{ name: 'Github' }" class="nav-link" target="_blank">
           <Icon class="nav-icon" icon="mdi:github" height="32" width="32" />
           <span class="nav-link-text">Source Code</span>
         </router-link>
@@ -64,7 +64,7 @@ const leagueStore = useLeagueStore();
   position: fixed;
   background-color: var(--sidebar-bg-primary);
   transition: width 200ms ease;
-  width: 5rem;
+  width: var(--sidebar-width);
   height: 100vh;
   z-index: 50;
 }
