@@ -52,7 +52,9 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
       zoom: {
         enabled: false,
         autoScaleYaxis: true
-      }
+      },
+      background: darkMode ? getComputedStyle(document.documentElement).getPropertyValue('--bg-secondary')
+        : getComputedStyle(document.documentElement).getPropertyValue('--bg-primary')
     },
     theme: {
       mode: darkMode ? 'dark' : 'light'
@@ -162,6 +164,8 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
     chart: {
       type: 'bar',
       stacked: false,
+      background: darkMode ? getComputedStyle(document.documentElement).getPropertyValue('--bg-secondary')
+        : getComputedStyle(document.documentElement).getPropertyValue('--bg-primary')
     },
     plotOptions: {
       bar: {
@@ -326,7 +330,9 @@ export function getLeaguePointsLineChartData(leagueStandings, { darkMode = false
       type: 'line',
       zoom: {
         enabled: false
-      }
+      },
+      background: darkMode ? getComputedStyle(document.documentElement).getPropertyValue('--bg-secondary')
+        : getComputedStyle(document.documentElement).getPropertyValue('--bg-primary')
     },
     theme: {
       mode: darkMode ? 'dark' : 'light'

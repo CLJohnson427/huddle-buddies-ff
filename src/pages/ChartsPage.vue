@@ -1,5 +1,5 @@
 <template>
-  <div class="charts">
+  <main class="charts">
     <hr />
     <img alt="Huddle Buddies logo" src="../assets/huddle-buddies-thumbnail.png" />
     <h1>This is the charts page</h1>
@@ -44,7 +44,7 @@
       ></apexchart>
     </div>
 
-  </div>
+  </main>
 </template>
 
 <script setup>
