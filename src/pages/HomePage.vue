@@ -1,6 +1,19 @@
 <template>
   <main class="home">
-    <h1 class="text-4xl mb-4 font-bold">Huddle Buddies Fantasy Football</h1>
+    <!-- <h1 class="text-4xl mb-4 font-bold">Huddle Buddies Fantasy Football</h1> -->
+
+    <div class="flex mb-2">
+      <img src="@/assets/huddle-buddies-thumbnail.png" alt="Huddle Buddies Logo" class="hidden md:flex">
+      <h1 class="text-4xl mb-4 font-bold flex justify-center items-center w-11/12">Huddle Buddies Fantasy Football</h1>
+      <div class="flex justify-center items-center w-1/12" @click="leagueStore.changeTheme()">
+        <Icon v-if="leagueStore.darkTheme"
+          class="text-white" icon="mdi:brightness-7" height="32" width="32"
+        />
+        <Icon v-else
+          class="text-black" icon="mdi:brightness-4" height="32" width="32"
+        />
+      </div>
+    </div>
     <hr /><br />
 
     <span class="font-bold">League Year: </span>
@@ -35,6 +48,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { Icon } from '@iconify/vue';
 import { useLeagueStore } from "@/store/useLeague.js";
 import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 
