@@ -1,5 +1,8 @@
 <template>
-  <router-view/>
+  <div class="flex">
+    <NavBar />
+    <router-view class="p-7 w-full" />
+  </div>
 </template>
 
 <style lang="scss">
