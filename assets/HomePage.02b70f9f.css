@@ -1,0 +1,1 @@
+.leagueStandingsBarChart .chartIcons{display:flex;justify-content:center}.leagueStandingsBarChart .chartIcon{color:var(--icon-primary)}@media screen and (min-width: 960px){.leagueStandingsBarChart .chartIcons{display:flex;justify-content:flex-end}.leagueStandingsBarChart .chartIcon{cursor:pointer}}
