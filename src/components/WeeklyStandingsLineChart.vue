@@ -1,6 +1,18 @@
 <template>
   <div class="weeklyStandingsLineChart">
     <div v-if="chartData">
+      <div class="chartIcons">
+        <div class="chartIcon" :title="includeChartMarkers ? 'Remove Chart Markers' : 'Include Chart Markers'">
+          <Icon v-if="includeChartMarkers"
+            icon="mdi:chart-line-variant" :height="chartIconHeight" :width="chartIconWidth"
+            @click="includeChartMarkers = !includeChartMarkers"
+          />
+          <Icon v-else
+            icon="mdi:chart-timeline-variant" :height="chartIconHeight" :width="chartIconWidth"
+            @click="includeChartMarkers = !includeChartMarkers"
+          />
+        </div>
+      </div>
       <apexchart
         type="line"
         :height="height"
@@ -17,6 +29,7 @@
 
 <script setup>
 import { defineProps, onBeforeMount, ref, toRaw, watch } from "vue";
+import { Icon } from '@iconify/vue'
 import { useLeagueStore } from "@/store/useLeague.js";
 import { getWeeklyStandingsLineChartData } from "@/data/chartData.js";
 import { getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
@@ -27,6 +40,7 @@ const props = defineProps({
   height: { type: [String, Number], required: false, default: 'auto' },
   width: { type: [String, Number], required: false, default: '100%' },
   darkMode: { type: Boolean, required: false, default: false },
+  includeChartMarkers: { type: Boolean, required: false, default: false }
   // includeWins: { type: Boolean, required: false, default: true },
   // includeMedian: { type: Boolean, required: false, default: true },
   // combineMedian: { type: Boolean, required: false, default: false }
@@ -37,6 +51,11 @@ const leagueStore = useLeagueStore();
 
 // Setup Chart Refs
 let chartData = ref();
+let chartIconHeight = ref(40);
+let chartIconWidth = ref(50);
+
+// Local Refs for Prop Values. Needed to update values for Chart Options.
+let includeChartMarkers = ref(props.includeChartMarkers);
 
 async function getChartData(leagueId) {
   // Setup options to show the chart as loading if options are not available.
@@ -65,8 +84,43 @@ watch([() => props.leagueId, () => props.darkMode], async () => {
   // Get League Standing Data and Chart Data with the new LeagueId.
   await getChartData(props.leagueId);
 })
+
+// Updated the Chart Options when the includeChartMarkers Ref is changed.
+watch(includeChartMarkers, () => {
+  // Set the updated chart options.
+  chartData.value.chartOptions = {
+    ...chartData.value.chartOptions,
+    ...{
+      markers: {
+      size: includeChartMarkers.value ? 5 : 0,
+      shape: "circle",
+      hover: {
+        sizeOffset: 3
+      }
+    }
+    }
+  };
+})
 </script>
 
-<style>
+<style lang="scss">
+.weeklyStandingsLineChart {
+  .chartIcons {
+    display: flex;
+    justify-content: center;
+  }
+  .chartIcon {
+    color: var(--icon-primary);
+  }
 
+  @media screen and (min-width: 960px) {
+    .chartIcons {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .chartIcon {
+      cursor: pointer;
+    }
+  }
+}
 </style>
