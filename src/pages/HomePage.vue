@@ -1,7 +1,5 @@
 <template>
   <main class="home">
-    <!-- <h1 class="text-4xl mb-4 font-bold">Huddle Buddies Fantasy Football</h1> -->
-
     <div class="flex mb-2">
       <img src="@/assets/huddle-buddies-thumbnail.png" alt="Huddle Buddies Logo" class="hidden md:flex">
       <h1 class="text-4xl mb-4 font-bold flex justify-center items-center w-11/12">Huddle Buddies Fantasy Football</h1>
@@ -25,7 +23,8 @@
 
     <br /><br />
     
-    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="leagueStore.darkTheme" :height="800" :width="'100%'"
+    <LeagueStandingsBarChart :leagueId="selectedLeagueId" :darkMode="leagueStore.darkTheme"
+      :chartHeight="800" :chartWidth="'100%'"
       :stackedBarChart="false" :verticalBarChart="true"
       :includeWins="true" :includeLosses="true"
       :includeMedian="true" :combineMedian="false"
@@ -35,21 +34,23 @@
     <br /><hr /><br />
 
     <WeeklyStandingsLineChart :leagueId="selectedLeagueId" :darkMode="leagueStore.darkTheme"
-      :height="800" :width="'100%'">
+      :chartHeight="800" :chartWidth="'100%'" :includeChartMarkers="false"
+    >
     </WeeklyStandingsLineChart>
 
     <br /><hr /><br />
 
     <LeaguePointsLineChart :leagueId="selectedLeagueId" :darkMode="leagueStore.darkTheme"
-      :height="800" :width="'100%'">
+      :chartHeight="800" :chartWidth="'100%'" :includeChartMarkers="true"
+    >
     </LeaguePointsLineChart>
   </main>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
-import { useLeagueStore } from "@/store/useLeague.js";
+import { useLeagueStore } from '@/store/useLeague.js';
 import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 
 // Setup the leagueStore.

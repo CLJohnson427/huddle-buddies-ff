@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/******************************************************************************
+  Variables
+/*****************************************************************************/
 //*
 :root {
   --bg-primary: #fff;
@@ -36,6 +39,9 @@
   --transition-speed: 600ms;
 }
 
+/******************************************************************************
+  Body/Main
+/*****************************************************************************/
 body {
   color: var(--text-primary);
   background-color: var(--bg-primary);
@@ -51,6 +57,8 @@ main {
 
   margin: 20px 10px;
 }
+
+
 //*/
 
 /* SideBarNavTest2
@@ -97,3 +105,26 @@ button {
   }
 }
 //*/
+
+/******************************************************************************
+  Chart Icons
+/*****************************************************************************/
+.chartIcons {
+  display: flex;
+  justify-content: center;
+
+  .chartIcon {
+    color: var(--icon-primary);
+  }
+}
+
+@media screen and (min-width: 960px) {
+  .chartIcons {
+    display: flex;
+    justify-content: flex-end;
+
+    .chartIcon {
+      cursor: pointer;
+    }
+  }
+}

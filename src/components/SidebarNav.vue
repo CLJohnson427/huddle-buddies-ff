@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { Icon } from '@iconify/vue'
+import { Icon } from '@iconify/vue';
 import { useLeagueStore } from "@/store/useLeague.js";
 
 // Setup the leagueStore.

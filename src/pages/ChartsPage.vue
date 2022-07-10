@@ -48,9 +48,9 @@
 </template>
 
 <script setup>
-import { ref, toRaw, onBeforeMount } from "vue";
-import { useLeagueStore } from "@/store/useLeague";
-import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from "@/data/chartData.js";
+import { ref, toRaw, onBeforeMount } from 'vue';
+import { useLeagueStore } from '@/store/useLeague';
+import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from '@/data/chartData.js';
 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();
