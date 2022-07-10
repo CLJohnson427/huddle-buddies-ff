@@ -69,7 +69,7 @@ async function getChartData(leagueId) {
   }
 
   // Weekly Standings Chart Data
-  chartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings), { darkMode: props.darkMode });
+  chartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings), { darkMode: props.darkMode, includeChartMarkers: includeChartMarkers.value });
 }
 
 // onBeforeMount Lifecycle Hook

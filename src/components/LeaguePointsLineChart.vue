@@ -66,7 +66,7 @@ async function getChartData(leagueId) {
   }
 
   // League Points Chart Data
-  chartData.value = getLeaguePointsLineChartData(toRaw(leagueStore.standings), { darkMode: props.darkMode });
+  chartData.value = getLeaguePointsLineChartData(toRaw(leagueStore.standings), { darkMode: props.darkMode, includeChartMarkers: includeChartMarkers.value });
 }
 
 // onBeforeMount Lifecycle Hook

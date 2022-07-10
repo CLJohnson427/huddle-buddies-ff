@@ -38,7 +38,7 @@ export function getLoadingChartOptions({ darkMode = false } = {}) {
   return { chartOptions, chartSeries }
 }
 
-export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = false } = {}) {
+export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = false, includeChartMarkers = false } = {}) {
   // Setup League Weeks Data
   let weeks = [];
   for (let i = 0; i < leagueStandings.standings[1].weeklyStandings.length; i++) {
@@ -80,7 +80,7 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
       }
     },
     markers: {
-      size: 0, // 4
+      size: includeChartMarkers ? 5 : 0,
       shape: "circle",
       hover: {
         sizeOffset: 3
@@ -290,7 +290,7 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
   return { chartOptions, chartSeries }
 }
 
-export function getLeaguePointsLineChartData(leagueStandings, { darkMode = false } = {}) {
+export function getLeaguePointsLineChartData(leagueStandings, { darkMode = false, includeChartMarkers = false } = {}) {
   // Setup the Chart Data.
   let chartSeries = [];
   let chartCategories = [];
@@ -355,7 +355,7 @@ export function getLeaguePointsLineChartData(leagueStandings, { darkMode = false
       }
     },
     markers: {
-      size: 5,
+      size: includeChartMarkers ? 5 : 0,
       shape: "circle",
       hover: {
         sizeOffset: 3
