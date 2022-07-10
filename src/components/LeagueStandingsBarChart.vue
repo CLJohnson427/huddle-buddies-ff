@@ -4,61 +4,61 @@
       <div class="chartIcons">
         <div class="chartIcon" :title="stackedBarChart ? 'Bar Chart' : 'Stacked Chart'">
           <Icon v-if="stackedBarChart"
-            icon="mdi:chart-bar" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:chart-bar" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="stackedBarChart = !stackedBarChart"
           />
           <Icon v-else
-            icon="mdi:chart-bar-stacked" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:chart-bar-stacked" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="stackedBarChart = !stackedBarChart"
           />
         </div>
         <div class="chartIcon" :title="verticalBarChart ? 'Horizontal Chart' : 'Vertical Chart'">
           <Icon v-if="verticalBarChart"
-            icon="mdi:chart-box" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:chart-box" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="verticalBarChart = !verticalBarChart"
           />
           <Icon v-else
-            icon="mdi:chart-box-outline" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:chart-box-outline" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="verticalBarChart = !verticalBarChart"
           />
         </div>
         <div class="chartIcon" :title="includeWins ? 'Remove Wins' : 'Include Wins'">
           <Icon v-if="includeWins"
-            icon="mdi:trophy" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:trophy" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="includeWins = !includeWins"
           />
           <Icon v-else
-            icon="mdi:trophy-outline" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:trophy-outline" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="includeWins = !includeWins"
           />
         </div>
         <div class="chartIcon" :title="includeLosses ? 'Remove Losses' : 'Include Losses'">
           <Icon v-if="includeLosses"
-            icon="mdi:alpha-l-box" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:alpha-l-box" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="includeLosses = !includeLosses"
           />
           <Icon v-else
-            icon="mdi:alpha-l-box-outline" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:alpha-l-box-outline" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="includeLosses = !includeLosses"
           />
         </div>
         <div class="chartIcon" :title="includeMedian ? 'Remove Median' : 'Include Median'">
           <Icon v-if="includeMedian"
-            icon="mdi:medal" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:medal" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="includeMedian = !includeMedian"
           />
           <Icon v-else
-            icon="mdi:medal-outline" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:medal-outline" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="includeMedian = !includeMedian"
           />
         </div>
         <div class="chartIcon" :title="combineMedian ? 'Separate Player & Median Records' : 'Combine Player & Median Records'">
           <Icon v-if="combineMedian"
-            icon="mdi:arrow-expand-horizontal" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:arrow-expand-horizontal" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="combineMedian = !combineMedian"
           />
           <Icon v-else
-            icon="mdi:arrow-collapse-horizontal" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:arrow-collapse-horizontal" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="combineMedian = !combineMedian"
           />
         </div>
@@ -66,8 +66,8 @@
 
       <apexchart
         type="bar"
-        :height="height"
-        :width="width"
+        :height="props.chartHeight"
+        :width="props.chartWidth"
         :options="chartData.chartOptions"
         :series="chartData.chartSeries"
       ></apexchart>
@@ -79,17 +79,19 @@
 </template>
 
 <script setup>
-import { defineProps, onBeforeMount, ref, toRaw, watch } from "vue";
-import { Icon } from '@iconify/vue'
-import { useLeagueStore } from "@/store/useLeague.js";
-import { getLeagueStandingsBarChartData } from "@/data/chartData.js";
+import { defineProps, onBeforeMount, ref, toRaw, watch } from 'vue';
+import { Icon } from '@iconify/vue';
+import { useLeagueStore } from '@/store/useLeague.js';
+import { getLeagueStandingsBarChartData } from '@/data/chartData.js';
 import { getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 
 // Props
 const props = defineProps({
   leagueId: { type: String, required: false, default: getMostRecentLeagueInfo('id') },
-  height: { type: [String, Number], required: false, default: 'auto' },
-  width: { type: [String, Number], required: false, default: '100%' },
+  chartHeight: { type: [String, Number], required: false, default: 'auto' },
+  chartWidth: { type: [String, Number], required: false, default: '100%' },
+  chartIconHeight: { type: Number, required: false, default: 40 },
+  chartIconWidth: { type: Number, required: false, default: 50 },
   darkMode: { type: Boolean, required: false, default: false },
   stackedBarChart: { type: Boolean, required: false, default: false },
   verticalBarChart: { type: Boolean, required: false, default: true },
@@ -104,8 +106,6 @@ const leagueStore = useLeagueStore();
 
 // Setup Chart Refs
 let chartData = ref({});
-let chartIconHeight = ref(40);
-let chartIconWidth = ref(50);
 
 // Local Refs for Prop Values. Needed to update values for Chart Options.
 let stackedBarChart = ref(props.stackedBarChart);
@@ -218,7 +218,7 @@ watch([() => props.leagueId, () => props.darkMode], async () => {
   await getChartData(props.leagueId);
 })
 
-// Updated the Chart Options when the stackedBarChartLocal Ref is changed.
+// Updated the Chart Options when the stackedBarChart Ref is changed.
 watch(stackedBarChart, () => {
   // Get the number of Regular Season Weeks in the League.
   let weeks = leagueStore.league.settings.playoff_week_start - 1;
@@ -245,7 +245,7 @@ watch(stackedBarChart, () => {
   };
 })
 
-// Updated the Chart Options when the verticalBarChartLocal Ref is changed.
+// Updated the Chart Options when the verticalBarChart Ref is changed.
 watch(verticalBarChart, () => {
   // Set the updated chart options.
   chartData.value.chartOptions = {

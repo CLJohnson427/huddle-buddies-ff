@@ -4,19 +4,19 @@
       <div class="chartIcons">
         <div class="chartIcon" :title="includeChartMarkers ? 'Remove Chart Markers' : 'Include Chart Markers'">
           <Icon v-if="includeChartMarkers"
-            icon="mdi:chart-line-variant" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:chart-line-variant" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="includeChartMarkers = !includeChartMarkers"
           />
           <Icon v-else
-            icon="mdi:chart-timeline-variant" :height="chartIconHeight" :width="chartIconWidth"
+            icon="mdi:chart-timeline-variant" :height="props.chartIconHeight" :width="props.chartIconWidth"
             @click="includeChartMarkers = !includeChartMarkers"
           />
         </div>
       </div>
       <apexchart
         type="line"
-        :height="height"
-        :width="width"
+        :height="props.chartHeight"
+        :width="props.chartWidth"
         :options="chartData.chartOptions"
         :series="chartData.chartSeries"
       ></apexchart>
@@ -28,17 +28,19 @@
 </template>
 
 <script setup>
-import { defineProps, onBeforeMount, ref, toRaw, watch } from "vue";
-import { Icon } from '@iconify/vue'
-import { useLeagueStore } from "@/store/useLeague.js";
-import { getWeeklyStandingsLineChartData } from "@/data/chartData.js";
+import { defineProps, onBeforeMount, ref, toRaw, watch } from 'vue';
+import { Icon } from '@iconify/vue';
+import { useLeagueStore } from '@/store/useLeague.js';
+import { getWeeklyStandingsLineChartData } from '@/data/chartData.js';
 import { getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
 
 // Props
 const props = defineProps({
   leagueId: { type: String, required: false, default: getMostRecentLeagueInfo('id') },
-  height: { type: [String, Number], required: false, default: 'auto' },
-  width: { type: [String, Number], required: false, default: '100%' },
+  chartHeight: { type: [String, Number], required: false, default: 'auto' },
+  chartWidth: { type: [String, Number], required: false, default: '100%' },
+  chartIconHeight: { type: Number, required: false, default: 40 },
+  chartIconWidth: { type: Number, required: false, default: 50 },
   darkMode: { type: Boolean, required: false, default: false },
   includeChartMarkers: { type: Boolean, required: false, default: false }
   // includeWins: { type: Boolean, required: false, default: true },
@@ -51,8 +53,6 @@ const leagueStore = useLeagueStore();
 
 // Setup Chart Refs
 let chartData = ref();
-let chartIconHeight = ref(40);
-let chartIconWidth = ref(50);
 
 // Local Refs for Prop Values. Needed to update values for Chart Options.
 let includeChartMarkers = ref(props.includeChartMarkers);
