@@ -104,23 +104,4 @@ watch(includeChartMarkers, () => {
 </script>
 
 <style lang="scss">
-.weeklyStandingsLineChart {
-  .chartIcons {
-    display: flex;
-    justify-content: center;
-  }
-  .chartIcon {
-    color: var(--icon-primary);
-  }
-
-  @media screen and (min-width: 960px) {
-    .chartIcons {
-      display: flex;
-      justify-content: flex-end;
-    }
-    .chartIcon {
-      cursor: pointer;
-    }
-  }
-}
 </style>

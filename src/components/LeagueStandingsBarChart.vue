@@ -268,23 +268,4 @@ watch([includeWins, includeLosses, includeMedian, combineMedian], async () => {
 </script>
 
 <style lang="scss">
-.leagueStandingsBarChart {
-  .chartIcons {
-    display: flex;
-    justify-content: center;
-  }
-  .chartIcon {
-    color: var(--icon-primary);
-  }
-
-  @media screen and (min-width: 960px) {
-    .chartIcons {
-      display: flex;
-      justify-content: flex-end;
-    }
-    .chartIcon {
-      cursor: pointer;
-    }
-  }
-}
 </style>
