@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "apexcharts": "^3.35.3",
-    "pinia": "^2.0.13",
+    "pinia": "^2.0.16",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.14",
+    "vue-router": "^4.1.2",
     "vue3-apexcharts": "^1.4.1"
   },
   "devDependencies": {
