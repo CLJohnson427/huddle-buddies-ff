@@ -1,8 +1,8 @@
-import { getLeagueInfo } from "./leagueInfo.js";
-import { getRawLeagueMatchupData } from "./leagueMatchups.js";
-import { getLeagueRosters } from "./leagueRosters.js";
-import { getLeagueUsers, getLeagueManagerDisplay } from "./leagueUsers.js";
-import { getSportState } from "./sportState.js";
+import { getLeagueInfo } from "@/data/sleeper/leagueInfo";
+import { getRawLeagueMatchupData } from "@/data/sleeper/leagueMatchups";
+import { getLeagueRosters } from "@/data/sleeper/leagueRosters";
+import { getLeagueUsers, getLeagueManagerDisplay } from "@/data/sleeper/leagueUsers";
+import { getSportState } from "@/data/sleeper/sportState";
 import { useLeagueStore } from "@/store/useLeague";
 
 export async function getLeagueStandings(leagueId) {
@@ -13,7 +13,7 @@ export async function getLeagueStandings(leagueId) {
   }
 
   // Fetch and resolve necessary League data.
-  let [leagueInfo, leagueRosters, leagueUsers, sportState] = await Promise.allSettled([
+  const [leagueInfo, leagueRosters, leagueUsers, sportState] = await Promise.allSettled([
     getLeagueInfo(leagueId),
     getLeagueRosters(leagueId),
     getLeagueUsers(leagueId),
@@ -21,8 +21,8 @@ export async function getLeagueStandings(leagueId) {
   ]).catch((error) => { console.error(error); });
 
   // Setup the Season data.
-  let seasonYear = leagueInfo.value.season;
-  let medianMatch = leagueInfo.value.settings.league_average_match == 1;
+  const seasonYear = leagueInfo.value.season;
+  const medianMatch = leagueInfo.value.settings.league_average_match == 1;
   let week = leagueInfo.value.settings.start_week;
   if (leagueInfo.value.status === "in_season") {
     week = sportState.value.display_week;
@@ -42,15 +42,15 @@ export async function getLeagueStandings(leagueId) {
   }
 
   // Get all of the matchup data for the completed weeks in the season.
-  let matchupData = await getRawLeagueMatchupData(leagueId, week);
+  const matchupData = await getRawLeagueMatchupData(leagueId, week);
 
   // Process Standings data from the season matchups.
   let standings = {};
-  for (let [weekIndex, matchup] of matchupData.entries()) {
+  for (const [weekIndex, matchup] of matchupData.entries()) {
     standings = await processStandingsData(leagueId, matchup.value, standings, leagueRosters.value, leagueUsers.value, medianMatch, weekIndex + 1);
   }
 
-  let standingsResponse = {
+  const standingsResponse = {
     league_id: leagueInfo.value.league_id,
     medianMatch: medianMatch,
     roster: leagueRosters.value.rosters,
@@ -64,16 +64,16 @@ export async function getLeagueStandings(leagueId) {
 }
 
 async function processStandingsData(leagueId, matchup, standingsData, leagueRosters, leagueUsers, medianMatch, week) {
-  let matchups = {};
+  const matchups = {};
   let scoresArray = [];
-  for (let match of matchup) {
+  for (const match of matchup) {
     if (!matchups[match.matchup_id]) {
       matchups[match.matchup_id] = [];
     }
-    let rosterId = match.roster_id;
-    let user = leagueUsers[leagueRosters.rosters[match.roster_id - 1].owner_id];
-    let userId = user ? user.user_id : 0
-    let manager = await getLeagueManagerDisplay(leagueId, userId);
+    const rosterId = match.roster_id;
+    const user = leagueUsers[leagueRosters.rosters[match.roster_id - 1].owner_id];
+    const userId = user ? user.user_id : 0
+    const manager = await getLeagueManagerDisplay(leagueId, userId);
 
     // Create the Standings object if it does not already exist for the current roster.
     if (!standingsData[rosterId]) {
@@ -113,15 +113,15 @@ async function processStandingsData(leagueId, matchup, standingsData, leagueRost
   let medianScore = 0;
   if (medianMatch === true) {
     scoresArray = scoresArray.sort((a, b) => a - b);
-    let numberOfManagers = scoresArray.length;
-    let middle = Math.floor(numberOfManagers / 2);
+    const numberOfManagers = scoresArray.length;
+    const middle = Math.floor(numberOfManagers / 2);
     medianScore = numberOfManagers % 2 !== 0 ? scoresArray[middle] : +((scoresArray[middle - 1] + scoresArray[middle]) / 2).toFixed(2);
   }
 
-  for (let matchupKey in matchups) {
-    let team1 = matchups[matchupKey][0];
-    let team2 = matchups[matchupKey][1];
-    let divisionMatchup = team1.division && team2.division && team1.division === team2.division;
+  for (const matchupKey in matchups) {
+    const team1 = matchups[matchupKey][0];
+    const team2 = matchups[matchupKey][1];
+    const divisionMatchup = team1.division && team2.division && team1.division === team2.division;
 
     // Median Matchup
     if (medianMatch === true) {

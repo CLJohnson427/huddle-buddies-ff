@@ -2,26 +2,30 @@
 import { defineStore } from 'pinia';
 
 // Sleeper
-import { getLeagueInfo, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo.js';
+import { getLeagueInfo, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo';
 import { getLeagueMatchups } from '@/data/sleeper/leagueMatchups.js';
 import { getLeagueRosters } from '@/data/sleeper/leagueRosters.js';
 import { getLeagueStandings } from "@/data/sleeper/leagueStandings.js";
-import { getLeagueUsers } from '@/data/sleeper/leagueUsers.js';
-import { getSportState } from '@/data/sleeper/sportState.js';
+import { getLeagueUsers } from '@/data/sleeper/leagueUsers';
+import { getSportState } from '@/data/sleeper/sportState';
+
+import { League } from '@/data/types/LeagueInterfaces'
+import { SportState } from '@/data/types/SportStateInterfaces'
+import { Users } from '@/data/types/UserInterfaces'
 
 export const useLeagueStore = defineStore('leagueStore', {
   state: () => ({
     // counter: 0,
-    darkTheme: true,
-    league: {},
-    leagueId: getMostRecentLeagueInfo('id'),
-    leagueYear: getMostRecentLeagueInfo('year'),
+    darkTheme: true as boolean,
+    league: {} as League,
+    leagueId: getMostRecentLeagueInfo('id') as string,
+    leagueYear: getMostRecentLeagueInfo('year') as number,
     matchups: {},
     rosters: {},
     standings: {},
-    sport: 'nfl',
-    sportState: {},
-    users: {}
+    sport: 'nfl' as string,
+    sportState: {} as SportState,
+    users: {} as Users
   }),
   getters: {
     // doubleCount: (state) => {

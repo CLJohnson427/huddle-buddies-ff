@@ -1,8 +1,9 @@
 import { useLeagueStore } from '@/store/useLeague'
+import { SportState } from '@/data/types/SportStateInterfaces';
 
 // This endpoint returns information about the current state for any sport (nfl, nba, lcs, etc).
 // GET https://api.sleeper.app/v1/state/<sport>
-export async function getSportState(sport = 'nfl') {
+export async function getSportState(sport: string = 'nfl'): Promise<SportState> {
   const leagueStore = useLeagueStore();
   
   if (leagueStore.sportState.season) {
@@ -10,13 +11,13 @@ export async function getSportState(sport = 'nfl') {
   }
 
   const response = await fetch(`https://api.sleeper.app/v1/state/${sport}`).catch((error) => { console.error(error); });
-  const data = await response.json().catch((error) => { console.error(error); });
+  const data: SportState = await response?.json().catch((error) => { console.error(error); });
 
-  if (response.ok) {
+  if (response?.ok) {
     leagueStore.$patch((state) => (state.sportState = data));
     return data;
   }
   else {
-    throw new Error(data);
+    throw new Error(JSON.stringify(data))
   }
 }

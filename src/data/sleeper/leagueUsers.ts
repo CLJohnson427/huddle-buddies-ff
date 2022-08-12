@@ -1,8 +1,9 @@
 import { useLeagueStore } from '@/store/useLeague'
+import { LeagueManager, User, Users } from '@/data/types/UserInterfaces'
 
 // This endpoint retrieves all users in a league.
 // GET https://api.sleeper.app/v1/league/<league_id>/users
-export async function getLeagueUsers(leagueId) {
+export async function getLeagueUsers(leagueId): Promise<Users> {
   const leagueStore = useLeagueStore();
 
   if (leagueStore.users.league_id === leagueId) {
@@ -10,53 +11,53 @@ export async function getLeagueUsers(leagueId) {
   }
 
   const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`).catch((error) => { console.error(error); });
-  const data = await response.json().catch((error) => { console.error(error); });
+  const data: Array<User> = await response?.json().catch((error) => { console.error(error); });
 
-  if (response.ok) {
-    let userData = processUsers(data);
+  if (response?.ok) {
+    const userData = processUsers(data) as Users;
     leagueStore.$patch((state) => (state.users = userData));
     return userData;
   }
   else {
-    throw new Error(data);
+    throw new Error(JSON.stringify(data))
   }
 }
 
-function processUsers(users) {
+function processUsers(users: Array<User>): Users | undefined {
   try {
     let leagueId = '';
-    let processedUsers = {};
-    for (let user of users) {
+    const mapUsers = new Map<string, User>();
+    for (const user of users) {
       leagueId = user.league_id;
-      processedUsers[user.user_id] = user;
+      mapUsers.set(user.user_id, user);
     }
     
-    return { league_id: leagueId, ...processedUsers };
+    return { league_id: leagueId, user: mapUsers } as Users;
   }
   catch (error) {
     console.error(error);
   }
 }
 
-export async function getLeagueManagerDisplay(leagueId, userId) {
+export async function getLeagueManagerDisplay(leagueId: string, userId: string): Promise<LeagueManager> {
   const leagueStore = useLeagueStore();
 
-  let user = null;
-  let manager = {};
+  let user: User | null = null;
+  let manager: LeagueManager;
 
-  if (leagueStore.users[userId]?.user_id === userId) {
-    user = leagueStore.users[userId];
+  if (leagueStore.users.user.has(userId)) {
+    user = leagueStore.users.user.get(userId) as User;
   }
   else {
     const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`).catch((error) => { console.error(error); });
-    const data = await response.json().catch((error) => { console.error(error); });
+    const data: Array<User> = await response?.json().catch((error) => { console.error(error); });
   
-    if (response.ok) {
-      let userData = processUsers(data);
-      user = userData[userId];
+    if (response?.ok) {
+      const userData = processUsers(data) as Users;
+      user = userData.user.get(userId) as User;
     }
     else {
-      throw new Error(data);
+      throw new Error(JSON.stringify(data))
     }
   }
 
@@ -73,7 +74,7 @@ export async function getLeagueManagerDisplay(leagueId, userId) {
       avatar: `https://sleepercdn.com/images/v2/icons/player_default.webp`,
       managerName: 'Unknown Manager',
       teamName: 'Unknown Team',
-      userId: 0
+      userId: '0'
     }
   }
 
