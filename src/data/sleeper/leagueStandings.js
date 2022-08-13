@@ -71,7 +71,7 @@ async function processStandingsData(leagueId, matchup, standingsData, leagueRost
       matchups[match.matchup_id] = [];
     }
     const rosterId = match.roster_id;
-    const user = leagueUsers[leagueRosters.rosters[match.roster_id - 1].owner_id];
+    const user = leagueUsers.user.get(leagueRosters.roster.get(match.roster_id).owner_id)
     const userId = user ? user.user_id : 0
     const manager = await getLeagueManagerDisplay(leagueId, userId);
 
@@ -80,9 +80,9 @@ async function processStandingsData(leagueId, matchup, standingsData, leagueRost
       standingsData[rosterId] = {
         manager: manager,
         rosterId: rosterId,
-        divisionWins: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
-        divisionLosses: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
-        divisionTies: leagueRosters.rosters[rosterId - 1].settings.division ? 0 : null,
+        divisionWins: leagueRosters.roster.get(rosterId).settings.division ? 0 : null,
+        divisionLosses: leagueRosters.roster.get(rosterId).settings.division ? 0 : null,
+        divisionTies: leagueRosters.roster.get(rosterId).settings.division ? 0 : null,
         medianWins: medianMatch ? 0 : null,
         medianLosses: medianMatch ? 0 : null,
         medianTies: medianMatch ? 0 : null,
@@ -100,7 +100,7 @@ async function processStandingsData(leagueId, matchup, standingsData, leagueRost
 
     matchups[match.matchup_id].push({
       rosterId: rosterId,
-      division: leagueRosters.rosters[rosterId - 1].settings.division,
+      division: leagueRosters.roster.get(rosterId).settings.division,
       points: match.points
     });
 
