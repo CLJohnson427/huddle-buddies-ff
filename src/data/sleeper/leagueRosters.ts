@@ -1,9 +1,10 @@
 import { useLeagueStore } from '@/store/useLeague';
 import { getLeagueManagerDisplay } from '@/data/sleeper/leagueUsers';
+import { Roster, Rosters, TeamRoster } from '@/data/types/RosterInterface'
 
 // This endpoint retrieves all rosters in a league.
 // GET https://api.sleeper.app/v1/league/<leagueId>/rosters
-export async function getLeagueRosters(leagueId) {
+export async function getLeagueRosters(leagueId): Promise<Rosters> {
   const leagueStore = useLeagueStore();
 
   if (leagueStore.rosters.league_id === leagueId) {
@@ -11,15 +12,15 @@ export async function getLeagueRosters(leagueId) {
   }
 
   const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`).catch((error) => { console.error(error); });
-  const data = await response.json().catch((error) => { console.error(error); });
+  const data: Array<Roster> = await response?.json().catch((error) => { console.error(error); });
 
-  if (response.ok) {
-    const rosterData = await processRosters(data)
+  if (response?.ok) {
+    const rosterData = await processRosters(data) as Rosters;
     leagueStore.$patch((state) => (state.rosters = rosterData));
     return rosterData;
   }
   else {
-    throw new Error(data);
+    throw new Error(JSON.stringify(data))
   }
 }
 
@@ -39,27 +40,37 @@ export async function getLeagueRosters(leagueId) {
 //   }
 // }
 
-async function processRosters(rosters) {
+async function processRosters(rosters: Array<Roster>): Promise<Rosters | undefined> {
   try {
     let leagueId = '';
-    const startersAndInjuredReserve = [];
+    const mapRosters = new Map<number, Roster>();
+    const startersAndInjuredReserve = [] as Array<string>;
     for (const roster of rosters) {
+      // League Data
       leagueId = roster.league_id;
 
-      for (const starter of roster.starters) {
+      // Team Roster Data
+      const teamRoster = roster as TeamRoster;
+      teamRoster.manager = await getLeagueManagerDisplay(roster.league_id, roster.owner_id);
+      mapRosters.set(teamRoster.roster_id, teamRoster);
+
+      // Starters & Injured Reserve Data
+      for (const starter of teamRoster.starters) {
         startersAndInjuredReserve.push(starter);
       }
   
-      if (roster.reserve) {
-        for (const injuredReserve of roster.reserve) {
+      if (teamRoster.reserve) {
+        for (const injuredReserve of teamRoster.reserve) {
           startersAndInjuredReserve.push(injuredReserve);
         }
       }
-      
-      roster.manager = await getLeagueManagerDisplay(roster.league_id, roster.owner_id);
     }
   
-    return { league_id: leagueId, rosters: rosters, startersAndInjuredReserve: startersAndInjuredReserve };
+    return {
+      league_id: leagueId,
+      roster: mapRosters,
+      startersAndInjuredReserve: startersAndInjuredReserve
+    } as Rosters;
   }
   catch (error) {
     console.error(error);

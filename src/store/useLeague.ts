@@ -12,6 +12,7 @@ import { getSportState } from '@/data/sleeper/sportState';
 import { League } from '@/data/types/LeagueInterfaces'
 import { SportState } from '@/data/types/SportStateInterfaces'
 import { Users } from '@/data/types/UserInterfaces'
+import { Rosters } from '@/data/types/RosterInterface'
 
 export const useLeagueStore = defineStore('leagueStore', {
   state: () => ({
@@ -21,7 +22,7 @@ export const useLeagueStore = defineStore('leagueStore', {
     leagueId: getMostRecentLeagueInfo('id') as string,
     leagueYear: getMostRecentLeagueInfo('year') as number,
     matchups: {},
-    rosters: {},
+    rosters: {} as Rosters,
     standings: {},
     sport: 'nfl' as string,
     sportState: {} as SportState,
