@@ -4,7 +4,7 @@ import { Matchup, MatchupData } from '@/data/types/MatchupInterfaces'
 export async function getLeagueMatchupData(leagueId: string, week: number): Promise<MatchupData> {
   const leagueStore = useLeagueStore();
 
-  if (leagueStore.matchupData.league_id === leagueId && leagueStore.matchupData.week === week) {
+  if (leagueStore.matchupData?.league_id === leagueId && leagueStore.matchupData?.week === week) {
     return leagueStore.matchupData;
   }
 

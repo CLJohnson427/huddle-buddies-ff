@@ -6,7 +6,7 @@ import { SportState } from '@/data/types/SportStateInterfaces';
 export async function getSportState(sport: string = 'nfl'): Promise<SportState> {
   const leagueStore = useLeagueStore();
   
-  if (leagueStore.sportState.season) {
+  if (leagueStore.sportState?.season) {
     return leagueStore.sportState;
   }
 

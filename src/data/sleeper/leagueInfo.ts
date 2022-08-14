@@ -27,7 +27,7 @@ export function getMostRecentLeagueInfo(attribute: null | string = null): string
 export async function getLeagueInfo(leagueId: string): Promise<League> {
   const leagueStore = useLeagueStore();
 
-  if (leagueStore.league.league_id === leagueId) {
+  if (leagueStore.league?.league_id === leagueId) {
     return leagueStore.league;
   }
   

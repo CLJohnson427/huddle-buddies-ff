@@ -7,7 +7,7 @@ import { Roster, Rosters, TeamRoster } from '@/data/types/RosterInterfaces'
 export async function getLeagueRosters(leagueId): Promise<Rosters> {
   const leagueStore = useLeagueStore();
 
-  if (leagueStore.rosters.league_id === leagueId) {
+  if (leagueStore.rosters?.league_id === leagueId) {
     return leagueStore.rosters;
   }
 

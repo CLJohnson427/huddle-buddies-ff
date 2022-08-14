@@ -7,7 +7,7 @@ import { Matchup } from '@/data/types/MatchupInterfaces'
 export async function getLeagueUsers(leagueId: string): Promise<Users> {
   const leagueStore = useLeagueStore();
 
-  if (leagueStore.users.league_id === leagueId) {
+  if (leagueStore.users?.league_id === leagueId) {
     return leagueStore.users;
   }
 
@@ -46,7 +46,7 @@ export async function getLeagueManagerDisplay(leagueId: string, userId: string):
   let user: User | null = null;
   let manager: LeagueManager;
 
-  if (leagueStore.users.user.has(userId)) {
+  if (leagueStore.users?.user?.has(userId)) {
     user = leagueStore.users.user.get(userId) as User;
   }
   else {
