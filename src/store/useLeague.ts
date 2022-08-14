@@ -14,6 +14,7 @@ import { League } from '@/data/types/LeagueInterfaces';
 import { MatchupData } from '@/data/types/MatchupInterfaces';
 import { Rosters } from '@/data/types/RosterInterfaces';
 import { SportState } from '@/data/types/SportStateInterfaces';
+import { Standings } from '@/data/types/StandingsInterfaces';
 import { Users } from '@/data/types/UserInterfaces';
 
 export const useLeagueStore = defineStore('leagueStore', {
@@ -25,7 +26,7 @@ export const useLeagueStore = defineStore('leagueStore', {
     leagueYear: getMostRecentLeagueInfo('year') as number,
     matchupData: {} as MatchupData,
     rosters: {} as Rosters,
-    standings: {},
+    standings: {} as Standings,
     sport: 'nfl' as string,
     sportState: {} as SportState,
     users: {} as Users

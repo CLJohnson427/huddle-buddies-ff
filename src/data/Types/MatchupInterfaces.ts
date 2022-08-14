@@ -21,6 +21,6 @@ export interface Matchup {
 /*********************************************************/
 export interface MatchupData {
   league_id: string;
-  matchups: Matchup[];
+  matchups: Matchup[][];
   week: number;
 }

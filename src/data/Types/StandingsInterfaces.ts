@@ -42,7 +42,7 @@ export interface TeamStanding {
 export interface Standings {
   league_id: string;
   medianMatch: boolean;
-  roster: TeamRoster;
+  roster: Map<number, TeamRoster>;
   seasonYear: string | number;
-  standings: Map<string, TeamStanding>;
+  standings: Map<number, TeamStanding>;
 }
