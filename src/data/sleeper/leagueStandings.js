@@ -1,5 +1,5 @@
 import { getLeagueInfo } from "@/data/sleeper/leagueInfo";
-import { getRawLeagueMatchupData } from "@/data/sleeper/leagueMatchups";
+import { getLeagueMatchupData } from "@/data/sleeper/leagueMatchups";
 import { getLeagueRosters } from "@/data/sleeper/leagueRosters";
 import { getLeagueUsers, getLeagueManagerDisplay } from "@/data/sleeper/leagueUsers";
 import { getSportState } from "@/data/sleeper/sportState";
@@ -42,12 +42,12 @@ export async function getLeagueStandings(leagueId) {
   }
 
   // Get all of the matchup data for the completed weeks in the season.
-  const matchupData = await getRawLeagueMatchupData(leagueId, week);
+  const matchupData = await getLeagueMatchupData(leagueId, week);
 
   // Process Standings data from the season matchups.
   let standings = new Map();
-  for (const [weekIndex, matchup] of matchupData.entries()) {
-    standings = await processStandingsData(leagueId, matchup.value, standings, leagueRosters.value, leagueUsers.value, medianMatch, weekIndex + 1);
+  for (const [weekIndex, matchup] of matchupData.matchups.entries()) {
+    standings = await processStandingsData(leagueId, matchup, standings, leagueRosters.value, leagueUsers.value, medianMatch, weekIndex + 1);
   }
 
   const standingsResponse = {

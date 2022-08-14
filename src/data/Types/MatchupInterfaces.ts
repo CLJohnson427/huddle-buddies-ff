@@ -19,3 +19,8 @@ export interface Matchup {
 /**********************************************************
   Custom Interfaces
 /*********************************************************/
+export interface MatchupData {
+  league_id: string;
+  matchups: Matchup[];
+  week: number;
+}

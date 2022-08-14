@@ -1,9 +1,10 @@
 import { useLeagueStore } from '@/store/useLeague'
 import { LeagueManager, User, Users } from '@/data/types/UserInterfaces'
+import { Matchup } from '@/data/types/MatchupInterfaces'
 
 // This endpoint retrieves all users in a league.
 // GET https://api.sleeper.app/v1/league/<league_id>/users
-export async function getLeagueUsers(leagueId): Promise<Users> {
+export async function getLeagueUsers(leagueId: string): Promise<Users> {
   const leagueStore = useLeagueStore();
 
   if (leagueStore.users.league_id === leagueId) {
@@ -23,7 +24,7 @@ export async function getLeagueUsers(leagueId): Promise<Users> {
   }
 }
 
-function processUsers(users: Array<User>): Users | undefined {
+function processUsers(users: User[]): Users | undefined {
   try {
     let leagueId = '';
     const mapUsers = new Map<string, User>();

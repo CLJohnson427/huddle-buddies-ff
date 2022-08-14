@@ -1,4 +1,4 @@
-import { TeamRoster } from "@/data/types/RosterInterface";
+import { TeamRoster } from "@/data/types/RosterInterfaces";
 import { LeagueManager } from '@/data/types/UserInterfaces'
 
 /**********************************************************
