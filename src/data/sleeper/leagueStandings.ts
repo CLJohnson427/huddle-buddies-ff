@@ -1,9 +1,9 @@
-import { getLeagueInfo } from "@/data/sleeper/leagueInfo";
-import { getLeagueMatchupData } from "@/data/sleeper/leagueMatchups";
-import { getLeagueRosters } from "@/data/sleeper/leagueRosters";
-import { getLeagueUsers, getLeagueManagerDisplay } from "@/data/sleeper/leagueUsers";
-import { getSportState } from "@/data/sleeper/sportState";
-import { useLeagueStore } from "@/store/useLeague";
+import { getLeagueInfo } from '@/data/sleeper/leagueInfo';
+import { getLeagueMatchupData } from '@/data/sleeper/leagueMatchups';
+import { getLeagueRosters } from '@/data/sleeper/leagueRosters';
+import { getLeagueUsers, getLeagueManagerDisplay } from '@/data/sleeper/leagueUsers';
+import { getSportState } from '@/data/sleeper/sportState';
+import { useLeagueStore } from '@/store/useLeague';
 import { League } from '@/data/types/LeagueInterfaces';
 import { Matchup, MatchupData } from '@/data/types/MatchupInterfaces';
 import { Rosters } from '@/data/types/RosterInterfaces';
@@ -28,18 +28,18 @@ export async function getLeagueStandings(leagueId: string): Promise<Standings | 
   const seasonYear = leagueInfo.season;
   const medianMatch = leagueInfo.settings.league_average_match == 1;
   let week = leagueInfo.settings.start_week;
-  if (leagueInfo.status === "in_season") {
+  if (leagueInfo.status === 'in_season') {
     week = sportState.display_week;
   }
-  else if (leagueInfo.status === "post_season" || leagueInfo.status === "complete") {
+  else if (leagueInfo.status === 'post_season' || leagueInfo.status === 'complete') {
     week = leagueInfo.settings.playoff_week_start;
   }
 
   // Cannot retrieve standings if the season hasn't happened or
   // if at least one week of games has occurred.
-  if ((leagueInfo.status !== "in_season"
-      && leagueInfo.status !== "post_season"
-      && leagueInfo.status !== "complete")
+  if ((leagueInfo.status !== 'in_season'
+      && leagueInfo.status !== 'post_season'
+      && leagueInfo.status !== 'complete')
       || week < 2
   ) {
     return null;
@@ -79,7 +79,7 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
     const rosterId = match.roster_id;
     const roster = leagueRosters.roster.get(rosterId);
     const user = roster ? leagueUsers.user.get(roster.owner_id) : undefined;
-    const userId = user ? user.user_id : '0'
+    const userId = user ? user.user_id : '0';
     const manager = await getLeagueManagerDisplay(leagueId, userId);
 
     // Create the Standings Map entry if it does not already exist for the current roster.
@@ -102,7 +102,7 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
         totalPointsFor: 0,
         totalPointsAgainst: 0,
         weeklyStandings: []
-      })
+      });
     }
 
     matchups[match.matchup_id].push({

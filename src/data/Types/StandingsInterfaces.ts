@@ -1,5 +1,5 @@
-import { TeamRoster } from "@/data/types/RosterInterfaces";
-import { LeagueManager } from '@/data/types/UserInterfaces'
+import { TeamRoster } from '@/data/types/RosterInterfaces';
+import { LeagueManager } from '@/data/types/UserInterfaces';
 
 /**********************************************************
   Custom Interfaces

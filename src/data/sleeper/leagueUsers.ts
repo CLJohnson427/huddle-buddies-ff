@@ -1,5 +1,5 @@
-import { useLeagueStore } from '@/store/useLeague'
-import { LeagueManager, User, Users } from '@/data/types/UserInterfaces'
+import { useLeagueStore } from '@/store/useLeague';
+import { LeagueManager, User, Users } from '@/data/types/UserInterfaces';
 
 // This endpoint retrieves all users in a league.
 // GET https://api.sleeper.app/v1/league/<league_id>/users
@@ -10,8 +10,8 @@ export async function getLeagueUsers(leagueId: string): Promise<Users> {
     return leagueStore.users;
   }
 
-  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`).catch((error) => { console.error(error); });
-  const data: Array<User> = await response?.json().catch((error) => { console.error(error); });
+  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`).catch((error) => { console.error(error) });
+  const data: Array<User> = await response?.json().catch((error) => { console.error(error) });
 
   if (response?.ok) {
     const userData = processUsers(data) as Users;
@@ -19,7 +19,7 @@ export async function getLeagueUsers(leagueId: string): Promise<Users> {
     return userData;
   }
   else {
-    throw new Error(JSON.stringify(data))
+    throw new Error(JSON.stringify(data));
   }
 }
 
@@ -49,15 +49,15 @@ export async function getLeagueManagerDisplay(leagueId: string, userId: string):
     user = leagueStore.users.user.get(userId) as User;
   }
   else {
-    const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`).catch((error) => { console.error(error); });
-    const data: Array<User> = await response?.json().catch((error) => { console.error(error); });
+    const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`).catch((error) => { console.error(error) });
+    const data: Array<User> = await response?.json().catch((error) => { console.error(error) });
   
     if (response?.ok) {
       const userData = processUsers(data) as Users;
       user = userData.user.get(userId) as User;
     }
     else {
-      throw new Error(JSON.stringify(data))
+      throw new Error(JSON.stringify(data));
     }
   }
 
@@ -67,7 +67,7 @@ export async function getLeagueManagerDisplay(leagueId: string, userId: string):
       managerName: user.display_name,
       teamName: user.metadata.team_name,
       userId: user.user_id
-    }
+    };
   }
   else {
     manager = {
@@ -75,7 +75,7 @@ export async function getLeagueManagerDisplay(leagueId: string, userId: string):
       managerName: 'Unknown Manager',
       teamName: 'Unknown Team',
       userId: '0'
-    }
+    };
   }
 
   return manager;

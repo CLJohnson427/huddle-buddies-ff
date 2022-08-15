@@ -1,5 +1,5 @@
-import { useLeagueStore } from '@/store/useLeague'
-import { Matchup, MatchupData } from '@/data/types/MatchupInterfaces'
+import { useLeagueStore } from '@/store/useLeague';
+import { Matchup, MatchupData } from '@/data/types/MatchupInterfaces';
 
 export async function getLeagueMatchupData(leagueId: string, week: number): Promise<MatchupData> {
   const leagueStore = useLeagueStore();
@@ -13,17 +13,17 @@ export async function getLeagueMatchupData(leagueId: string, week: number): Prom
   for (let i = 1; i < week; i++) {
     matchupResponses.push(fetch(`https://api.sleeper.app/v1/league/${leagueId}/matchups/${i}`));
   }
-  const matchupSettledResults = await Promise.allSettled(matchupResponses).catch((error) => { console.error(error); }) as PromiseSettledResult<Response>[];
+  const matchupSettledResults = await Promise.allSettled(matchupResponses).catch((error) => { console.error(error) }) as PromiseSettledResult<Response>[];
 
   // Convert the Matchup Results for the completed weeks in the season into JSON Data.
   const matchups = [] as Matchup[][];
   for (const matchupResult of matchupSettledResults) {
     if (matchupResult.status === 'fulfilled') {
-      const data: Matchup[] = await matchupResult.value.json().catch((error) => { console.error(error); });
-      matchups.push(data)
+      const data: Matchup[] = await matchupResult.value.json().catch((error) => { console.error(error) });
+      matchups.push(data);
     }
     else {
-      throw new Error(matchupResult.reason)
+      throw new Error(matchupResult.reason);
     }
   }
 

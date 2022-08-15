@@ -1,6 +1,6 @@
 import { useLeagueStore } from '@/store/useLeague';
 import { getLeagueManagerDisplay } from '@/data/sleeper/leagueUsers';
-import { Roster, Rosters, TeamRoster } from '@/data/types/RosterInterfaces'
+import { Roster, Rosters, TeamRoster } from '@/data/types/RosterInterfaces';
 
 // This endpoint retrieves all rosters in a league.
 // GET https://api.sleeper.app/v1/league/<leagueId>/rosters
@@ -11,8 +11,8 @@ export async function getLeagueRosters(leagueId): Promise<Rosters> {
     return leagueStore.rosters;
   }
 
-  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`).catch((error) => { console.error(error); });
-  const data: Array<Roster> = await response?.json().catch((error) => { console.error(error); });
+  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`).catch((error) => { console.error(error) });
+  const data: Array<Roster> = await response?.json().catch((error) => { console.error(error) });
 
   if (response?.ok) {
     const rosterData = await processRosters(data) as Rosters;
@@ -20,7 +20,7 @@ export async function getLeagueRosters(leagueId): Promise<Rosters> {
     return rosterData;
   }
   else {
-    throw new Error(JSON.stringify(data))
+    throw new Error(JSON.stringify(data));
   }
 }
 

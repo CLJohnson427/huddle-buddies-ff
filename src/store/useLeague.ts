@@ -5,7 +5,7 @@ import { defineStore } from 'pinia';
 import { getLeagueInfo, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo';
 import { getLeagueMatchupData } from '@/data/sleeper/leagueMatchups.js';
 import { getLeagueRosters } from '@/data/sleeper/leagueRosters.js';
-import { getLeagueStandings } from "@/data/sleeper/leagueStandings.js";
+import { getLeagueStandings } from '@/data/sleeper/leagueStandings.js';
 import { getSportState } from '@/data/sleeper/sportState';
 import { getLeagueUsers } from '@/data/sleeper/leagueUsers';
 

@@ -12,7 +12,7 @@ export const teamChartColors: string[] = [
   '#469990', // Alex
   '#f032e6', // Colt
   '#8c564b' // Miller
-]
+];
 
 export function getLoadingChartOptions({ darkMode = false } = {}) {
    // Setup the the Chart Options Object.
@@ -37,7 +37,7 @@ export function getLoadingChartOptions({ darkMode = false } = {}) {
 
   const chartSeries = [];
 
-  return { chartOptions, chartSeries }
+  return { chartOptions, chartSeries };
 }
 
 export function getWeeklyStandingsLineChartData(leagueStandings: Standings, { darkMode = false, includeChartMarkers = false } = {}) {
@@ -79,7 +79,7 @@ export function getWeeklyStandingsLineChartData(leagueStandings: Standings, { da
         show: true,
         format: 'dd MMM',
         formatter: function(value: number) {
-          return `Week ${value}`
+          return `Week ${value}`;
         }
       }
     },
@@ -101,12 +101,12 @@ export function getWeeklyStandingsLineChartData(leagueStandings: Standings, { da
     },
     markers: {
       size: includeChartMarkers ? 5 : 0,
-      shape: "circle",
+      shape: 'circle',
       hover: {
         sizeOffset: 3
       }
     }
-  }
+  };
 
   // Setup the Chart Series Data.
   const chartSeries: any[] = [];
@@ -133,7 +133,7 @@ export function getWeeklyStandingsLineChartData(leagueStandings: Standings, { da
     });
   }
 
-  return { chartOptions, chartSeries }
+  return { chartOptions, chartSeries };
 }
 
 export function getLeagueStandingsBarChartData(leagueStandings: Standings, { darkMode = false, stackedBarChart = false, verticalBarChart = true, includeWins = true, includeLosses = true, includeMedian = true, combineMedian = false } = {}) {
@@ -173,7 +173,7 @@ export function getLeagueStandingsBarChartData(leagueStandings: Standings, { dar
 
   // Iterate through each Team to setup the Chart Data.
   for (const team of teamStandingsData) {
-    chartCategories.push(`${team.manager.managerName}`)
+    chartCategories.push(`${team.manager.managerName}`);
     totalWins.push(team.totalWins);
     playerWins.push(team.playerWins);
     medianWins.push(team.medianWins);
@@ -227,7 +227,7 @@ export function getLeagueStandingsBarChartData(leagueStandings: Standings, { dar
         text: ''
       }
     }
-  }
+  };
 
   // Update the Chart Options for a Stacked Bar Chart.
   if (stackedBarChart) {
@@ -310,7 +310,7 @@ export function getLeagueStandingsBarChartData(leagueStandings: Standings, { dar
   // Set the Chart Colors.
   chartOptions.colors = chartColors;
 
-  return { chartOptions, chartSeries }
+  return { chartOptions, chartSeries };
 }
 
 export function getLeaguePointsLineChartData(leagueStandings: Standings, { darkMode = false, includeChartMarkers = false } = {}) {
@@ -331,7 +331,7 @@ export function getLeaguePointsLineChartData(leagueStandings: Standings, { darkM
 
   // Iterate through each Team to setup the Chart Categories and Series Data.
   for (const team of teamStandingsData) {
-    chartCategories.push(`${team.manager.managerName}`)
+    chartCategories.push(`${team.manager.managerName}`);
     totalPointsFor.push(team.totalPointsFor);
     totalPointsAgainst.push(team.totalPointsAgainst);
   }
@@ -379,12 +379,12 @@ export function getLeaguePointsLineChartData(leagueStandings: Standings, { darkM
     },
     markers: {
       size: includeChartMarkers ? 5 : 0,
-      shape: "circle",
+      shape: 'circle',
       hover: {
         sizeOffset: 3
       }
     }
-  }
+  };
 
-  return { chartOptions, chartSeries }
+  return { chartOptions, chartSeries };
 }

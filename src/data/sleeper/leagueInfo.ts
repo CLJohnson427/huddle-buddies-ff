@@ -1,4 +1,4 @@
-import { useLeagueStore } from '@/store/useLeague'
+import { useLeagueStore } from '@/store/useLeague';
 import { League, LeagueId } from '@/data/types/LeagueInterfaces';
 
 export const leagueIds: Array<LeagueId> = [
@@ -8,7 +8,7 @@ export const leagueIds: Array<LeagueId> = [
   { year: 2020 as number, leagueId: '529745461166530560' as string },
   { year: 2019 as number, leagueId: '383723052850278400' as string },
   { year: 2018 as number, leagueId: '300327253869363200' as string }
-]
+];
 
 export function getMostRecentLeagueInfo(attribute: null | string = null): string | number {
   const mostRecentLeague: LeagueId = leagueIds.reduce((prev, current) => (prev.year > current.year) ? prev : current);
@@ -31,14 +31,14 @@ export async function getLeagueInfo(leagueId: string): Promise<League> {
     return leagueStore.league;
   }
   
-  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}`).catch((error) => { console.error(error); });
-  const data: League = await response?.json().catch((error) => { console.error(error); });
+  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}`).catch((error) => { console.error(error) });
+  const data: League = await response?.json().catch((error) => { console.error(error) });
 
   if (response?.ok) {
     leagueStore.$patch((state) => (state.league = data));
     return data;
   }
   else {
-    throw new Error(JSON.stringify(data))
+    throw new Error(JSON.stringify(data));
   }
 }
