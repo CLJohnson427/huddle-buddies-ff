@@ -19,6 +19,8 @@
     /*** ESLint ***/
     "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
     "curly": ["error"],
+    "eqeqeq": ["error", "smart"],
+    "no-multi-spaces": ["error", { "ignoreEOLComments": false }],
     "no-unused-vars": ["warn"],
     "semi": ["error", "always", { "omitLastInOneLineBlock": true }],
     "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],

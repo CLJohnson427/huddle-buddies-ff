@@ -26,7 +26,7 @@ export async function getLeagueStandings(leagueId: string): Promise<Standings | 
 
   // Setup the Season data.
   const seasonYear = leagueInfo.season;
-  const medianMatch = leagueInfo.settings.league_average_match == 1;
+  const medianMatch = leagueInfo.settings.league_average_match === 1;
   let week = leagueInfo.settings.start_week;
   if (leagueInfo.status === 'in_season') {
     week = sportState.display_week;
