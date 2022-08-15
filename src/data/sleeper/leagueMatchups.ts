@@ -16,10 +16,10 @@ export async function getLeagueMatchupData(leagueId: string, week: number): Prom
   const matchupSettledResults = await Promise.allSettled(matchupResponses).catch((error) => { console.error(error); }) as PromiseSettledResult<Response>[];
 
   // Convert the Matchup Results for the completed weeks in the season into JSON Data.
-  const matchups = [] as Matchup[];
+  const matchups = [] as Matchup[][];
   for (const matchupResult of matchupSettledResults) {
     if (matchupResult.status === 'fulfilled') {
-      const data: Matchup = await matchupResult.value.json().catch((error) => { console.error(error); });
+      const data: Matchup[] = await matchupResult.value.json().catch((error) => { console.error(error); });
       matchups.push(data)
     }
     else {
