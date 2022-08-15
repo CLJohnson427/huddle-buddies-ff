@@ -52,7 +52,7 @@
 <script setup>
 import { ref, toRaw, onBeforeMount } from 'vue';
 import { useLeagueStore } from '@/store/useLeague';
-import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from '@/data/chartData.js';
+import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from '@/data/chartData';
 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();

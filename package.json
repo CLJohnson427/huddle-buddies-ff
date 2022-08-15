@@ -6,7 +6,7 @@
     "dev": "vite --open",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview --open",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix src",
     "lint2": "eslint --ext .js,.ts,vue --ignore-path .gitignore .",
     "lint3": "eslint . --ext .js,.ts,.vue --ignore-path .gitignore"
   },

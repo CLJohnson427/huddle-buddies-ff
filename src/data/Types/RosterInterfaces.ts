@@ -1,4 +1,4 @@
-import { LeagueManager } from '@/data/types/UserInterfaces'
+import { LeagueManager } from '@/data/types/UserInterfaces';
 
 /**********************************************************
   Sleeper API Interfaces
