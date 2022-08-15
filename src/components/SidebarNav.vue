@@ -2,48 +2,104 @@
   <nav class="navbar">
     <ul class="navbar-nav">
       <li class="nav-logo">
-        <router-link :to="{ name: 'Home' }" class="nav-logo-link">
-          <img alt="Huddle Buddies Logo" src="@/assets/huddle-buddies-thumbnail.png" />
+        <router-link
+          :to="{ name: 'Home' }"
+          class="nav-logo-link"
+        >
+          <img
+            alt="Huddle Buddies Logo"
+            src="@/assets/huddle-buddies-thumbnail.png"
+          >
           <span class="nav-link-text nav-logo-text">
             Huddle Buddies
           </span>
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link :to="{ name: 'Home' }" class="nav-link">
-          <Icon class="nav-icon" icon="mdi:home" height="32" width="32"/>
+        <router-link
+          :to="{ name: 'Home' }"
+          class="nav-link"
+        >
+          <Icon
+            class="nav-icon"
+            icon="mdi:home"
+            height="32"
+            width="32"
+          />
           <span class="nav-link-text">Home</span>
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link :to="{ name: 'Charts' }" class="nav-link">
-          <Icon class="nav-icon" icon="mdi:chart-areaspline" height="32" width="32" />
+        <router-link
+          :to="{ name: 'Charts' }"
+          class="nav-link"
+        >
+          <Icon
+            class="nav-icon"
+            icon="mdi:chart-areaspline"
+            height="32"
+            width="32"
+          />
           <span class="nav-link-text">Charts</span>
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link :to="{ name: 'About' }" class="nav-link">
-          <Icon class="nav-icon" icon="mdi:information" height="32" width="32" />
+        <router-link
+          :to="{ name: 'About' }"
+          class="nav-link"
+        >
+          <Icon
+            class="nav-icon"
+            icon="mdi:information"
+            height="32"
+            width="32"
+          />
           <span class="nav-link-text">About</span>
         </router-link>
       </li>
       <div class="nav-bottom-section">
         <li class="nav-item">
-          <router-link :to="{ name: 'Github' }" class="nav-link" target="_blank">
-          <Icon class="nav-icon" icon="mdi:github" height="32" width="32" />
-          <span class="nav-link-text">Source Code</span>
-        </router-link>
+          <router-link
+            :to="{ name: 'Github' }"
+            class="nav-link"
+            target="_blank"
+          >
+            <Icon
+              class="nav-icon"
+              icon="mdi:github"
+              height="32"
+              width="32"
+            />
+            <span class="nav-link-text">Source Code</span>
+          </router-link>
         </li>
         <li class="nav-item">
-          <div class="nav-link" @click="leagueStore.changeTheme()">
-            <Icon v-if="leagueStore.darkTheme"
-              class="nav-icon" icon="mdi:brightness-7" height="32" width="32"
+          <div
+            class="nav-link"
+            @click="leagueStore.changeTheme()"
+          >
+            <Icon
+              v-if="leagueStore.darkTheme"
+              class="nav-icon"
+              icon="mdi:brightness-7"
+              height="32"
+              width="32"
             />
-            <Icon v-else
-              class="nav-icon" icon="mdi:brightness-4" height="32" width="32"
+            <Icon
+              v-else
+              class="nav-icon"
+              icon="mdi:brightness-4"
+              height="32"
+              width="32"
             />
-            <span v-if="leagueStore.darkTheme" class="nav-link-text">Light Theme</span>
-            <span v-else class="nav-link-text">Dark Theme</span>
+            <span
+              v-if="leagueStore.darkTheme"
+              class="nav-link-text"
+            >Light Theme</span>
+            <span
+              v-else
+              class="nav-link-text"
+            >Dark Theme</span>
           </div>
         </li>
       </div>
@@ -53,7 +109,7 @@
 
 <script setup>
 import { Icon } from '@iconify/vue';
-import { useLeagueStore } from "@/store/useLeague.js";
+import { useLeagueStore } from '@/store/useLeague';
 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();

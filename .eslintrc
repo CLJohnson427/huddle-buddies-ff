@@ -25,6 +25,6 @@
     /*** TypeScript ***/
     "@typescript-eslint/no-inferrable-types": ["error", { "ignoreParameters": true, "ignoreProperties": false }],
     /*** Vue ***/
-    "vue/max-attributes-per-line": ["off", { "singleline": 1, "multiline": 1 }]
+    "vue/max-attributes-per-line": ["error", { "singleline": 3, "multiline": 1 }]
   }
 }

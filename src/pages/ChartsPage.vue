@@ -1,7 +1,10 @@
 <template>
   <main class="charts">
-    <hr />
-    <img alt="Huddle Buddies logo" src="../assets/huddle-buddies-thumbnail.png" />
+    <hr>
+    <img
+      alt="Huddle Buddies logo"
+      src="../assets/huddle-buddies-thumbnail.png"
+    >
     <h1>This is the charts page</h1>
 
     <div v-if="lineChartData">
@@ -11,7 +14,7 @@
         type="line"
         :options="lineChartData.chartOptions"
         :series="lineChartData.chartSeries"
-      ></apexchart>
+      />
     </div>
 
     <div v-if="barChartData">
@@ -21,7 +24,7 @@
         type="bar"
         :options="barChartData.chartOptions"
         :series="barChartData.chartSeries"
-      ></apexchart>
+      />
     </div>
 
     <div v-if="barChartDataWins">
@@ -31,7 +34,7 @@
         type="bar"
         :options="barChartDataWins.chartOptions"
         :series="barChartDataWins.chartSeries"
-      ></apexchart>
+      />
     </div>
 
     <div v-if="barChartDataLoses">
@@ -41,9 +44,8 @@
         type="bar"
         :options="barChartDataLoses.chartOptions"
         :series="barChartDataLoses.chartSeries"
-      ></apexchart>
+      />
     </div>
-
   </main>
 </template>
 
@@ -55,10 +57,10 @@ import { getWeeklyStandingsLineChartData, getLeagueStandingsBarChartData } from 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();
 
-let lineChartData = ref();
-let barChartData = ref();
-let barChartDataWins = ref();
-let barChartDataLoses = ref();
+const lineChartData = ref();
+const barChartData = ref();
+const barChartDataWins = ref();
+const barChartDataLoses = ref();
 
 onBeforeMount(async () => {
   // Apex Charts
@@ -81,7 +83,7 @@ onBeforeMount(async () => {
   
   barChartDataLoses.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), { includeWins: false, includeLosses: true, includeMedian: true });
   // console.log('barChartDataLoses', barChartDataLoses);
-})
+});
 </script>
 
 <style>
