@@ -4,9 +4,11 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --open",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview --open",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
+    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix src",
+    "lint2": "eslint --ext .js,.ts,vue --ignore-path .gitignore .",
+    "lint3": "eslint . --ext .js,.ts,.vue --ignore-path .gitignore"
   },
   "dependencies": {
     "apexcharts": "^3.35.3",
@@ -18,15 +20,21 @@
   "devDependencies": {
     "@iconify/iconify": "^2.2.1",
     "@iconify/vue": "^3.2.1",
+    "@types/node": "^18.6.5",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
     "@vitejs/plugin-vue": "^3.0.0",
+    "@vue/eslint-config-typescript": "^11.0.0",
     "autoprefixer": "^10.4.7",
-    "eslint": "^8.12.0",
-    "eslint-plugin-vue": "^9.2.0",
+    "eslint": "^8.21.0",
+    "eslint-plugin-vue": "^9.3.0",
     "postcss": "^8.4.14",
     "sass": "^1.53.0",
     "tailwindcss": "^3.1.6",
+    "typescript": "^4.7.4",
     "unplugin-vue-components": "^0.21.1",
     "vite": "^3.0.0",
-    "vite-plugin-eslint": "^1.3.0"
+    "vite-plugin-eslint": "^1.3.0",
+    "vue-tsc": "^0.39.5"
   }
 }

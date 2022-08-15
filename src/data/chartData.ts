@@ -1,4 +1,6 @@
-export const teamChartColors = [
+import { Standings, TeamStanding } from '@/data/types/StandingsInterfaces';
+
+export const teamChartColors: string[] = [
   // Ordered by RosterId.
   '#3099de', // Bo
   '#004586', // Chris
@@ -10,11 +12,11 @@ export const teamChartColors = [
   '#469990', // Alex
   '#f032e6', // Colt
   '#8c564b' // Miller
-]
+];
 
 export function getLoadingChartOptions({ darkMode = false } = {}) {
    // Setup the the Chart Options Object.
-   let chartOptions = {
+   const chartOptions = {
     theme: {
       mode: darkMode ? 'dark' : 'light'
     },
@@ -33,20 +35,23 @@ export function getLoadingChartOptions({ darkMode = false } = {}) {
     }
   };
 
-  let chartSeries = [];
+  const chartSeries = [];
 
-  return { chartOptions, chartSeries }
+  return { chartOptions, chartSeries };
 }
 
-export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = false, includeChartMarkers = false } = {}) {
+export function getWeeklyStandingsLineChartData(leagueStandings: Standings, { darkMode = false, includeChartMarkers = false } = {}) {
   // Setup League Weeks Data
-  let weeks = [];
-  for (let i = 0; i < leagueStandings.standings[1].weeklyStandings.length; i++) {
-    weeks.push(leagueStandings.standings[1].weeklyStandings[i].week);
+  const weeks: number[] = [];
+  const teamStanding = leagueStandings.standings.get(1);
+  if (teamStanding){
+    for (let i = 0; i < teamStanding.weeklyStandings.length; i++) {
+      weeks.push(teamStanding.weeklyStandings[i].week);
+    }
   }
 
   // Setup the Chart Options Object.
-  let chartOptions = {
+  const chartOptions = {
     chart: {
       type: 'line',
       zoom: {
@@ -62,6 +67,21 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
     title: {
       text:`${leagueStandings.seasonYear} Weekly Standings (Total Wins)`,
       align: 'center'
+    },
+    dataLabels: {
+      enabled: false
+    },
+    tooltip: {
+      enabled: true,
+      followCursor: false,
+      fillSeriesColor: false,
+      x: {
+        show: true,
+        format: 'dd MMM',
+        formatter: function(value: number) {
+          return `Week ${value}`;
+        }
+      }
     },
     colors: teamChartColors,
     xaxis: {
@@ -81,20 +101,20 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
     },
     markers: {
       size: includeChartMarkers ? 5 : 0,
-      shape: "circle",
+      shape: 'circle',
       hover: {
         sizeOffset: 3
       }
     }
-  }
+  };
 
   // Setup the Chart Series Data.
-  let chartSeries = [];
+  const chartSeries: any[] = [];
 
   // Iterate through each leagueStandings.standings property to add each Team to an array.
-  let teamStandingsData = [];
-  for (const key in leagueStandings.standings) {
-    teamStandingsData.push(leagueStandings.standings[key]);
+  const teamStandingsData: TeamStanding[] = [];
+  for (const teamStanding of leagueStandings.standings.values()) {
+    teamStandingsData.push(teamStanding);
   }
 
   // Sort Teams by Total Wins.
@@ -102,7 +122,7 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
 
   // Iterate through each Team to setup the Chart Series Data.
   for (const team of teamStandingsData) {
-    let totalWins = [];
+    const totalWins: number[] = [];
     team.weeklyStandings.forEach((weeklyStanding) => {
       totalWins.push(weeklyStanding.totalWins);
     });
@@ -113,30 +133,33 @@ export function getWeeklyStandingsLineChartData(leagueStandings, { darkMode = fa
     });
   }
 
-  return { chartOptions, chartSeries }
+  return { chartOptions, chartSeries };
 }
 
-export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = false, stackedBarChart = false, verticalBarChart = true, includeWins = true, includeLosses = true, includeMedian = true, combineMedian = false } = {}) {
+export function getLeagueStandingsBarChartData(leagueStandings: Standings, { darkMode = false, stackedBarChart = false, verticalBarChart = true, includeWins = true, includeLosses = true, includeMedian = true, combineMedian = false } = {}) {
   // Setup League Weeks Data
-  let weeks = [];
-  for (let i = 0; i < leagueStandings.standings[1].weeklyStandings.length; i++) {
-    weeks.push(leagueStandings.standings[1].weeklyStandings[i].week);
+  const weeks: number[] = [];
+  const teamStanding = leagueStandings.standings.get(1);
+  if (teamStanding){
+    for (let i = 0; i < teamStanding.weeklyStandings.length; i++) {
+      weeks.push(teamStanding.weeklyStandings[i].week);
+    }
   }
 
   // Setup the Chart Data.
-  let chartCategories = [];
-  let chartColors = [];
-  let totalWins = [];
-  let playerWins = [];
-  let medianWins = [];
-  let totalLosses = [];
-  let playerLosses = [];
-  let medianLosses = [];
+  const chartCategories: string[] = [];
+  const chartColors: string[] = [];
+  const totalWins: number[] = [];
+  const playerWins: number[] = [];
+  const medianWins: number[] = [];
+  const totalLosses: number[] = [];
+  const playerLosses: number[] = [];
+  const medianLosses: number[] = [];
 
   // Iterate through each leagueStandings.standings property to add each Team to an array.
-  let teamStandingsData = [];
-  for (const key in leagueStandings.standings) {
-    teamStandingsData.push(leagueStandings.standings[key]);
+  const teamStandingsData: TeamStanding[] = [];
+  for (const teamStanding of leagueStandings.standings.values()) {
+    teamStandingsData.push(teamStanding);
   }
 
   // Sort Teams by Total Wins (if included).
@@ -150,7 +173,7 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
 
   // Iterate through each Team to setup the Chart Data.
   for (const team of teamStandingsData) {
-    chartCategories.push(`${team.manager.managerName}`)
+    chartCategories.push(`${team.manager.managerName}`);
     totalWins.push(team.totalWins);
     playerWins.push(team.playerWins);
     medianWins.push(team.medianWins);
@@ -160,7 +183,7 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
   }
 
   // Setup the the Chart Options Object.
-  let chartOptions = {
+  const chartOptions = {
     chart: {
       type: 'bar',
       stacked: false,
@@ -173,7 +196,7 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
         borderRadius: 2
       },
     },
-    colors: [],
+    colors: [] as string[],
     theme: {
       mode: darkMode ? 'dark' : 'light'
     },
@@ -204,7 +227,7 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
         text: ''
       }
     }
-  }
+  };
 
   // Update the Chart Options for a Stacked Bar Chart.
   if (stackedBarChart) {
@@ -225,7 +248,7 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
   }
   
   // Setup the Chart Series Data.
-  let chartSeries = [];
+  const chartSeries: any[] = [];
 
   // Wins
   if (includeWins) {
@@ -287,20 +310,20 @@ export function getLeagueStandingsBarChartData(leagueStandings, { darkMode = fal
   // Set the Chart Colors.
   chartOptions.colors = chartColors;
 
-  return { chartOptions, chartSeries }
+  return { chartOptions, chartSeries };
 }
 
-export function getLeaguePointsLineChartData(leagueStandings, { darkMode = false, includeChartMarkers = false } = {}) {
+export function getLeaguePointsLineChartData(leagueStandings: Standings, { darkMode = false, includeChartMarkers = false } = {}) {
   // Setup the Chart Data.
-  let chartSeries = [];
-  let chartCategories = [];
-  let totalPointsFor = [];
-  let totalPointsAgainst = [];
+  const chartSeries: any[] = [];
+  const chartCategories: string[] = [];
+  const totalPointsFor: number[] = [];
+  const totalPointsAgainst: number[] = [];
 
   // Iterate through each leagueStandings.standings property to add each Team to an array.
-  let teamStandingsData = [];
-  for (const key in leagueStandings.standings) {
-    teamStandingsData.push(leagueStandings.standings[key]);
+  const teamStandingsData: TeamStanding[] = [];
+  for (const teamStanding of leagueStandings.standings.values()) {
+    teamStandingsData.push(teamStanding);
   }
 
   // Sort Teams by Total Wins.
@@ -308,7 +331,7 @@ export function getLeaguePointsLineChartData(leagueStandings, { darkMode = false
 
   // Iterate through each Team to setup the Chart Categories and Series Data.
   for (const team of teamStandingsData) {
-    chartCategories.push(`${team.manager.managerName}`)
+    chartCategories.push(`${team.manager.managerName}`);
     totalPointsFor.push(team.totalPointsFor);
     totalPointsAgainst.push(team.totalPointsAgainst);
   }
@@ -325,7 +348,7 @@ export function getLeaguePointsLineChartData(leagueStandings, { darkMode = false
   });
 
   // Setup the the Chart Options Object.
-  let chartOptions = {
+  const chartOptions = {
     chart: {
       type: 'line',
       zoom: {
@@ -356,12 +379,12 @@ export function getLeaguePointsLineChartData(leagueStandings, { darkMode = false
     },
     markers: {
       size: includeChartMarkers ? 5 : 0,
-      shape: "circle",
+      shape: 'circle',
       hover: {
         sizeOffset: 3
       }
     }
-  }
+  };
 
-  return { chartOptions, chartSeries }
+  return { chartOptions, chartSeries };
 }

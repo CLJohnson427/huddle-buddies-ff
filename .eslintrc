@@ -1,0 +1,32 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "plugin:vue/vue3-recommended", // https://eslint.vuejs.org/rules/
+    "eslint:recommended", // https://eslint.org/docs/rules/
+    "@vue/typescript/recommended" // https://typescript-eslint.io/rules/
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
+  "plugins": [],
+  "rules": {
+    // "ruleName": ["off, warn, error", { ruleOptions }]
+    /*** ESLint ***/
+    "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
+    "curly": ["error"],
+    "eqeqeq": ["error", "smart"],
+    "no-multi-spaces": ["error", { "ignoreEOLComments": false }],
+    "no-unused-vars": ["warn"],
+    "semi": ["error", "always", { "omitLastInOneLineBlock": true }],
+    "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
+    /*** TypeScript ***/
+    "@typescript-eslint/no-inferrable-types": ["error", { "ignoreParameters": true, "ignoreProperties": false }],
+    /*** Vue ***/
+    "vue/max-attributes-per-line": ["error", { "singleline": 3, "multiline": 1 }]
+  }
+}
