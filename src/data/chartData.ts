@@ -1,11 +1,6 @@
-import { League } from '@/data/types/LeagueInterfaces';
-import { MatchupData } from '@/data/types/MatchupInterfaces';
-import { Rosters } from '@/data/types/RosterInterfaces';
-import { SportState } from '@/data/types/SportStateInterfaces';
 import { Standings, TeamStanding } from '@/data/types/StandingsInterfaces';
-import { Users } from '@/data/types/UserInterfaces';
 
-export const teamChartColors = [
+export const teamChartColors: string[] = [
   // Ordered by RosterId.
   '#3099de', // Bo
   '#004586', // Chris
@@ -72,6 +67,21 @@ export function getWeeklyStandingsLineChartData(leagueStandings: Standings, { da
     title: {
       text:`${leagueStandings.seasonYear} Weekly Standings (Total Wins)`,
       align: 'center'
+    },
+    dataLabels: {
+      enabled: false
+    },
+    tooltip: {
+      enabled: true,
+      followCursor: false,
+      fillSeriesColor: false,
+      x: {
+        show: true,
+        format: 'dd MMM',
+        formatter: function(value: number) {
+          return `Week ${value}`
+        }
+      }
     },
     colors: teamChartColors,
     xaxis: {
