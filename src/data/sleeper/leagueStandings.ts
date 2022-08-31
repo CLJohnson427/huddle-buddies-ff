@@ -14,7 +14,7 @@ import { Users } from '@/data/types/UserInterfaces';
 export async function getLeagueStandings(leagueId: string): Promise<Standings | null> {
   const leagueStore = useLeagueStore();
 
-  if (leagueStore.standings.league_id === leagueId) {
+  if (leagueStore.standings?.league_id === leagueId) {
     return leagueStore.standings;
   }
 
@@ -56,13 +56,13 @@ export async function getLeagueStandings(leagueId: string): Promise<Standings | 
     standings = await processStandingsData(leagueId, matchup, standings, leagueRosters, leagueUsers, medianMatch, weekIndex + 1);
   }
 
-  const standingsResponse = {
+  const standingsResponse: Standings = {
     league_id: leagueInfo.league_id,
     medianMatch: medianMatch,
     roster: leagueRosters.roster,
     seasonYear: seasonYear,
     standings: standings,
-  } as Standings;
+  };
 
   leagueStore.$patch((state) => (state.standings = standingsResponse));
 

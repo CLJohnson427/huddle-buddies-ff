@@ -27,11 +27,11 @@ export async function getLeagueMatchupData(leagueId: string, week: number): Prom
     }
   }
 
-  const matchupData = {
+  const matchupData: MatchupData = {
     league_id: leagueId,
     matchups: matchups,
     week: week
-  } as MatchupData;
+  };
 
   leagueStore.$patch((state) => (state.matchupData = matchupData));
   
