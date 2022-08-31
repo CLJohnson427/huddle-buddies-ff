@@ -212,9 +212,6 @@ export function getLeagueStandingsBarChartData(leagueStandings: Standings, { dar
     xaxis: {
       type: 'category',
       categories: chartCategories,
-      min: 0,
-      max: weeks.length,
-      tickAmount: weeks.length,
       title: {
         text: ''
       }
@@ -232,7 +229,6 @@ export function getLeagueStandingsBarChartData(leagueStandings: Standings, { dar
   // Update the Chart Options for a Stacked Bar Chart.
   if (stackedBarChart) {
     chartOptions.chart.stacked = true;
-    chartOptions.xaxis.max = includeMedian ? weeks.length * 2 : weeks.length;
     chartOptions.yaxis.max = includeMedian ? weeks.length * 2 : weeks.length;
   }
 
@@ -243,7 +239,6 @@ export function getLeagueStandingsBarChartData(leagueStandings: Standings, { dar
 
   // Update the Chart Options if the median data is combined or separated.
   if (combineMedian) {
-    chartOptions.xaxis.max = leagueStandings.medianMatch ? weeks.length * 2 : weeks.length;
     chartOptions.yaxis.max = leagueStandings.medianMatch ? weeks.length * 2 : weeks.length;
   }
   
