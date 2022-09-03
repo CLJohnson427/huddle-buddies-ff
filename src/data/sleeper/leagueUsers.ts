@@ -64,6 +64,7 @@ export async function getLeagueManagerDisplay(leagueId: string, userId: string):
   if (user) { 
     manager = {
       avatar: `https://sleepercdn.com/avatars/thumbs/${user.avatar}`,
+      leagueId: leagueId,
       managerName: user.display_name,
       teamName: user.metadata.team_name,
       userId: user.user_id
@@ -72,6 +73,7 @@ export async function getLeagueManagerDisplay(leagueId: string, userId: string):
   else {
     manager = {
       avatar: `https://sleepercdn.com/images/v2/icons/player_default.webp`,
+      leagueId: leagueId,
       managerName: 'Unknown Manager',
       teamName: 'Unknown Team',
       userId: '0'
