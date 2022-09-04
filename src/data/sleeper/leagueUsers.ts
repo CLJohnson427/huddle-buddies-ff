@@ -45,7 +45,7 @@ export async function getLeagueManagerDisplay(leagueId: string, userId: string):
   let user: User | null = null;
   let manager: LeagueManager;
 
-  if (leagueStore.users?.user?.has(userId)) {
+  if (leagueStore.users?.league_id === leagueId && leagueStore.users?.user?.has(userId)) {
     user = leagueStore.users.user.get(userId) as User;
   }
   else {
