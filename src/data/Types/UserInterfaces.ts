@@ -78,6 +78,7 @@ export interface Users {
 
 export interface LeagueManager {
   avatar: string;
+  leagueId: string;
   managerName: string;
   teamName: string;
   userId: string;

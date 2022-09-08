@@ -8,6 +8,7 @@ import { getLeagueRosters } from '@/data/sleeper/leagueRosters.js';
 import { getLeagueStandings } from '@/data/sleeper/leagueStandings.js';
 import { getSportState } from '@/data/sleeper/sportState';
 import { getLeagueUsers } from '@/data/sleeper/leagueUsers';
+import { getLeagueChampion } from '@/data/sleeper/playoffBrackets';
 
 // Types
 import { League } from '@/data/types/LeagueInterfaces';
@@ -15,13 +16,14 @@ import { MatchupData } from '@/data/types/MatchupInterfaces';
 import { Rosters } from '@/data/types/RosterInterfaces';
 import { SportState } from '@/data/types/SportStateInterfaces';
 import { Standings } from '@/data/types/StandingsInterfaces';
-import { Users } from '@/data/types/UserInterfaces';
+import { Users, LeagueManager } from '@/data/types/UserInterfaces';
 
 export const useLeagueStore = defineStore('leagueStore', {
   state: () => ({
     // counter: 0,
     darkTheme: true as boolean,
     league: {} as League,
+    leagueChampion: {} as LeagueManager | null,
     leagueId: getMostRecentLeagueInfo('id') as string,
     leagueYear: getMostRecentLeagueInfo('year') as number,
     matchupData: {} as MatchupData,
@@ -54,22 +56,25 @@ export const useLeagueStore = defineStore('leagueStore', {
         document.documentElement.classList.remove('dark');
       }
     },
-    async getLeagueInfo(leagueId = null) {
+    async getLeagueChampion(leagueId: string | null = null): Promise<void> {
+      this.leagueChampion = await getLeagueChampion(leagueId ? leagueId : this.leagueId);
+    },
+    async getLeagueInfo(leagueId: string | null = null): Promise<void> {
       this.league = await getLeagueInfo(leagueId ? leagueId : this.leagueId);
     },
-    async getLeagueRosters(leagueId = null) {
+    async getLeagueRosters(leagueId: string | null = null): Promise<void> {
       this.rosters = await getLeagueRosters(leagueId ? leagueId : this.leagueId);
     },
-    async getLeagueStandings(leagueId = null) {
+    async getLeagueStandings(leagueId: string | null = null): Promise<void> {
       this.standings = await getLeagueStandings(leagueId ? leagueId : this.leagueId) as any;
     },
-    async getLeagueMatchupData(leagueId: string | null = null, week: number) {
+    async getLeagueMatchupData(leagueId: string | null = null, week: number): Promise<void> {
       this.matchupData = await getLeagueMatchupData(leagueId ? leagueId : this.leagueId, week);
     },
-    async getLeagueUsers(leagueId = null) {
+    async getLeagueUsers(leagueId: string | null = null): Promise<void> {
       this.users = await getLeagueUsers(leagueId ? leagueId : this.leagueId);
     },
-    async getSportState(sport = null) {
+    async getSportState(sport: string | null = null): Promise<void> {
       this.sportState = await getSportState(sport ? sport : this.sport);
     }
   }
