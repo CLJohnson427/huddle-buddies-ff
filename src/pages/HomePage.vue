@@ -44,8 +44,12 @@
         {{ league.year }}
       </option>
     </select>
-
     <br><br>
+
+    <div v-if="leagueChampion">
+      <span class="font-bold">League Champion: {{ leagueChampion.managerName }} | {{ leagueChampion.teamName }}</span>
+      <br><br>
+    </div>
     
     <LeagueStandingsBarChart
       :league-id="selectedLeagueId"
@@ -83,16 +87,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch, onBeforeMount } from 'vue';
 import { Icon } from '@iconify/vue';
 import { useLeagueStore } from '@/store/useLeague';
 import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo';
+import { getLeagueChampion } from '@/data/sleeper/playoffBrackets';
 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();
 
-// Setup Chart Refs
+// Setup Refs
 const selectedLeagueId = ref(getMostRecentLeagueInfo('id'));
+const leagueChampion = ref();
+
+
+async function getChampion(leagueId: string) {
+  await leagueStore.getLeagueChampion(selectedLeagueId.value as string);
+  if (leagueStore.leagueChampion) {
+    leagueChampion.value = leagueStore.leagueChampion;
+  }
+}
+
+// onBeforeMount Lifecycle Hook
+onBeforeMount(async () => {
+  await getChampion(selectedLeagueId.value as string);
+});
+
+watch(selectedLeagueId, async (selectedLeagueId) => {
+  await getChampion(selectedLeagueId as string);
+});
 </script>
 
 <style>
