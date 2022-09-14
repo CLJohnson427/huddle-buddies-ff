@@ -46,10 +46,10 @@
     </select>
     <br><br>
 
-    <div v-if="leagueChampion">
+    <!-- <div v-if="leagueChampion">
       <span class="font-bold">League Champion: {{ leagueChampion.managerName }} | {{ leagueChampion.teamName }}</span>
       <br><br>
-    </div>
+    </div> -->
     
     <LeagueStandingsBarChart
       :league-id="selectedLeagueId"

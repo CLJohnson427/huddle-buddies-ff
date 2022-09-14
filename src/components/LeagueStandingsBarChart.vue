@@ -256,9 +256,20 @@ watch([() => props.leagueId, () => props.darkMode], async () => {
 
 // Updated the Chart Options when the stackedBarChart Ref is changed.
 watch(stackedBarChart, () => {
-  // Get the number of Regular Season Weeks in the League.
-  let weeks = leagueStore.league.settings.playoff_week_start - 1;
-
+  let weeks = 0;
+  if (leagueStore.league.status === 'complete') {
+    // Get the number of Regular Season Weeks in the League.
+    weeks = leagueStore.league.settings.playoff_week_start - 1;
+  }
+  else {
+    // Setup League Weeks Data
+    const numberOfWeeks = leagueStore.standings.standings.get(1)?.weeklyStandings.length;
+    if (numberOfWeeks !== undefined) {
+      weeks = numberOfWeeks;
+    }
+  }
+  const tickAmount = weeks;
+  
   // Double the number of weeks if the chart will be changed to a Stacked Chart and the median is included or combined.
   if (stackedBarChart.value === true && (includeMedian.value === true || combineMedian.value === true)) {
     weeks *= 2;
@@ -271,11 +282,13 @@ watch(stackedBarChart, () => {
       chart: {
         stacked: stackedBarChart.value
       },
-      xaxis: {
-        max: weeks
-      },
       yaxis: {
-        max: weeks
+        min: 0,
+        max: weeks,
+        tickAmount: tickAmount,
+        title: {
+          text: ''
+        }
       }
     }
   };
