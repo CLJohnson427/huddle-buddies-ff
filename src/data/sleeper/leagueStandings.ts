@@ -29,7 +29,8 @@ export async function getLeagueStandings(leagueId: string): Promise<Standings | 
   const medianMatch = leagueInfo.settings.league_average_match === 1;
   let week = leagueInfo.settings.start_week;
   if (leagueInfo.status === 'in_season') {
-    week = sportState.display_week;
+    // week = sportState.display_week;
+    week = sportState.week;
   }
   else if (leagueInfo.status === 'post_season' || leagueInfo.status === 'complete') {
     week = leagueInfo.settings.playoff_week_start;
