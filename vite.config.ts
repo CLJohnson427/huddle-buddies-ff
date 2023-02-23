@@ -25,5 +25,10 @@ export default defineConfig({
       extensions: ['vue'],
       include: [/\.vue$/, /\.vue\?vue/]
     }),
-  ]
+  ],
+  server: {
+    host: 'localhost',
+    port: 3000,
+    open: true
+  }
 });
