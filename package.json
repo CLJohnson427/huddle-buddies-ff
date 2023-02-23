@@ -3,12 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --open",
+    "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview --open",
-    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix src",
-    "lint2": "eslint --ext .js,.ts,vue --ignore-path .gitignore .",
-    "lint3": "eslint . --ext .js,.ts,.vue --ignore-path .gitignore"
+    "preview": "vite preview",
+    "lint": "eslint src --fix --ext .js,.ts,.vue",
+    "lint2": "eslint src --fix --ext .js,.ts,.vue --ignore-path .gitignore"
   },
   "dependencies": {
     "apexcharts": "^3.37.1",
