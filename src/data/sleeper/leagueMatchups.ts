@@ -1,5 +1,5 @@
-import { useLeagueStore } from '@/store/useLeague';
 import { Matchup, MatchupData } from '@/data/types/MatchupInterfaces';
+import { useLeagueStore } from '@/store/useLeague';
 
 export async function getLeagueMatchupData(leagueId: string, week: number): Promise<MatchupData> {
   const leagueStore = useLeagueStore();

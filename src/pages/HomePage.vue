@@ -102,7 +102,7 @@ const leagueChampion = ref();
 
 
 async function getChampion(leagueId: string) {
-  await leagueStore.getLeagueChampion(selectedLeagueId.value as string);
+  await leagueStore.getLeagueChampion(selectedLeagueId.value.toString());
   if (leagueStore.leagueChampion) {
     leagueChampion.value = leagueStore.leagueChampion;
   }

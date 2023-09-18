@@ -1,8 +1,8 @@
-import path from 'path';
-import { defineConfig } from 'vite';
 import Vue from '@vitejs/plugin-vue';
-import eslintPlugin from 'vite-plugin-eslint';
+import path from 'path';
 import Components from 'unplugin-vue-components/vite';
+import { defineConfig } from 'vite';
+import eslintPlugin from 'vite-plugin-eslint';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,5 +25,10 @@ export default defineConfig({
       extensions: ['vue'],
       include: [/\.vue$/, /\.vue\?vue/]
     }),
-  ]
+  ],
+  server: {
+    host: 'localhost',
+    port: 3000,
+    open: true
+  }
 });
