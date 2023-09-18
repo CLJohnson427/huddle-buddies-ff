@@ -1,11 +1,11 @@
-import { useLeagueStore } from '@/store/useLeague';
 import { getLeagueInfo } from '@/data/sleeper/leagueInfo';
 import { getLeagueRosters } from '@/data/sleeper/leagueRosters';
 import { getLeagueManagerDisplay } from '@/data/sleeper/leagueUsers';
 import { League } from '@/data/types/LeagueInterfaces';
-import { PlayoffBracket } from '@/data/Types/PlayoffBrackets';
+import { PlayoffBracket } from '@/data/types/PlayoffBrackets';
 import { Rosters } from '@/data/types/RosterInterfaces';
 import { LeagueManager } from '@/data/types/UserInterfaces';
+import { useLeagueStore } from '@/store/useLeague';
 
 // This endpoint retrieves the playoff bracket for a league for 4, 6, and 8 team playoffs.
 // Each row represents a matchup between 2 teams.

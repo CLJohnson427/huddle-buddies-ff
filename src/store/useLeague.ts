@@ -6,9 +6,9 @@ import { getLeagueInfo, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInf
 import { getLeagueMatchupData } from '@/data/sleeper/leagueMatchups.js';
 import { getLeagueRosters } from '@/data/sleeper/leagueRosters.js';
 import { getLeagueStandings } from '@/data/sleeper/leagueStandings.js';
-import { getSportState } from '@/data/sleeper/sportState';
 import { getLeagueUsers } from '@/data/sleeper/leagueUsers';
 import { getLeagueChampion } from '@/data/sleeper/playoffBrackets';
+import { getSportState } from '@/data/sleeper/sportState';
 
 // Types
 import { League } from '@/data/types/LeagueInterfaces';
@@ -16,7 +16,7 @@ import { MatchupData } from '@/data/types/MatchupInterfaces';
 import { Rosters } from '@/data/types/RosterInterfaces';
 import { SportState } from '@/data/types/SportStateInterfaces';
 import { Standings } from '@/data/types/StandingsInterfaces';
-import { Users, LeagueManager } from '@/data/types/UserInterfaces';
+import { LeagueManager, Users } from '@/data/types/UserInterfaces';
 
 export const useLeagueStore = defineStore('leagueStore', {
   state: () => ({

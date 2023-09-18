@@ -1,6 +1,6 @@
-import { useLeagueStore } from '@/store/useLeague';
 import { getLeagueManagerDisplay } from '@/data/sleeper/leagueUsers';
 import { Roster, Rosters, TeamRoster } from '@/data/types/RosterInterfaces';
+import { useLeagueStore } from '@/store/useLeague';
 
 // This endpoint retrieves all rosters in a league.
 // GET https://api.sleeper.app/v1/league/<leagueId>/rosters

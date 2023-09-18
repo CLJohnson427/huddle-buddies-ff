@@ -1,5 +1,5 @@
-import { useLeagueStore } from '@/store/useLeague';
 import { League, LeagueId } from '@/data/types/LeagueInterfaces';
+import { useLeagueStore } from '@/store/useLeague';
 
 export const leagueIds: Array<LeagueId> = [
   // Keep the most current year as the 0 index.
