@@ -1,15 +1,15 @@
 import { getLeagueInfo } from '@/data/sleeper/leagueInfo';
 import { getLeagueMatchupData } from '@/data/sleeper/leagueMatchups';
 import { getLeagueRosters } from '@/data/sleeper/leagueRosters';
-import { getLeagueUsers, getLeagueManagerDisplay } from '@/data/sleeper/leagueUsers';
+import { getLeagueManagerDisplay, getLeagueUsers } from '@/data/sleeper/leagueUsers';
 import { getSportState } from '@/data/sleeper/sportState';
-import { useLeagueStore } from '@/store/useLeague';
 import { League } from '@/data/types/LeagueInterfaces';
 import { Matchup, MatchupData } from '@/data/types/MatchupInterfaces';
 import { Rosters } from '@/data/types/RosterInterfaces';
 import { SportState } from '@/data/types/SportStateInterfaces';
 import { Standings, TeamStanding } from '@/data/types/StandingsInterfaces';
 import { Users } from '@/data/types/UserInterfaces';
+import { useLeagueStore } from '@/store/useLeague';
 
 export async function getLeagueStandings(leagueId: string): Promise<Standings | null> {
   const leagueStore = useLeagueStore();

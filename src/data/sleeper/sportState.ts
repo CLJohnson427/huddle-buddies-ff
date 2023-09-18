@@ -1,5 +1,5 @@
-import { useLeagueStore } from '@/store/useLeague';
 import { SportState } from '@/data/types/SportStateInterfaces';
+import { useLeagueStore } from '@/store/useLeague';
 
 // This endpoint returns information about the current state for any sport (nfl, nba, lcs, etc).
 // GET https://api.sleeper.app/v1/state/<sport>
