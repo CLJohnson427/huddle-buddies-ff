@@ -1,23 +1,14 @@
-# Dependencies
-node_modules
+#src
+src/*.d.ts
+index.html
 
-# Production
+### .gitignore
+node_modules
 /dist
 dist
 dist-ssr
 
-# Vite
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
-
-# Vitest
-vitest.config.js.timestamp-*
-vitest.config.ts.timestamp-*
-
-# Tests
-/tests/coverage
-
-# Local env files
+# local env files
 *.local
 .env.local
 .env.*.local

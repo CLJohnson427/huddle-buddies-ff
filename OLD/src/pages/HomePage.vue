@@ -52,7 +52,7 @@
     </div> -->
     
     <LeagueStandingsBarChart
-      :league-id="selectedLeagueId"
+      :league-id="selectedLeagueId.toString()"
       :dark-mode="leagueStore.darkTheme"
       :chart-height="800"
       :chart-width="'100%'"
@@ -67,7 +67,7 @@
     <br><hr><br>
 
     <WeeklyStandingsLineChart
-      :league-id="selectedLeagueId"
+      :league-id="selectedLeagueId.toString()"
       :dark-mode="leagueStore.darkTheme"
       :chart-height="800"
       :chart-width="'100%'"
@@ -77,7 +77,7 @@
     <br><hr><br>
 
     <LeaguePointsLineChart
-      :league-id="selectedLeagueId"
+      :league-id="selectedLeagueId.toString()"
       :dark-mode="leagueStore.darkTheme"
       :chart-height="800"
       :chart-width="'100%'"
@@ -92,6 +92,9 @@ import { Icon } from '@iconify/vue';
 import { useLeagueStore } from '@/store/useLeague';
 import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo';
 import { getLeagueChampion } from '@/data/sleeper/playoffBrackets';
+import LeaguePointsLineChart from '@/components/LeaguePointsLineChart.vue';
+import LeagueStandingsBarChart from '@/components/LeagueStandingsBarChart.vue';
+import WeeklyStandingsLineChart from '@/components/WeeklyStandingsLineChart.vue';
 
 // Setup the leagueStore.
 const leagueStore = useLeagueStore();

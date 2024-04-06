@@ -1,34 +1,39 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "lib": [
-      "DOM",
-      "ESNext"
-    ],
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "moduleResolution": "Node",
-    "noImplicitAny": false, //Change when converted from JS.
     "paths": {
       "@/*": ["./src/*"]
     },
-    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "sourceMap": true,
-    "strict": true,
-    "target": "ESNext",
+    "target": "ES2020",
     "useDefineForClassFields": true,
+
+    /* Bundler mode */
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "resolveJsonModule": true,
+
+    /* Linting */
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+
+    /* Node */
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "vite.config.ts"
+    // "vite.config.ts"
   ],
   "exclude": [
     "dist",

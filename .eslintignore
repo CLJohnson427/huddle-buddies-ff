@@ -1,13 +1,15 @@
-#src
+# src
 src/*.d.ts
 
-### .gitignore
+# Dependencies
 node_modules
+
+# Production
 /dist
 dist
 dist-ssr
 
-# local env files
+# Local env files
 *.local
 .env.local
 .env.*.local
