@@ -6,12 +6,15 @@
     "node": true
   },
   "extends": [
-    "plugin:vue/vue3-recommended", // https://eslint.vuejs.org/rules/
     "eslint:recommended", // https://eslint.org/docs/rules/
-    "@vue/typescript/recommended" // https://typescript-eslint.io/rules/
+    "plugin:vue/vue3-recommended", // https://eslint.vuejs.org/rules/
+    "plugin:@typescript-eslint/recommended" // https://typescript-eslint.io/rules/
   ],
+  "ignorePatterns": ["**/*.md"],
+  "parser": "vue-eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 2021
+    "ecmaVersion": 2021,
+    "parser": "@typescript-eslint/parser" 
   },
   "plugins": [],
   "rules": {

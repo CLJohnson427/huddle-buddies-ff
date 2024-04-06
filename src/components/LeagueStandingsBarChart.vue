@@ -316,5 +316,5 @@ watch([includeWins, includeLosses, includeMedian, combineMedian], async () => {
 });
 </script>
 
-<style lang="scss">
+<style>
 </style>

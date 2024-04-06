@@ -3,7 +3,7 @@ import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
 import App from './App.vue';
-import './main.scss';
+import './main.css';
 import router from './router';
 
 // Create Vue App

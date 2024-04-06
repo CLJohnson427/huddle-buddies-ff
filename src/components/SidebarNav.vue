@@ -115,7 +115,7 @@ import { useLeagueStore } from '@/store/useLeague';
 const leagueStore = useLeagueStore();
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .navbar {
   position: fixed;
   background-color: var(--sidebar-bg-primary);

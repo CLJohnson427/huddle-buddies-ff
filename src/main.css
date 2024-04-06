@@ -1,11 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 /******************************************************************************
   Variables
 /*****************************************************************************/
-//*
 :root {
   --bg-primary: #fff;
   --bg-secondary: #ebedef;
@@ -28,7 +25,7 @@
   --bg-tertiary: #4f545c;
   --text-primary: #fbfbfb;
   --text-secondary: #c8c8c8;
-  // --sidebar-width: 5rem;
+  /* // --sidebar-width: 5rem; */
   --sidebar-bg-primary: #202225;
   --sidebar-bg-active: #141418;
   --sidebar-text-primary: #fbfbfb;
@@ -51,15 +48,15 @@ body {
 }
 
 main {
-  // margin-left: var(--sidebar-width);
-  // margin-left: 5rem;
-  // padding: 1rem;
+  /* margin-left: var(--sidebar-width);
+  margin-left: 5rem;
+  padding: 1rem; */
 
   margin: 20px 10px;
 }
 
 
-//*/
+*/
 
 /* SideBarNavTest2
 :root {
