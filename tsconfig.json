@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "noImplicitAny": false,
     "paths": {
       "@/*": ["./src/*"]
     },

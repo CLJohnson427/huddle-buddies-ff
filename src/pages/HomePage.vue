@@ -17,6 +17,7 @@ const leagueChampion = ref()
 
 
 async function getChampion(leagueId: string) {
+  // console.log(leagueId)
   await leagueStore.getLeagueChampion(selectedLeagueId.value.toString())
   if (leagueStore.leagueChampion) {
     leagueChampion.value = leagueStore.leagueChampion
@@ -62,6 +63,8 @@ watch(selectedLeagueId, async (selectedLeagueId) => {
         />
       </div>
     </nav>
+
+    <!-- <hr class="divider"> -->
     
     <div class="leagueYear">
       <span>League Year: </span>
@@ -89,6 +92,8 @@ watch(selectedLeagueId, async (selectedLeagueId) => {
       :combine-median="false"
     />
 
+    <hr class="divider">
+
     <WeeklyStandingsLineChart
       :league-id="selectedLeagueId.toString()"
       :dark-mode="leagueStore.darkTheme"
@@ -96,6 +101,8 @@ watch(selectedLeagueId, async (selectedLeagueId) => {
       :chart-width="'100%'"
       :include-chart-markers="false"
     />
+
+    <hr class="divider">
 
     <LeaguePointsLineChart
       :league-id="selectedLeagueId.toString()"
@@ -228,5 +235,10 @@ watch(selectedLeagueId, async (selectedLeagueId) => {
       font-weight: bold;
       margin-right: 0.5rem;
     }
+  }
+
+  .divider {
+    margin: 1rem 0rem;
+    border: 0.1rem solid;
   }
 </style>
