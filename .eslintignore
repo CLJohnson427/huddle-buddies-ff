@@ -1,5 +1,6 @@
 # src
 src/*.d.ts
+index.html
 
 # Dependencies
 node_modules
