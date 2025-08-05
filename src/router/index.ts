@@ -11,8 +11,9 @@ const routes: RouteRecordRaw[] = [
 
 const router = createRouter({
   // history: createWebHistory(process.env.NODE_ENV === 'production' ? '/huddle-buddies-ff/' : '/',),
-  history: createWebHistory(),
-  routes
+  // history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
 })
 
 export default router

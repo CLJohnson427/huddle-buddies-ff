@@ -1,9 +1,10 @@
 <script setup>
-import { defineProps, onBeforeMount, ref, toRaw, watch } from 'vue'
-import { Icon } from '@iconify/vue'
 import { useLeagueStore } from '@/stores/leagueStore'
 import { getWeeklyStandingsLineChartData } from '@/utils/chartData'
 import { getMostRecentLeagueInfo } from '@/utils/sleeper/leagueInfo'
+import { getLeagueStandings } from '@/utils/sleeper/leagueStandings'
+import { Icon } from '@iconify/vue'
+import { defineProps, onBeforeMount, ref, toRaw, watch } from 'vue'
 
 // Props
 const props = defineProps({
@@ -13,7 +14,7 @@ const props = defineProps({
   chartIconHeight: { type: Number, required: false, default: 40 },
   chartIconWidth: { type: Number, required: false, default: 50 },
   darkMode: { type: Boolean, required: false, default: false },
-  includeChartMarkers: { type: Boolean, required: false, default: false }
+  includeChartMarkers: { type: Boolean, required: false, default: false },
   // includeWins: { type: Boolean, required: false, default: true },
   // includeMedian: { type: Boolean, required: false, default: true },
   // combineMedian: { type: Boolean, required: false, default: false }
@@ -36,11 +37,14 @@ async function getChartData(leagueId) {
 
   // Get League Standing Data.
   if (leagueStore.standings.league_id !== leagueId) {
-    await leagueStore.getLeagueStandings(leagueId)
+    await getLeagueStandings(leagueId)
   }
 
   // Weekly Standings Chart Data
-  chartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings), { darkMode: props.darkMode, includeChartMarkers: includeChartMarkers.value })
+  chartData.value = getWeeklyStandingsLineChartData(toRaw(leagueStore.standings), {
+    darkMode: props.darkMode,
+    includeChartMarkers: includeChartMarkers.value,
+  })
 }
 
 // onBeforeMount Lifecycle Hook
@@ -63,13 +67,13 @@ watch(includeChartMarkers, () => {
     ...chartData.value.chartOptions,
     ...{
       markers: {
-      size: includeChartMarkers.value ? 5 : 0,
-      shape: 'circle',
-      hover: {
-        sizeOffset: 3
-      }
-    }
-    }
+        size: includeChartMarkers.value ? 5 : 0,
+        shape: 'circle',
+        hover: {
+          sizeOffset: 3,
+        },
+      },
+    },
   }
 })
 </script>
@@ -78,7 +82,10 @@ watch(includeChartMarkers, () => {
   <div class="weeklyStandingsLineChart">
     <div v-if="chartData">
       <div class="chartIcons">
-        <div class="chartIcon" :title="includeChartMarkers ? 'Remove Chart Markers' : 'Include Chart Markers'">
+        <div
+          class="chartIcon"
+          :title="includeChartMarkers ? 'Remove Chart Markers' : 'Include Chart Markers'"
+        >
           <Icon
             v-if="includeChartMarkers"
             icon="mdi:chart-line-variant"
@@ -103,11 +110,8 @@ watch(includeChartMarkers, () => {
         :series="chartData.chartSeries"
       />
     </div>
-    <div v-else>
-      Loading Weekly Standings Chart...
-    </div>
+    <div v-else>Loading Weekly Standings Chart...</div>
   </div>
 </template>
 
-<style>
-</style>
+<style></style>

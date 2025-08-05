@@ -1,74 +1,4 @@
 /******************************************************************************
-  Style Reset, Themes, Variables, and Font Styles.
-/*****************************************************************************/
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-* {
-  margin: 0;
-}
-body {
-  line-height: 1.5;
-  background-color: var(--background-primary);
-  color: var(--text-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-img,
-picture,
-video,
-canvas,
-svg {
-  /* display: block; */
-  max-width: 100%;
-}
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  overflow-wrap: break-word;
-}
-
-/* body, p, a, ul, li {
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-}
-*, *::before, *::after {
-  box-sizing: border-box;
-} */
-/* body {
-  max-width: 1200px;
-  margin: 0px auto;
-  padding: 0rem 1rem;
-  background-color: var(--background-primary);
-  color: var(--text-primary);
-} */
-
-/******************************************************************************
-  Font Styles
-/*****************************************************************************/
-html {
-  font-family:
-    Helvetica Neue,
-    Helvetica,
-    Arial,
-    sans-serif;
-  font-weight: normal;
-}
-
-/******************************************************************************
   Themes & Variables
 /*****************************************************************************/
 :root {
@@ -164,125 +94,83 @@ html {
   color-scheme: dark;
 }
 
-/******************************************************************************
-  Chart Icons
-/*****************************************************************************/
-.chartIcons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
 
-  & .chartIcon {
-    color: var(--icon-color-primary);
-  }
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
 
-  @media screen and (min-width: 960px) {
-    justify-content: flex-end;
-
-    & .chartIcon {
-      cursor: pointer;
-    }
-  }
-}
-
-/* .chartIcons {
-  display: flex;
-  justify-content: center;
-
-  .chartIcon {
-    color: var(--icon-primary);
-  }
-}
-
-@media screen and (min-width: 960px) {
-  .chartIcons {
-    display: flex;
-    justify-content: flex-end;
-
-    .chartIcon {
-      cursor: pointer;
-    }
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
   }
 } */
 
-/* Default CSS from Template
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+/******************************************************************************
+  Style Reset, Themes, Variables, and Font Styles.
+/*****************************************************************************/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
   line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+img,
+picture,
+video,
+canvas,
+svg {
+  /* display: block; */
+  max-width: 100%;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+input,
+button,
+textarea,
+select {
+  font: inherit;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
 }
 
-.card {
-  padding: 2em;
+/******************************************************************************
+  Font Styles
+/*****************************************************************************/
+html {
+  /* font-family: Helvetica Neue, Helvetica, Arial, sans-serif; */
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
 }
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-*/

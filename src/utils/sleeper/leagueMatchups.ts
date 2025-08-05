@@ -13,16 +13,19 @@ export async function getLeagueMatchupData(leagueId: string, week: number): Prom
   for (let i = 1; i < week; i++) {
     matchupResponses.push(fetch(`https://api.sleeper.app/v1/league/${leagueId}/matchups/${i}`))
   }
-  const matchupSettledResults = await Promise.allSettled(matchupResponses).catch((error) => { console.error(error) }) as PromiseSettledResult<Response>[]
+  const matchupSettledResults = (await Promise.allSettled(matchupResponses).catch((error) => {
+    console.error(error)
+  })) as PromiseSettledResult<Response>[]
 
   // Convert the Matchup Results for the completed weeks in the season into JSON Data.
   const matchups = [] as Matchup[][]
   for (const matchupResult of matchupSettledResults) {
     if (matchupResult.status === 'fulfilled') {
-      const data: Matchup[] = await matchupResult.value.json().catch((error) => { console.error(error) })
+      const data: Matchup[] = await matchupResult.value.json().catch((error) => {
+        console.error(error)
+      })
       matchups.push(data)
-    }
-    else {
+    } else {
       throw new Error(matchupResult.reason)
     }
   }
@@ -30,11 +33,11 @@ export async function getLeagueMatchupData(leagueId: string, week: number): Prom
   const matchupData: MatchupData = {
     league_id: leagueId,
     matchups: matchups,
-    week: week
+    week: week,
   }
 
   leagueStore.$patch((state) => (state.matchupData = matchupData))
-  
+
   return matchupData
 }
 
@@ -171,15 +174,6 @@ export async function getRawLeagueMatchupData(leagueId, week) {
 }
 
 //*/
-
-
-
-
-
-
-
-
-
 
 /* TS Attempt
 export async function getLeagueMatchups(leagueId: string): Promise<Matchup> {

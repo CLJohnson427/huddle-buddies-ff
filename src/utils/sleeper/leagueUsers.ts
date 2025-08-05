@@ -10,15 +10,20 @@ export async function getLeagueUsers(leagueId: string): Promise<Users> {
     return leagueStore.users
   }
 
-  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`).catch((error) => { console.error(error) })
-  const data: Array<User> = await response?.json().catch((error) => { console.error(error) })
+  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`).catch(
+    (error) => {
+      console.error(error)
+    }
+  )
+  const data: Array<User> = await response?.json().catch((error) => {
+    console.error(error)
+  })
 
   if (response?.ok) {
     const userData = processUsers(data) as Users
     leagueStore.$patch((state) => (state.users = userData))
     return userData
-  }
-  else {
+  } else {
     throw new Error(JSON.stringify(data))
   }
 }
@@ -31,15 +36,17 @@ function processUsers(users: User[]): Users | undefined {
       leagueId = user.league_id
       mapUsers.set(user.user_id, user)
     }
-    
+
     return { league_id: leagueId, user: mapUsers } as Users
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error)
   }
 }
 
-export async function getLeagueManagerDisplay(leagueId: string, userId: string): Promise<LeagueManager> {
+export async function getLeagueManagerDisplay(
+  leagueId: string,
+  userId: string
+): Promise<LeagueManager> {
   const leagueStore = useLeagueStore()
 
   let user: User | null = null
@@ -47,36 +54,39 @@ export async function getLeagueManagerDisplay(leagueId: string, userId: string):
 
   if (leagueStore.users?.league_id === leagueId && leagueStore.users?.user?.has(userId)) {
     user = leagueStore.users.user.get(userId) as User
-  }
-  else {
-    const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`).catch((error) => { console.error(error) })
-    const data: Array<User> = await response?.json().catch((error) => { console.error(error) })
-  
+  } else {
+    const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`).catch(
+      (error) => {
+        console.error(error)
+      }
+    )
+    const data: Array<User> = await response?.json().catch((error) => {
+      console.error(error)
+    })
+
     if (response?.ok) {
       const userData = processUsers(data) as Users
       user = userData.user.get(userId) as User
-    }
-    else {
+    } else {
       throw new Error(JSON.stringify(data))
     }
   }
 
-  if (user) { 
+  if (user) {
     manager = {
       avatar: `https://sleepercdn.com/avatars/thumbs/${user.avatar}`,
       leagueId: leagueId,
       managerName: user.display_name,
       teamName: user.metadata.team_name,
-      userId: user.user_id
+      userId: user.user_id,
     }
-  }
-  else {
+  } else {
     manager = {
       avatar: `https://sleepercdn.com/images/v2/icons/player_default.webp`,
       leagueId: leagueId,
       managerName: 'Unknown Manager',
       teamName: 'Unknown Team',
-      userId: '0'
+      userId: '0',
     }
   }
 

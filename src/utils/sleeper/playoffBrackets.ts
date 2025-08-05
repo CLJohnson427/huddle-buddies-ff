@@ -11,20 +11,25 @@ import { getLeagueManagerDisplay } from '@/utils/sleeper/leagueUsers'
 // Each row represents a matchup between 2 teams.
 // GET https://api.sleeper.app/v1/league/<league_id>/winners_bracket
 export async function getPlayoffWinnersBrackets(leagueId: string): Promise<PlayoffBracket[]> {
-  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/winners_bracket`).catch((error) => { console.error(error) })
-  const data = await response?.json().catch((error) => { console.error(error) })
+  const response = await fetch(
+    `https://api.sleeper.app/v1/league/${leagueId}/winners_bracket`
+  ).catch((error) => {
+    console.error(error)
+  })
+  const data = await response?.json().catch((error) => {
+    console.error(error)
+  })
 
   if (response?.ok) {
     return data
-  }
-  else {
+  } else {
     throw new Error(JSON.stringify(data))
   }
 }
 
 export async function getLeagueChampion(leagueId: string) {
   const leagueStore = useLeagueStore()
-  
+
   if (leagueStore.leagueChampion?.leagueId === leagueId) {
     return leagueStore.leagueChampion
   }
@@ -36,15 +41,16 @@ export async function getLeagueChampion(leagueId: string) {
 
   if (leagueInfo.status === 'complete') {
     const playoffRounds: number = playoffWinnersBrackets[playoffWinnersBrackets.length - 1].r
-    const championshipMatch = playoffWinnersBrackets.filter((match) => match.r === playoffRounds && match.t1_from.w)[0]
+    const championshipMatch = playoffWinnersBrackets.filter(
+      (match) => match.r === playoffRounds && match.t1_from.w
+    )[0]
     const championRoster = leagueRosters.roster.get(championshipMatch.w)
     const championUserId = championRoster ? championRoster.owner_id : '0'
     const leagueChampion: LeagueManager = await getLeagueManagerDisplay(leagueId, championUserId)
-  
+
     leagueStore.$patch((state) => (state.leagueChampion = leagueChampion))
     return leagueChampion
-  }
-  else{ 
+  } else {
     return null
   }
 }

@@ -1,35 +1,12 @@
-// import { defineStore } from 'pinia'
-// import { computed, ref } from 'vue'
-
-// export const useLeagueStore = defineStore('leagueStore', () => {
-//   const count = ref(0)
-//   const doubleCount = computed(() => count.value * 2)
-//   function increment() {
-//     count.value++
-//   }
-
-//   return { count, doubleCount, increment }
-// })
-
-
-// let test = 5
-// const test2 = 'sdfsf'
-// let test3 = 'sdfsf'
-
-// if (test === 8 || test === 132541351.351651 || test === 13215.65132165 && test2) {
-//   test = 6
-//   test3 = '1235'
-// }
-
-//*
 // Pinia
 import { defineStore } from 'pinia'
+import { computed, ref, type Ref } from 'vue'
 
 // Sleeper
 import { getLeagueInfo, getMostRecentLeagueInfo } from '@/utils/sleeper/leagueInfo'
-import { getLeagueMatchupData } from '@/utils/sleeper/leagueMatchups.js'
-import { getLeagueRosters } from '@/utils/sleeper/leagueRosters.js'
-import { getLeagueStandings } from '@/utils/sleeper/leagueStandings.js'
+import { getLeagueMatchupData } from '@/utils/sleeper/leagueMatchups'
+import { getLeagueRosters } from '@/utils/sleeper/leagueRosters'
+import { getLeagueStandings } from '@/utils/sleeper/leagueStandings'
 import { getLeagueUsers } from '@/utils/sleeper/leagueUsers'
 import { getLeagueChampion } from '@/utils/sleeper/playoffBrackets'
 import { getSportState } from '@/utils/sleeper/sportState'
@@ -42,67 +19,77 @@ import type { SportState } from '@/interfaces/SportStateInterfaces'
 import type { Standings } from '@/interfaces/StandingsInterfaces'
 import type { LeagueManager, Users } from '@/interfaces/UserInterfaces'
 
-export const useLeagueStore = defineStore('leagueStore', {
-  state: () => ({
-    // counter: 0,
-    darkTheme: true as boolean,
-    league: {} as League,
-    leagueChampion: {} as LeagueManager | null,
-    leagueId: getMostRecentLeagueInfo('id') as string,
-    leagueYear: getMostRecentLeagueInfo('year') as number,
-    matchupData: {} as MatchupData,
-    rosters: {} as Rosters,
-    standings: {} as Standings,
-    sport: 'nfl' as string,
-    sportState: {} as SportState,
-    users: {} as Users
-  }),
-  getters: {
-    // doubleCount: (state) => {
-    //   state.counter * 2
-    // }
-  },
-  actions: {
-    // reset() {
-    //   this.counter = 0;
-    // },
-    // addOne() {
-    //   this.counter++;
-    // },
-    changeTheme() {
-      // Toggle Dark/Light Theme.
-      this.darkTheme = !this.darkTheme
-      
-      if (this.darkTheme) {
-        document.documentElement.classList.add('dark')
-        document.documentElement.dataset.theme = 'dark'
-      }
-      else {
-        document.documentElement.classList.remove('dark')
-        document.documentElement.dataset.theme = 'light'
-      }
-    },
-    async getLeagueChampion(leagueId: string | null = null): Promise<void> {
-      this.leagueChampion = await getLeagueChampion(leagueId ? leagueId : this.leagueId)
-    },
-    async getLeagueInfo(leagueId: string | null = null): Promise<void> {
-      this.league = await getLeagueInfo(leagueId ? leagueId : this.leagueId)
-    },
-    async getLeagueRosters(leagueId: string | null = null): Promise<void> {
-      this.rosters = await getLeagueRosters(leagueId ? leagueId : this.leagueId)
-    },
-    async getLeagueStandings(leagueId: string | null = null): Promise<void> {
-      this.standings = await getLeagueStandings(leagueId ? leagueId : this.leagueId) as any
-    },
-    async getLeagueMatchupData(leagueId: string | null = null, week: number): Promise<void> {
-      this.matchupData = await getLeagueMatchupData(leagueId ? leagueId : this.leagueId, week)
-    },
-    async getLeagueUsers(leagueId: string | null = null): Promise<void> {
-      this.users = await getLeagueUsers(leagueId ? leagueId : this.leagueId)
-    },
-    async getSportState(sport: string | null = null): Promise<void> {
-      this.sportState = await getSportState(sport ? sport : this.sport)
+export const useLeagueStore = defineStore('leagueStore', () => {
+  // TODO: Update code so the initial type doesn't have to be an empty object {} pretending to be the type.
+  const darkTheme = ref<boolean>(true)
+  const league = ref<League | null | undefined>({} as League)
+  const leagueChampion = ref<LeagueManager | null | undefined>({} as LeagueManager)
+  const leagueId = ref<number | string>(getMostRecentLeagueInfo('id'))
+  const leagueYear = ref<number | string>(getMostRecentLeagueInfo('year'))
+  const matchupData = ref<MatchupData | null | undefined>({} as MatchupData)
+  const rosters = ref<Rosters | null | undefined>({} as Rosters)
+  const standings = ref<Standings | null | undefined>({} as Standings)
+  const sport = ref<string>('nfl')
+  const sportState = ref<SportState | null | undefined>({} as SportState)
+  const users = ref<Users | null | undefined>({} as Users)
+
+  function changeTheme() {
+    // Toggle Dark/Light Theme.
+    darkTheme.value = !darkTheme.value
+
+    if (darkTheme.value) {
+      document.documentElement.classList.add('dark')
+      document.documentElement.dataset.theme = 'dark'
+    } else {
+      document.documentElement.classList.remove('dark')
+      document.documentElement.dataset.theme = 'light'
     }
   }
+
+  // async function getLeagueChampion2(leagueId: string | null = null): Promise<void> {
+  //   leagueChampion.value = await getLeagueChampion(leagueId ? leagueId : this.leagueId)
+  // }
+  // async function getLeagueInfo(leagueId: string | null = null): Promise<void> {
+  //   league.value = await getLeagueInfo(leagueId ? leagueId : this.leagueId)
+  // }
+  // async function getLeagueRosters(leagueId: string | null = null): Promise<void> {
+  //   rosters.value = await getLeagueRosters(leagueId ? leagueId : this.leagueId)
+  // }
+  // async function getLeagueStandings(leagueId: string | null = null): Promise<void> {
+  //   standings.value = (await getLeagueStandings(leagueId ? leagueId : this.leagueId)) as any
+  // }
+  // async function getLeagueMatchupData(leagueId: string | null = null, week: number): Promise<void> {
+  //   matchupData.value = await getLeagueMatchupData(leagueId ? leagueId : this.leagueId, week)
+  // }
+  // async function getLeagueUsers(leagueId: string | null = null): Promise<void> {
+  //   users.value = await getLeagueUsers(leagueId ? leagueId : this.leagueId)
+  // }
+  // async function getSportState(sport: string | null = null): Promise<void> {
+  //   sportState.value = await getSportState(sport ? sport : this.sport)
+  // }
+
+  // Example Code
+  const count = ref(0)
+  const doubleCount = computed(() => count.value * 2)
+  function increment() {
+    count.value++
+  }
+
+  return {
+    count,
+    doubleCount,
+    increment,
+    darkTheme,
+    league,
+    leagueChampion,
+    leagueId,
+    leagueYear,
+    matchupData,
+    rosters,
+    standings,
+    sport,
+    sportState,
+    users,
+    changeTheme,
+  }
 })
-//*/

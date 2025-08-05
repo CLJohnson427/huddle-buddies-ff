@@ -31,17 +31,17 @@ export async function getLeagueStandings(leagueId: string): Promise<Standings | 
   if (leagueInfo.status === 'in_season') {
     // week = sportState.display_week;
     week = sportState.week
-  }
-  else if (leagueInfo.status === 'post_season' || leagueInfo.status === 'complete') {
+  } else if (leagueInfo.status === 'post_season' || leagueInfo.status === 'complete') {
     week = leagueInfo.settings.playoff_week_start
   }
 
   // Cannot retrieve standings if the season hasn't happened or
   // if at least one week of games has occurred.
-  if ((leagueInfo.status !== 'in_season'
-      && leagueInfo.status !== 'post_season'
-      && leagueInfo.status !== 'complete')
-      || week < 2
+  if (
+    (leagueInfo.status !== 'in_season' &&
+      leagueInfo.status !== 'post_season' &&
+      leagueInfo.status !== 'complete') ||
+    week < 2
   ) {
     return null
   }
@@ -54,7 +54,15 @@ export async function getLeagueStandings(leagueId: string): Promise<Standings | 
   for (const [weekIndex, matchup] of matchupData.matchups.entries()) {
     // console.log('matchup', matchup)
     // console.log('weekIndex', weekIndex)
-    standings = await processStandingsData(leagueId, matchup, standings, leagueRosters, leagueUsers, medianMatch, weekIndex + 1)
+    standings = await processStandingsData(
+      leagueId,
+      matchup,
+      standings,
+      leagueRosters,
+      leagueUsers,
+      medianMatch,
+      weekIndex + 1
+    )
   }
 
   const standingsResponse: Standings = {
@@ -70,7 +78,15 @@ export async function getLeagueStandings(leagueId: string): Promise<Standings | 
   return standingsResponse
 }
 
-async function processStandingsData(leagueId: string, matchup: Matchup[], standings: Map<number, TeamStanding>, leagueRosters: Rosters, leagueUsers: Users, medianMatch: boolean, week: number): Promise<Map<number, TeamStanding>> {
+async function processStandingsData(
+  leagueId: string,
+  matchup: Matchup[],
+  standings: Map<number, TeamStanding>,
+  leagueRosters: Rosters,
+  leagueUsers: Users,
+  medianMatch: boolean,
+  week: number
+): Promise<Map<number, TeamStanding>> {
   const matchups = {}
   let scoresArray = [] as number[]
   for (const match of matchup) {
@@ -102,14 +118,14 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
         totalTies: 0,
         totalPointsFor: 0,
         totalPointsAgainst: 0,
-        weeklyStandings: []
+        weeklyStandings: [],
       })
     }
 
     matchups[match.matchup_id].push({
       rosterId: rosterId,
       division: roster?.settings.division,
-      points: match.points
+      points: match.points,
     })
 
     if (medianMatch === true) {
@@ -123,7 +139,10 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
     scoresArray = scoresArray.sort((a, b) => a - b)
     const numberOfManagers = scoresArray.length
     const middle = Math.floor(numberOfManagers / 2)
-    medianScore = numberOfManagers % 2 !== 0 ? scoresArray[middle] : +((scoresArray[middle - 1] + scoresArray[middle]) / 2).toFixed(2)
+    medianScore =
+      numberOfManagers % 2 !== 0
+        ? scoresArray[middle]
+        : +((scoresArray[middle - 1] + scoresArray[middle]) / 2).toFixed(2)
   }
 
   // Evaluate the data from each matchup.
@@ -140,12 +159,10 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
       if (team1.points > medianScore) {
         team1Standings.medianWins++
         team1Standings.totalWins++
-      }
-      else if (team1.points < medianScore){
+      } else if (team1.points < medianScore) {
         team1Standings.medianLosses++
         team1Standings.totalLosses++
-      }
-      else if (team1.points === medianScore) {
+      } else if (team1.points === medianScore) {
         team1Standings.medianTies++
         team1Standings.totalLosses++
       }
@@ -154,12 +171,10 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
       if (team2.points > medianScore) {
         team2Standings.medianWins++
         team2Standings.totalWins++
-      }
-      else if (team2.points < medianScore){
+      } else if (team2.points < medianScore) {
         team2Standings.medianLosses++
         team2Standings.totalLosses++
-      }
-      else if (team2.points === medianScore) {
+      } else if (team2.points === medianScore) {
         team2Standings.medianTies++
         team2Standings.totalLosses++
       }
@@ -175,8 +190,7 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
         team1Standings.divisionWins++
         team2Standings.divisionLosses++
       }
-    }
-    else if (team2.points > team1.points) {
+    } else if (team2.points > team1.points) {
       team2Standings.playerWins++
       team2Standings.totalWins++
       team1Standings.playerLosses++
@@ -185,8 +199,7 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
         team2Standings.divisionWins++
         team1Standings.divisionLosses++
       }
-    }
-    else if (team1.points === team2.points) {
+    } else if (team1.points === team2.points) {
       team1Standings.playerTies++
       team1Standings.totalTies++
       team2Standings.playerTies++
@@ -199,9 +212,13 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
 
     // Total Points For/Against
     team1Standings.totalPointsFor = +(team1Standings.totalPointsFor + team1.points).toFixed(2)
-    team1Standings.totalPointsAgainst = +(team1Standings.totalPointsAgainst + team2.points).toFixed(2)
+    team1Standings.totalPointsAgainst = +(team1Standings.totalPointsAgainst + team2.points).toFixed(
+      2
+    )
     team2Standings.totalPointsFor = +(team2Standings.totalPointsFor + team2.points).toFixed(2)
-    team2Standings.totalPointsAgainst = +(team2Standings.totalPointsAgainst + team1.points).toFixed(2)
+    team2Standings.totalPointsAgainst = +(team2Standings.totalPointsAgainst + team1.points).toFixed(
+      2
+    )
 
     // Weekly Standings
     team1Standings.weeklyStandings.push({
@@ -216,9 +233,9 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
       totalLosses: team1Standings.totalLosses,
       totalTies: team1Standings.totalTies,
       pointsFor: team1.points,
-      pointsAgainst: team2.points
+      pointsAgainst: team2.points,
     })
-    
+
     team2Standings.weeklyStandings.push({
       week: week,
       medianWins: team2Standings.medianWins,
@@ -231,7 +248,7 @@ async function processStandingsData(leagueId: string, matchup: Matchup[], standi
       totalLosses: team2Standings.totalLosses,
       totalTies: team2Standings.totalTies,
       pointsFor: team2.points,
-      pointsAgainst: team1.points
+      pointsAgainst: team1.points,
     })
 
     standings.set(matchups[matchupKey][0].rosterId, team1Standings)

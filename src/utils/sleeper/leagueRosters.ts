@@ -11,15 +11,20 @@ export async function getLeagueRosters(leagueId): Promise<Rosters> {
     return leagueStore.rosters
   }
 
-  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`).catch((error) => { console.error(error) })
-  const data: Array<Roster> = await response?.json().catch((error) => { console.error(error) })
+  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`).catch(
+    (error) => {
+      console.error(error)
+    }
+  )
+  const data: Array<Roster> = await response?.json().catch((error) => {
+    console.error(error)
+  })
 
   if (response?.ok) {
-    const rosterData = await processRosters(data) as Rosters
+    const rosterData = (await processRosters(data)) as Rosters
     leagueStore.$patch((state) => (state.rosters = rosterData))
     return rosterData
-  }
-  else {
+  } else {
     throw new Error(JSON.stringify(data))
   }
 }
@@ -58,21 +63,20 @@ async function processRosters(rosters: Array<Roster>): Promise<Rosters | undefin
       for (const starter of teamRoster.starters) {
         startersAndInjuredReserve.push(starter)
       }
-  
+
       if (teamRoster.reserve) {
         for (const injuredReserve of teamRoster.reserve) {
           startersAndInjuredReserve.push(injuredReserve)
         }
       }
     }
-  
+
     return {
       league_id: leagueId,
       roster: mapRosters,
-      startersAndInjuredReserve: startersAndInjuredReserve
+      startersAndInjuredReserve: startersAndInjuredReserve,
     } as Rosters
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error)
   }
 }

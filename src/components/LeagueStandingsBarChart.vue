@@ -1,9 +1,10 @@
 <script setup>
-import { defineProps, onBeforeMount, ref, toRaw, watch } from 'vue'
-import { Icon } from '@iconify/vue'
 import { useLeagueStore } from '@/stores/leagueStore'
 import { getLeagueStandingsBarChartData } from '@/utils/chartData'
 import { getMostRecentLeagueInfo } from '@/utils/sleeper/leagueInfo'
+import { getLeagueStandings } from '@/utils/sleeper/leagueStandings'
+import { Icon } from '@iconify/vue'
+import { defineProps, onBeforeMount, ref, toRaw, watch } from 'vue'
 
 // Props
 const props = defineProps({
@@ -18,7 +19,7 @@ const props = defineProps({
   includeWins: { type: Boolean, required: false, default: true },
   includeLosses: { type: Boolean, required: false, default: true },
   includeMedian: { type: Boolean, required: false, default: true },
-  combineMedian: { type: Boolean, required: false, default: false }
+  combineMedian: { type: Boolean, required: false, default: false },
 })
 
 // Setup the leagueStore.
@@ -43,14 +44,18 @@ async function getChartData(leagueId) {
 
   // Get League Standing Data.
   if (leagueStore.standings.league_id !== leagueId) {
-    await leagueStore.getLeagueStandings(leagueId)
+    await getLeagueStandings(leagueId)
   }
-  
+
   // League Standings Chart Data
-   chartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {
-    darkMode: props.darkMode, stackedBarChart: stackedBarChart.value, verticalBarChart: verticalBarChart.value,
-    includeWins: includeWins.value, includeLosses: includeLosses.value,
-    includeMedian: includeMedian.value, combineMedian: combineMedian.value
+  chartData.value = getLeagueStandingsBarChartData(toRaw(leagueStore.standings), {
+    darkMode: props.darkMode,
+    stackedBarChart: stackedBarChart.value,
+    verticalBarChart: verticalBarChart.value,
+    includeWins: includeWins.value,
+    includeLosses: includeLosses.value,
+    includeMedian: includeMedian.value,
+    combineMedian: combineMedian.value,
   })
 
   // Setup the Customized Toolbar Icons in the Chart Options
@@ -144,8 +149,7 @@ watch(stackedBarChart, () => {
   if (leagueStore.league.status === 'complete') {
     // Get the number of Regular Season Weeks in the League.
     weeks = leagueStore.league.settings.playoff_week_start - 1
-  }
-  else {
+  } else {
     // Setup League Weeks Data
     const numberOfWeeks = leagueStore.standings.standings.get(1)?.weeklyStandings.length
     if (numberOfWeeks !== undefined) {
@@ -153,28 +157,31 @@ watch(stackedBarChart, () => {
     }
   }
   const tickAmount = weeks
-  
+
   // Double the number of weeks if the chart will be changed to a Stacked Chart and the median is included or combined.
-  if (stackedBarChart.value === true && (includeMedian.value === true || combineMedian.value === true)) {
+  if (
+    stackedBarChart.value === true &&
+    (includeMedian.value === true || combineMedian.value === true)
+  ) {
     weeks *= 2
   }
-  
+
   // Set the updated chart options.
   chartData.value.chartOptions = {
     ...chartData.value.chartOptions,
     ...{
       chart: {
-        stacked: stackedBarChart.value
+        stacked: stackedBarChart.value,
       },
       yaxis: {
         min: 0,
         max: weeks,
         tickAmount: tickAmount,
         title: {
-          text: ''
-        }
-      }
-    }
+          text: '',
+        },
+      },
+    },
   }
 })
 
@@ -186,10 +193,10 @@ watch(verticalBarChart, () => {
     ...{
       plotOptions: {
         bar: {
-          horizontal: !verticalBarChart.value
+          horizontal: !verticalBarChart.value,
         },
       },
-    }
+    },
   }
 })
 
@@ -284,7 +291,12 @@ watch([includeWins, includeLosses, includeMedian, combineMedian], async () => {
             @click="includeMedian = !includeMedian"
           />
         </div>
-        <div class="chartIcon" :title="combineMedian ? 'Separate Player & Median Records' : 'Combine Player & Median Records'">
+        <div
+          class="chartIcon"
+          :title="
+            combineMedian ? 'Separate Player & Median Records' : 'Combine Player & Median Records'
+          "
+        >
           <Icon
             v-if="combineMedian"
             icon="mdi:arrow-expand-horizontal"
@@ -310,11 +322,8 @@ watch([includeWins, includeLosses, includeMedian, combineMedian], async () => {
         :series="chartData.chartSeries"
       />
     </div>
-    <div v-else>
-      Loading League Standings Chart...
-    </div>
+    <div v-else>Loading League Standings Chart...</div>
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
