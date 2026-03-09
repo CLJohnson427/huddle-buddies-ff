@@ -1,5 +1,23 @@
 # [https://cljohnson.dev/huddle-buddies-ff/](https://cljohnson.dev/huddle-buddies-ff/)
 
+# Manual Deployment to GitHub Pages.
+https://learnvue.co/2020/09/how-to-deploy-your-vue-app-to-github-pages/
+```shell
+npm run build
+```
+
+```shell
+git add dist -f
+```
+
+```shell
+git commit -m "deploy"
+```
+
+```shell
+git subtree push --prefix dist origin gh-pages
+```
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
