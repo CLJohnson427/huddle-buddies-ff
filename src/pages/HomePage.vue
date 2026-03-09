@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watch, onBeforeMount } from 'vue'
-import { Icon } from '@iconify/vue'
 import { useLeagueStore } from '@/stores/leagueStore'
-import { leagueIds, getMostRecentLeagueInfo } from '@/utils/sleeper/leagueInfo'
+import { getMostRecentLeagueInfo, leagueIds } from '@/utils/sleeper/leagueInfo'
+import { Icon } from '@iconify/vue'
+import { onBeforeMount, ref, watch } from 'vue'
 // import { getLeagueChampion } from '@/utils/sleeper/playoffBrackets'
 import LeaguePointsLineChart from '@/components/LeaguePointsLineChart.vue'
 import LeagueStandingsBarChart from '@/components/LeagueStandingsBarChart.vue'
@@ -15,7 +15,7 @@ const leagueStore = useLeagueStore()
 // Setup Refs
 const selectedLeagueId = ref(getMostRecentLeagueInfo('id'))
 const leagueChampion = ref()
-const leagueId = ref()
+// const leagueId = ref()
 
 async function getChampion(leagueId: string) {
   console.log(leagueId)
@@ -25,21 +25,21 @@ async function getChampion(leagueId: string) {
   }
 }
 
-async function getLeagueId() {
-  const response = await fetch(
-    `https://api.sleeper.app/v1/user/${204301500732678144}/leagues/nfl/2024`
-  ).catch((error) => {
-    console.error(error)
-  })
-  const data = await response?.json().catch((error) => {
-    console.error(error)
-  })
+// async function getLeagueId() {
+//   const response = await fetch(
+//     `https://api.sleeper.app/v1/user/${204301500732678144}/leagues/nfl/2024`
+//   ).catch((error) => {
+//     console.error(error)
+//   })
+//   const data = await response?.json().catch((error) => {
+//     console.error(error)
+//   })
 
-  console.log(data)
-  if (response?.ok) {
-    leagueId.value = data
-  }
-}
+//   console.log(data)
+//   if (response?.ok) {
+//     leagueId.value = data
+//   }
+// }
 
 // onBeforeMount Lifecycle Hook
 onBeforeMount(async () => {
