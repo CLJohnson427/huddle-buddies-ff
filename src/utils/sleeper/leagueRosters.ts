@@ -8,7 +8,8 @@ export async function getLeagueRosters(leagueId): Promise<Rosters> {
   const leagueStore = useLeagueStore()
 
   if (leagueStore.rosters?.league_id === leagueId) {
-    return leagueStore.rosters
+    // TODO: Match types and check for undefined.
+    //return leagueStore.rosters
   }
 
   const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`).catch(
