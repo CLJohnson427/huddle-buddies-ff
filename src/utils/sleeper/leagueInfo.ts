@@ -3,7 +3,7 @@ import { useLeagueStore } from '@/stores/leagueStore'
 
 export const leagueIds: Array<LeagueId> = [
   // Keep the most current year as the 0 index.
-  // { year: 2025, leagueId: '1205001407321616384' },
+  { year: 2025, leagueId: '1205001407321616384' },
   { year: 2024, leagueId: '1049732316240723968' },
   { year: 2023, leagueId: '925192539278303232' },
   { year: 2022, leagueId: '807045536300580864' },
