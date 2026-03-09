@@ -1,18 +1,63 @@
+<script setup lang="ts">
+import { ref, watch, onBeforeMount } from 'vue'
+import { Icon } from '@iconify/vue'
+import { useLeagueStore } from '@/stores/leagueStore'
+import { leagueIds, getMostRecentLeagueInfo } from '@/utils/sleeper/leagueInfo'
+// import { getLeagueChampion } from '@/utils/sleeper/playoffBrackets'
+import LeaguePointsLineChart from '@/components/LeaguePointsLineChart.vue'
+import LeagueStandingsBarChart from '@/components/LeagueStandingsBarChart.vue'
+import WeeklyStandingsLineChart from '@/components/WeeklyStandingsLineChart.vue'
+import { getLeagueChampion } from '@/utils/sleeper/playoffBrackets'
+
+// Setup the leagueStore.
+const leagueStore = useLeagueStore()
+
+// Setup Refs
+const selectedLeagueId = ref(getMostRecentLeagueInfo('id'))
+const leagueChampion = ref()
+const leagueId = ref()
+
+async function getChampion(leagueId: string) {
+  console.log(leagueId)
+  await getLeagueChampion(selectedLeagueId.value.toString())
+  if (leagueStore.leagueChampion) {
+    leagueChampion.value = leagueStore.leagueChampion
+  }
+}
+
+async function getLeagueId() {
+  const response = await fetch(
+    `https://api.sleeper.app/v1/user/${204301500732678144}/leagues/nfl/2024`
+  ).catch((error) => {
+    console.error(error)
+  })
+  const data = await response?.json().catch((error) => {
+    console.error(error)
+  })
+
+  console.log(data)
+  if (response?.ok) {
+    leagueId.value = data
+  }
+}
+
+// onBeforeMount Lifecycle Hook
+onBeforeMount(async () => {
+  await getChampion(selectedLeagueId.value as string)
+  //await getLeagueId()
+})
+
+watch(selectedLeagueId, async (selectedLeagueId) => {
+  await getChampion(selectedLeagueId as string)
+})
+</script>
+
 <template>
-  <main class="home">
-    <div class="flex mb-2">
-      <img
-        src="@/assets/huddle-buddies-thumbnail.png"
-        alt="Huddle Buddies Logo"
-        class="hidden md:flex"
-      >
-      <h1 class="text-4xl mb-4 font-bold flex justify-center items-center w-11/12">
-        Huddle Buddies Fantasy Football
-      </h1>
-      <div
-        class="flex justify-center items-center w-1/12"
-        @click="leagueStore.changeTheme()"
-      >
+  <section>
+    <nav class="navbar">
+      <img src="@/assets/huddle-buddies-thumbnail.png" alt="Huddle Buddies Logo" />
+      <h1>Huddle Buddies Fantasy Football</h1>
+      <div @click="leagueStore.changeTheme()">
         <Icon
           v-if="leagueStore.darkTheme"
           class="text-white"
@@ -20,16 +65,69 @@
           height="32"
           width="32"
         />
-        <Icon
-          v-else
-          class="text-black"
-          icon="mdi:brightness-4"
-          height="32"
-          width="32"
-        />
+        <Icon v-else class="text-black" icon="mdi:brightness-4" height="32" width="32" />
       </div>
+    </nav>
+
+    <!-- <hr class="divider"> -->
+
+    <div class="leagueYear">
+      <span>League Year: </span>
+      <select v-model="selectedLeagueId">
+        <option v-for="league in leagueIds" :key="league.leagueId" :value="league.leagueId">
+          {{ league.year }}
+        </option>
+      </select>
     </div>
-    <hr><br>
+
+    <div v-if="leagueChampion" class="leagueChampion">
+      <span>League Champion: {{ leagueChampion.managerName }} | {{ leagueChampion.teamName }}</span>
+    </div>
+
+    <LeagueStandingsBarChart
+      :league-id="selectedLeagueId.toString()"
+      :dark-mode="leagueStore.darkTheme"
+      :chart-height="800"
+      :chart-width="'100%'"
+      :stacked-bar-chart="false"
+      :vertical-bar-chart="true"
+      :include-wins="true"
+      :include-losses="true"
+      :include-median="true"
+      :combine-median="false"
+    />
+
+    <hr class="divider" />
+
+    <WeeklyStandingsLineChart
+      :league-id="selectedLeagueId.toString()"
+      :dark-mode="leagueStore.darkTheme"
+      :chart-height="800"
+      :chart-width="'100%'"
+      :include-chart-markers="false"
+    />
+
+    <hr class="divider" />
+
+    <LeaguePointsLineChart
+      :league-id="selectedLeagueId.toString()"
+      :dark-mode="leagueStore.darkTheme"
+      :chart-height="800"
+      :chart-width="'100%'"
+      :include-chart-markers="true"
+    />
+
+    <!--
+    <br><hr><br>
+
+
+
+    <br><hr><br>
+
+     -->
+  </section>
+  <!--
+  <main class="home">
 
     <span class="font-bold">League Year: </span>
     <select
@@ -46,78 +144,106 @@
     </select>
     <br><br>
 
-    <!-- <div v-if="leagueChampion">
+    <div v-if="leagueChampion">
       <span class="font-bold">League Champion: {{ leagueChampion.managerName }} | {{ leagueChampion.teamName }}</span>
       <br><br>
-    </div> -->
+    </div>
     
-    <LeagueStandingsBarChart
-      :league-id="selectedLeagueId"
-      :dark-mode="leagueStore.darkTheme"
-      :chart-height="800"
-      :chart-width="'100%'"
-      :stacked-bar-chart="false"
-      :vertical-bar-chart="true"
-      :include-wins="true"
-      :include-losses="true"
-      :include-median="true"
-      :combine-median="false"
-    />
+  <LeagueStandingsBarChart
+    :league-id="selectedLeagueId.toString()"
+    :dark-mode="leagueStore.darkTheme"
+    :chart-height="800"
+    :chart-width="'100%'"
+    :stacked-bar-chart="false"
+    :vertical-bar-chart="true"
+    :include-wins="true"
+    :include-losses="true"
+    :include-median="true"
+    :combine-median="false"
+  />
 
-    <br><hr><br>
+  <br><hr><br>
 
-    <WeeklyStandingsLineChart
-      :league-id="selectedLeagueId"
-      :dark-mode="leagueStore.darkTheme"
-      :chart-height="800"
-      :chart-width="'100%'"
-      :include-chart-markers="false"
-    />
+  <WeeklyStandingsLineChart
+    :league-id="selectedLeagueId.toString()"
+    :dark-mode="leagueStore.darkTheme"
+    :chart-height="800"
+    :chart-width="'100%'"
+    :include-chart-markers="false"
+  />
 
-    <br><hr><br>
+  <br><hr><br>
 
-    <LeaguePointsLineChart
-      :league-id="selectedLeagueId"
-      :dark-mode="leagueStore.darkTheme"
-      :chart-height="800"
-      :chart-width="'100%'"
-      :include-chart-markers="true"
-    />
+  <LeaguePointsLineChart
+    :league-id="selectedLeagueId.toString()"
+    :dark-mode="leagueStore.darkTheme"
+    :chart-height="800"
+    :chart-width="'100%'"
+    :include-chart-markers="true"
+  />
   </main>
+  -->
 </template>
 
-<script setup lang="ts">
-import { ref, watch, onBeforeMount } from 'vue';
-import { Icon } from '@iconify/vue';
-import { useLeagueStore } from '@/store/useLeague';
-import { leagueIds, getMostRecentLeagueInfo } from '@/data/sleeper/leagueInfo';
-import { getLeagueChampion } from '@/data/sleeper/playoffBrackets';
+<style>
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin: 1rem 0rem; */
+  margin-bottom: 1rem;
+  border-bottom: 0.1rem solid #fff;
 
-// Setup the leagueStore.
-const leagueStore = useLeagueStore();
+  /* @media screen and (min-width: 960px) {
+      margin: 0rem;
+    } */
 
-// Setup Refs
-const selectedLeagueId = ref(getMostRecentLeagueInfo('id'));
-const leagueChampion = ref();
-
-
-async function getChampion(leagueId: string) {
-  await leagueStore.getLeagueChampion(selectedLeagueId.value.toString());
-  if (leagueStore.leagueChampion) {
-    leagueChampion.value = leagueStore.leagueChampion;
+  & img {
+    display: none;
+    @media screen and (min-width: 960px) {
+      display: block;
+      margin: 0.5rem;
+    }
+  }
+  & h1 {
+    text-align: center;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    width: 100%;
+  }
+  & div {
+    margin: 0 1rem;
   }
 }
 
-// onBeforeMount Lifecycle Hook
-onBeforeMount(async () => {
-  await getChampion(selectedLeagueId.value as string);
-});
+.leagueYear {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-watch(selectedLeagueId, async (selectedLeagueId) => {
-  await getChampion(selectedLeagueId as string);
-});
-</script>
+  & span {
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+  & select {
+    /* padding: 0.25rem; */
+    /* border-radius: 0.125rem; */
+  }
+}
 
-<style>
+.leagueChampion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
+  & span {
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+}
+
+.divider {
+  margin: 1rem 0rem;
+  border: 0.1rem solid;
+}
 </style>
